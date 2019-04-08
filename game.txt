@@ -1,0 +1,11 @@
+规约 包 类
+
+
+com.a225.frame 界面
+com.a225.thread 控制、监听、线程
+com.a225.model 模型
+com.a225.model.loader 资源加载啊
+com.a225.model.manager 元素管理
+com.a225.model.vo vo类
+com.a225.pro 配置文件
+img 图片
