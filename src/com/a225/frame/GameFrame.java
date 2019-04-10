@@ -6,7 +6,14 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.a225.thread.GameThread;
+import com.sun.org.apache.xpath.internal.operations.Gt;
 
+/**
+ * 游戏窗体
+ * @author Jenson
+ * 
+ */
 public class GameFrame  extends JFrame{
 	
 	private KeyListener keyListener; //游戏按键
@@ -21,7 +28,7 @@ public class GameFrame  extends JFrame{
 	protected void init() {
 		// TODO Auto-generated method stub
 		this.setTitle("CrazyArcade");
-		this.setSize(1600, 1080);
+		this.setSize(1200, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -44,8 +51,12 @@ public class GameFrame  extends JFrame{
 //	窗体启动
 	public void start() {
 		//线程启动
+		GameThread gameThread = new GameThread();
+		gameThread.start();
 		//界面刷新线程启动
-		
+		if(jPanel instanceof Runnable) {//jp引用指向的实体对象 是不是Runnable的子类（实现类）
+			new Thread((Runnable)jPanel).start();
+		}
 		this.setVisible(true);
 	}
 	

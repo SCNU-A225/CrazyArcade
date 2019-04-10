@@ -1,0 +1,1 @@
+player=Player,img,x,y,w,h
