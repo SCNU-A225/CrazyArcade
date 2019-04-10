@@ -28,6 +28,7 @@
 
 
 二、包
+com.a22.main 游戏启动入口
 com.a225.frame 界面
 com.a225.thread 控制、监听、线程
 com.a225.model 模型
@@ -38,3 +39,15 @@ com.a225.pro 配置文件
 img 图片
 
 三、类
+com.a225.frame
+GameFrame	游戏窗体类
+
+com.a225.thread 控制、监听、线程
+GameKeyListener 游戏按键监听器
+GameMouseListener 游戏鼠标监听器
+GameThread
+com.a225.model 模型
+com.a225.model.loader 资源加载器
+com.a225.model.manager 元素管理
+com.a225.model.vo vo类
+com.a225.pro 配置文件
