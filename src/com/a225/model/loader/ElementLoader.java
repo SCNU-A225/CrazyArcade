@@ -1,4 +1,4 @@
-package com.a225.model.load;
+package com.a225.model.loader;
 
 /**
  * ×ÊÔ´¼ÓÔØÆ÷
