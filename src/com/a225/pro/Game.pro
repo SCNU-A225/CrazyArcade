@@ -7,4 +7,4 @@ windowSize=1200,800
 
 #Í¼Æ¬ÅäÖÃÎÄ¼ş
 imageProPath=com/a225/pro/Images.pro
-
+charatersPath=com/a225/pro/Characters.pro

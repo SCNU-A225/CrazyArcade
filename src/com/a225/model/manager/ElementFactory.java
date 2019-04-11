@@ -1,5 +1,12 @@
 package com.a225.model.manager;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+
+import com.a225.model.loader.ElementLoader;
+import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
 
 /**
@@ -22,8 +29,17 @@ public class ElementFactory {
 		return elementFactory;
 	}
 	
-	public SuperElement produceElement() {
+	public SuperElement produceElement(String name) {
 		//TODO:写工厂
+		Map<String, List<String>> gameInfoMap = 
+				ElementLoader.getElementLoader().getGameInfoMap();//获取资源加载器的游戏信息字典
+
+		switch(name) {
+		case "playerOne":
+			return Player.createPlayer(gameInfoMap.get(name));
+		case "playerTwo":
+			return Player.createPlayer(gameInfoMap.get(name));
+		}
 		return null;
 	}
 }

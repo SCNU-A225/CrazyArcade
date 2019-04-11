@@ -64,6 +64,19 @@ public class ElementLoader {
 		}
 	}
 	
+	//读取游戏玩家配置
+	public void readCharactorsPro() throws IOException {
+		InputStream inputStream = 
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("charatersPath").get(0));
+		properties.clear();
+		properties.load(inputStream);
+		for(Object o:properties.keySet()) {
+			String info = properties.getProperty(o.toString());
+			gameInfoMap.put(o.toString(),infoStringToList(info, ","));//放入Map的value中的是已经分割后的配置项
+		}
+	}
+	
+	/**
 	//读取地图
 	public void readMapPro() throws IOException{
 		InputStream inputStream = 

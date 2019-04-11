@@ -1,9 +1,12 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.MoveTypeEnum;
 
 /**
@@ -29,13 +32,15 @@ public class Player extends SuperElement{
 		moveY = 0;
 	}
 	
-	public static Player createPlayer(String str) {
-		int x = 0;
-		int y = 0;
-		int w = 50;
-		int h = 60;
-		String url = "img/Characters/Done_body16001_walk.png";
-		return new Player(x, y, w, h, new ImageIcon(url));
+	public static Player createPlayer(List<String> list) {
+		//list = [PlayerA,x,y,w,h]
+		int x = Integer.parseInt(list.get(1));
+		int y = Integer.parseInt(list.get(2));
+		int w = Integer.parseInt(list.get(3));
+		int h = Integer.parseInt(list.get(4));
+		Map<String, ImageIcon> imageMap = 
+				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
+		return new Player(x, y, w, h, imageMap.get(list.get(0)));
 	}
 
 	//展示人物图片
