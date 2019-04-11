@@ -20,7 +20,6 @@ public class GameJPanel extends JPanel implements Runnable{
 //	显示画板内容，绘画
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
 		super.paint(g);
 		//前动画
 		gameRuntime(g);
@@ -29,7 +28,6 @@ public class GameJPanel extends JPanel implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		while(true) {
 			try {
 				Thread.sleep(50);
