@@ -1,9 +1,12 @@
 package com.a225.main;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
+import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameKeyListener;
 
 /**
@@ -18,6 +21,12 @@ public class GameStart {
 	//游戏启动入口
 	public static void main(String[] args) {
 		// 资源加载
+		try {
+			ElementLoader.getElementLoader().readGamePro();
+			ElementLoader.getElementLoader().readImagePro();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// 窗体加载（自动化……）
 		GameFrame gameFrame = new GameFrame();
 		GameJPanel gameJPanel = new GameJPanel();

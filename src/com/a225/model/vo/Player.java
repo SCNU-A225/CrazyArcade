@@ -6,6 +6,13 @@ import javax.swing.ImageIcon;
 
 import com.a225.model.manager.MoveTypeEnum;
 
+/**
+ * 玩家类
+ * @ClassName: Player  
+ * @Description: 玩家VO类   
+ * @author: WeiXiao
+ * @CreateDate: 2019年4月11日 下午5:10:20
+ */
 public class Player extends SuperElement{
 	
 	private ImageIcon img;

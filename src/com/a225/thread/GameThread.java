@@ -17,6 +17,7 @@ public class GameThread extends Thread{
 	public void run() {
 		while(true) {
 			//加载地图
+			loadElement();
 			//显示人物，流程，自动化
 			runGame();
 			//结束本地图
@@ -25,7 +26,9 @@ public class GameThread extends Thread{
 	}
 	
 	//加载地图
-	private void loadElement() {}
+	private void loadElement() {
+		//ElementManager.getManager().loadElement();
+	}
 	
 	//显示人物，游戏流程，自动化
 	private void runGame() {
