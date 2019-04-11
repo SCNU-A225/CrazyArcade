@@ -27,7 +27,7 @@ public class GameThread extends Thread{
 	
 	//加载地图
 	private void loadElement() {
-		//ElementManager.getManager().loadElement();
+		ElementManager.getManager().loadElement();
 	}
 	
 	//显示人物，游戏流程，自动化

@@ -24,6 +24,7 @@ public class GameStart {
 		try {
 			ElementLoader.getElementLoader().readGamePro();
 			ElementLoader.getElementLoader().readImagePro();
+			ElementLoader.getElementLoader().readCharactorsPro();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
