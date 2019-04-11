@@ -23,8 +23,12 @@ public class Player extends SuperElement{
 	}
 	
 	public static Player createPlayer(String str) {
+		int x = 0;
+		int y = 0;
+		int w = 50;
+		int h = 60;
 		String url = "img/Characters/Done_body16001_walk.png";
-		return new Player(0, 0, 50, 60, new ImageIcon(url));
+		return new Player(x, y, w, h, new ImageIcon(url));
 	}
 
 	//Õ¹Ê¾ÈËÎïÍ¼Æ¬
@@ -32,11 +36,12 @@ public class Player extends SuperElement{
 	public void showElement(Graphics g) {
 		// TODO Auto-generated method stub
 		g.drawImage(img.getImage(), 
-				getX(), getY(), //ÆÁÄ»×óÉÏ½Ç×ø±ê
-				getX()+getW(), getY()+getH(), //ÆÁÄ»ÓÒÏÂ½Ç×ø±ê
-				60*moveX, 0, //Í¼Æ¬×óÉÏ½Ç×ø±ê60,0
-				60*(moveX+1), 60, //Í¼Æ¬ÓÒÏÂ½Ç×ø±ê120,60
+				getX(), getY(), 	//ÆÁÄ»×óÉÏ½Ç×ø±ê
+				getX()+getW(), getY()+getH(), 	//ÆÁÄ»ÓÒÏÂ×ø±ê
+				moveX*100+25, moveY*100+40, 				//Í¼Æ¬×óÉÏ×ø±ê
+				moveX*100+75, moveY*100+100, 			//Í¼Æ¬ÓÒÏÂ×ø±ê
 				null);
+//		System.out.println(getX() +" " +getY() +" "+ getW() +" "+ getH());
 	}
 
 	//ÒÆ¶¯
@@ -63,7 +68,20 @@ public class Player extends SuperElement{
 	
 	//¸üÐÂÍ¼Æ¬
 	public void updateImage() {
+		if(moveType==MoveTypeEnum.STOP){
+			return ;
+		}
 		
+		moveX++;
+		if(moveX>3)
+			moveX = 0;
+		switch (moveType) {
+		case TOP:moveY = 3;break;
+		case LEFT:moveY = 1;break;
+		case RIGHT:moveY = 2;break;
+		case DOWN:moveY = 0;break;
+		default:break;
+		}
 	}
 
 	@Override

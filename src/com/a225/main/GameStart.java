@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
+import com.a225.thread.GameKeyListener;
 
 /**
  * 游戏启动入口
@@ -20,6 +21,8 @@ public class GameStart {
 		// 窗体加载（自动化……）
 		GameFrame gameFrame = new GameFrame();
 		GameJPanel gameJPanel = new GameJPanel();
+		GameKeyListener gameListener = new GameKeyListener();
+		gameFrame.setKeyListener(gameListener);
 		gameFrame.setjPanel(gameJPanel);
 		gameFrame.addJPanel();
 		// 监听加载

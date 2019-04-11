@@ -20,7 +20,6 @@ public class GameJPanel extends JPanel implements Runnable{
 //	œ‘ æª≠∞Âƒ⁄»›£¨ªÊª≠
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
 		super.paint(g);
 		//«∞∂Øª≠
 		gameRuntime(g);
@@ -29,10 +28,9 @@ public class GameJPanel extends JPanel implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		while(true) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
