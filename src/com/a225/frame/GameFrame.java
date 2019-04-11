@@ -2,12 +2,9 @@ package com.a225.frame;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import com.a225.thread.GameThread;
-import com.sun.org.apache.xpath.internal.operations.Gt;
 
 /**
  * 游戏窗体
@@ -26,7 +23,6 @@ public class GameFrame  extends JFrame{
 
 //	初始化
 	protected void init() {
-		// TODO Auto-generated method stub
 		this.setTitle("CrazyArcade");
 		this.setSize(1200, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
