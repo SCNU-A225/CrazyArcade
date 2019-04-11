@@ -41,9 +41,16 @@ public class GameThread extends Thread{
 						list.remove(i);
 				}
 			}
+			
 			//添加游戏的流程控制linkGame()?
 			
 			//控制runGame进程
+			try {	
+				sleep(50);
+			} catch (InterruptedException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
 	}
 	

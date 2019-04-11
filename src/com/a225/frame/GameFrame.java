@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.a225.thread.GameThread;
-import com.sun.org.apache.xpath.internal.operations.Gt;
 
 /**
  * ÓÎÏ·´°Ìå
