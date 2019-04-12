@@ -26,6 +26,14 @@ public class GameKeyListener implements KeyListener{
 			case 38:play.setMoveType(MoveTypeEnum.TOP);break;
 			case 39:play.setMoveType(MoveTypeEnum.RIGHT);break;
 			case 40:play.setMoveType(MoveTypeEnum.DOWN);break;
+			case 32:
+				if(play.isKeepAttack())  //一次按压空格键只放一个水泡
+					play.setAttack(false);
+				else {
+					play.setKeepAttack(true);
+					play.setAttack(true);
+				}
+				break;
 		}
 	}
 
@@ -49,6 +57,10 @@ public class GameKeyListener implements KeyListener{
 			case 40:
 				if(play.getMoveType() == MoveTypeEnum.DOWN)
 					play.setMoveType(MoveTypeEnum.STOP);
+				break;
+			case 32:
+				play.setAttack(false);
+				play.setKeepAttack(false);
 				break;
 		}
 	}

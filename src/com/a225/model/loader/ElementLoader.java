@@ -29,8 +29,9 @@ public class ElementLoader {
 	//构造函数
 	private ElementLoader() {
 		properties = new Properties();
-		gameInfoMap = new HashMap<>();
+		gameInfoMap = new HashMap<>();		
 		imageMap = new HashMap<>();
+		squareTypeMap = new HashMap<>();
 		mapList = new ArrayList<>();
 	}
 	
@@ -77,7 +78,21 @@ public class ElementLoader {
 		}
 	}
 	
-	//读取方块类型配置
+	//读取气泡炸弹配置
+	public void readBubblePro() throws IOException
+	{
+		InputStream inputStream = 
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("bubblePath").get(0));
+		properties.clear();
+		properties.load(inputStream);
+		for(Object o:properties.keySet()) {
+			String info = properties.getProperty(o.toString());
+			gameInfoMap.put(o.toString(),infoStringToList(info, ","));//放入Map的value中的是已经分割后的配置项
+		}
+	}
+	
+
+	//读取方块类型信息
 	public void readSquarePro() throws IOException{
 		InputStream inputStream = 
 				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("squareProPath").get(0));

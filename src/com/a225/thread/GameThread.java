@@ -13,7 +13,6 @@ import com.a225.model.vo.SuperElement;
  *
  */
 public class GameThread extends Thread{
-	
 	public void run() {
 		while(true) {
 			//╪сть╣ьм╪

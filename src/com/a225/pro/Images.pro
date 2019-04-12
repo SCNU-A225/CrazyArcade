@@ -6,3 +6,5 @@ PlayerB=img/player/player2.png
 #Map 地图路径
 mapFloor=img/map/1.png
 mapObstacle=img/map/2.png
+#Bubble气泡路径
+Bubble=img/boom/1.png

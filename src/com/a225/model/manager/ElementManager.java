@@ -16,7 +16,6 @@ import com.a225.model.vo.SuperElement;
  * 单例模式
  */
 public class ElementManager {
-	
 	//元素管理器单例
 	private static ElementManager elementManager;
 	static {
@@ -36,6 +35,7 @@ public class ElementManager {
 		init();
 		//初始化player的list
 		map.put("player", new ArrayList<SuperElement>());
+		map.put("bubble", new ArrayList<SuperElement>());
 	}
 	
 	//获得map集合

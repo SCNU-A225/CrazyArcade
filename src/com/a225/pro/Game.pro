@@ -8,7 +8,7 @@ windowSize=1200,800
 #图片配置文件
 imageProPath=com/a225/pro/Images.pro
 charatersPath=com/a225/pro/Characters.pro
-
+bubblePath=com/a225/pro/Bubble.pro
 #地图配置文件
 stage1Map=com/a225/pro/stage1/Map.pro
 

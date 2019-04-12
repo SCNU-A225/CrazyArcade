@@ -9,7 +9,13 @@ import javax.swing.ImageIcon;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 
-
+/**
+ * 地图方块类
+ * @ClassName: MapSquare  
+ * @Description: 地图方块VO类   
+ * @author: DaXiao
+ * @CreateDate: 2019年4月11日 下午23：11
+ */
 public class MapSquare extends SuperElement{
 	final static int pixelx = 32;//像素x
 	final static int pixely = 32;//像素y
@@ -25,14 +31,6 @@ public MapSquare(int x, int y, int w, int h,boolean beDestoried,boolean beWalked
 		beWalked=false;
 		
 	}
-
-/**
- * 地图方块类
- * @ClassName: MapSquare  
- * @Description: 地图方块VO类   
- * @author: DaXiao
- * @CreateDate: 2019年4月11日 下午23：11
- */
 
 //0：障碍物方块，1：道路方块，2：可摧毁方块
 //#01：树，02：小房子，11：绿色方块，21：红色方块
