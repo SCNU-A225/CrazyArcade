@@ -22,7 +22,8 @@ public class ElementLoader {
 	private Properties properties;
 	private Map<String, List<String>> gameInfoMap;//游戏信息字典
 	private Map<String, ImageIcon> imageMap;//图片字典
-	private Map<String, List<String>> mapMap;//地图字典
+	private Map<String, List<String>> squareTypeMap;//方块类型字典
+	private List<List<String>> mapList;//地图
 	
 
 	//构造函数
@@ -30,7 +31,7 @@ public class ElementLoader {
 		properties = new Properties();
 		gameInfoMap = new HashMap<>();
 		imageMap = new HashMap<>();
-		mapMap = new HashMap<>();
+		mapList = new ArrayList<>();
 	}
 	
 	//单例模式
@@ -76,16 +77,27 @@ public class ElementLoader {
 		}
 	}
 	
-	/**
-	//读取地图
-	public void readMapPro() throws IOException{
+	//读取方块类型配置
+	public void readSquarePro() throws IOException{
 		InputStream inputStream = 
-				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("mapProPath").get(0));
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("squareProPath").get(0));
 		properties.clear();
 		properties.load(inputStream);
 		for(Object o:properties.keySet()) {
-			String loc = properties.getProperty(o.toString());
-			mapMap.put(o.toString(), infoStringToList(loc,","));
+			String info = properties.getProperty(o.toString());
+			squareTypeMap.put(o.toString(),infoStringToList(info, ","));//放入Map的value中的是已经分割后的配置项
+		}
+	}
+	
+	//读取特定地图
+	public void readMapPro(String mapPro) throws IOException{
+		InputStream inputStream = 
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get(mapPro).get(0));
+		properties.clear();
+		properties.load(inputStream);
+		for(Object o:properties.keySet()) {
+			String info = properties.getProperty(o.toString());
+			mapList.add(infoStringToList(info,","));
 		}
 	}
 	
@@ -105,6 +117,14 @@ public class ElementLoader {
 
 	public Map<String, ImageIcon> getImageMap() {
 		return imageMap;
+	}
+
+	public List<List<String>> getMapList() {
+		return mapList;
+	}
+
+	public Map<String, List<String>> getSquareTypeMap() {
+		return squareTypeMap;
 	}
 	
 	
