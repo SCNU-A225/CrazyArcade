@@ -74,6 +74,19 @@ public class ElementLoader {
 		}
 	}
 	
+	//读取气泡炸弹配置
+	public void readBubblePro() throws IOException
+	{
+		InputStream inputStream = 
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("bubblePath").get(0));
+		properties.clear();
+		properties.load(inputStream);
+		for(Object o:properties.keySet()) {
+			String info = properties.getProperty(o.toString());
+			gameInfoMap.put(o.toString(),infoStringToList(info, ","));//放入Map的value中的是已经分割后的配置项
+		}
+	}
+	
 	/**
 	 * 将配置项按照指定字符串切割后转为字符串List
 	 * @param info 配置项字符串

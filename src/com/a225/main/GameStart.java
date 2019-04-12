@@ -25,6 +25,7 @@ public class GameStart {
 			ElementLoader.getElementLoader().readGamePro();
 			ElementLoader.getElementLoader().readImagePro();
 			ElementLoader.getElementLoader().readCharactorsPro();
+			ElementLoader.getElementLoader().readBubblePro();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

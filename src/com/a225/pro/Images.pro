@@ -3,3 +3,4 @@
 #键值请注意不要重复
 PlayerA=img/player/player1.png
 PlayerB=img/player/player2.png
+Bubble=img/boom/1.png

@@ -5,7 +5,10 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import org.w3c.dom.NamedNodeMap;
+
 import com.a225.model.loader.ElementLoader;
+import com.a225.model.vo.Bubble;
 import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
 
@@ -39,6 +42,8 @@ public class ElementFactory {
 			return Player.createPlayer(gameInfoMap.get(name));
 		case "playerTwo":
 			return Player.createPlayer(gameInfoMap.get(name));
+//		case "bubble":
+//			return Bubble.createBubble(gameInfoMap.get(name));
 		}
 		return null;
 	}
