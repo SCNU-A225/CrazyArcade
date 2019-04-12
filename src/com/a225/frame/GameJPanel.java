@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
 
@@ -28,7 +29,7 @@ public class GameJPanel extends JPanel implements Runnable{
 	
 	@Override
 	public void run() {
-		while(true) {
+		while(GameStart.gameRuning) {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

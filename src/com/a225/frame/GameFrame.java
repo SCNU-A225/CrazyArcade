@@ -40,8 +40,9 @@ public class GameFrame  extends JFrame{
 	
 //	»­°å×¢Èë
 	public void addJPanel() {
-		if(jPanel!=null)
-			this.add(jPanel);
+		if(jPanel!=null){
+			this.setContentPane(jPanel);
+		}
 	}
 	
 //	´°ÌåÆô¶¯
@@ -55,6 +56,7 @@ public class GameFrame  extends JFrame{
 		}
 		this.setVisible(true);
 	}
+	
 	
 	
 //	getter and setter
@@ -80,6 +82,8 @@ public class GameFrame  extends JFrame{
 
 	public void setjPanel(JPanel jPanel) {
 		this.jPanel = jPanel;
+		//this.setContentPane(jPanel);
+		//this.jPanel.setBounds(0, 0, getWidth(), getHeight());
 	}
 	
 }

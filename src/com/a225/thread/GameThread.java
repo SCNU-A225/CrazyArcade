@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
 
@@ -13,14 +14,39 @@ import com.a225.model.vo.SuperElement;
  *
  */
 public class GameThread extends Thread{
+	private boolean twoPlayer = false;
 	
 	public void run() {
-		while(true) {
-			//加载地图
-			//显示人物，流程，自动化
-			runGame();
-			//结束本地图
+		while(true){
+			
+
+			while(GameStart.gameRuning) {
+				GameStart.beginLock = false;
+				
+				try {
+					sleep(6000);
+					break;
+				} catch (InterruptedException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				
+				//加载地图
+				//显示人物，流程，自动化
+				runGame();
+				//结束本地图
+				
+			}
+			if(!GameStart.beginLock)
+				GameStart.changeJPanel();
+			try {
+				sleep(100);
+			} catch (InterruptedException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
 		}
+		
 		
 	}
 	
@@ -59,5 +85,11 @@ public class GameThread extends Thread{
 	
 	//关卡结束
 	private void overGame() {}
+
+	public void setTwoPlayer(boolean twoPlayer) {
+		this.twoPlayer = twoPlayer;
+	}
+	
+	
 
 }
