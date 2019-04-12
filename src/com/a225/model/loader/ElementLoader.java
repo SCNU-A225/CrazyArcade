@@ -22,6 +22,7 @@ public class ElementLoader {
 	private Properties properties;
 	private Map<String, List<String>> gameInfoMap;//游戏信息字典
 	private Map<String, ImageIcon> imageMap;//图片字典
+	private Map<String, List<String>> mapMap;//地图字典
 	
 
 	//构造函数
@@ -29,6 +30,7 @@ public class ElementLoader {
 		properties = new Properties();
 		gameInfoMap = new HashMap<>();
 		imageMap = new HashMap<>();
+		mapMap = new HashMap<>();
 	}
 	
 	//单例模式
@@ -71,6 +73,19 @@ public class ElementLoader {
 		for(Object o:properties.keySet()) {
 			String info = properties.getProperty(o.toString());
 			gameInfoMap.put(o.toString(),infoStringToList(info, ","));//放入Map的value中的是已经分割后的配置项
+		}
+	}
+	
+	/**
+	//读取地图
+	public void readMapPro() throws IOException{
+		InputStream inputStream = 
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("mapProPath").get(0));
+		properties.clear();
+		properties.load(inputStream);
+		for(Object o:properties.keySet()) {
+			String loc = properties.getProperty(o.toString());
+			mapMap.put(o.toString(), infoStringToList(loc,","));
 		}
 	}
 	
