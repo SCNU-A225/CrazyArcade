@@ -13,8 +13,8 @@ import com.a225.model.vo.SuperElement;
  *
  */
 public class GameThread extends Thread{
-	
 	public void run() {
+		boolean twoPlayer = ElementManager.getManager().isTwoPlayer();
 		while(true) {
 			//º”‘ÿµÿÕº
 			loadElement();

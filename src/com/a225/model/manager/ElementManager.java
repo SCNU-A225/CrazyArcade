@@ -16,7 +16,6 @@ import com.a225.model.vo.SuperElement;
  * 单例模式
  */
 public class ElementManager {
-	
 	//元素管理器单例
 	private static ElementManager elementManager;
 	static {
