@@ -100,19 +100,24 @@ public class ElementLoader {
 		properties.load(inputStream);
 		for(Object o:properties.keySet()) {
 			String info = properties.getProperty(o.toString());
-			squareTypeMap.put(o.toString(),infoStringToList(info, ","));//放入Map的value中的是已经分割后的配置项
+			squareTypeMap.put(o.toString(),infoStringToList(info, ","));
 		}
 	}
 	
 	//读取特定地图
 	public void readMapPro(String mapPro) throws IOException{
+		mapList = new ArrayList<>();
 		InputStream inputStream = 
 				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get(mapPro).get(0));
 		properties.clear();
 		properties.load(inputStream);
 		for(Object o:properties.keySet()) {
 			String info = properties.getProperty(o.toString());
-			mapList.add(infoStringToList(info,","));
+			if(o.toString().equals("size")) {//地图大小
+				gameInfoMap.put("mapSize", infoStringToList(info,","));
+			} else {//地图信息
+				mapList.add(infoStringToList(info,","));				
+			}
 		}
 	}
 	

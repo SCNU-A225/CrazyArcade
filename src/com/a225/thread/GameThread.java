@@ -3,6 +3,7 @@ package com.a225.thread;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
@@ -20,6 +21,7 @@ public class GameThread extends Thread{
 			//显示人物，流程，自动化
 			runGame();
 			//结束本地图
+			overGame();
 		}
 		
 	}
@@ -37,7 +39,6 @@ public class GameThread extends Thread{
 			Set<String> set = map.keySet();
 			for(String key:set) {
 				List<SuperElement> list = map.get(key);
-				
 				for(int i=list.size()-1; i>=0; i--) {
 					list.get(i).update();
 					if(!list.get(i).isAlive())
@@ -61,6 +62,8 @@ public class GameThread extends Thread{
 	public void linkGame() {}
 	
 	//关卡结束
-	private void overGame() {}
+	private void overGame() {
+		ElementManager.getManager().overGame();
+	}
 
 }
