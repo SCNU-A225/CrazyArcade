@@ -24,6 +24,8 @@ public class ElementManager {
 	
 	//元素的Map集合
 	Map<String, List<SuperElement>> map;
+	
+	//游戏地图
 	GameMap gameMap;
 	
 	//初始化函数
@@ -47,7 +49,7 @@ public class ElementManager {
 	}
 	
 	
-	//【废弃方法】
+	//键值比较器
 	public Comparator<String> getMapKeyComparator() {
 		Map<String, Integer> priorityMap = new HashMap<>();
 		priorityMap.put("player", 50);
@@ -72,6 +74,7 @@ public class ElementManager {
 		};
 	}
 	
+	//图层透视比较器	线程不安全
 	public Comparator<SuperElement> getElementComparator() {
 		return new Comparator<SuperElement>() {
 			@Override

@@ -35,7 +35,7 @@ public class Bubble extends SuperElement{
 		int h = Integer.parseInt(list.get(2));
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
-		return new Bubble(x, y, w, h, imageMap.get(list.get(0)));
+		return new Bubble(x, y, MapSquare.PIXEL_X, MapSquare.PIXEL_Y, imageMap.get(list.get(0)));
 	}
 	//创建气泡2
 	public static Bubble createBubble(List<String> list){

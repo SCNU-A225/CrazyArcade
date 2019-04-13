@@ -65,8 +65,8 @@ public class GameMap {
 			List<String> size = ElementLoader.getElementLoader().getGameInfoMap().get("mapSize");
 			mapRows = Integer.parseInt(size.get(0));
 			mapCols = Integer.parseInt(size.get(1));
-			biasX = (windowW-MapSquare.pixelx*mapCols)/2;
-			biasY = (windowH-MapSquare.pixely*mapRows)/2;
+			biasX = (windowW-MapSquare.PIXEL_X*mapCols)/2;
+			biasY = (windowH-MapSquare.PIXEL_Y*mapRows)/2;
 			
 			createFloor();
 			createSquare();

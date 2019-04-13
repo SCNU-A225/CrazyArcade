@@ -3,12 +3,11 @@ package com.a225.model.vo;
 import java.awt.Graphics;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.ImageIcon;
-
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.MoveTypeEnum;
+
 
 /**
  * 玩家类
@@ -26,6 +25,8 @@ public class Player extends SuperElement{
 	private boolean attack;//记录攻击状态，默认为false
 	private boolean keepAttack;//记录是否为一直按着攻击键，实现一次按键只放一个水泡
 	
+	private static final int SPEED = 5;
+	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img) {
 		super(x, y, w, h);
@@ -41,8 +42,8 @@ public class Player extends SuperElement{
 		//list = [PlayerA,x,y,w,h]
 		int x = Integer.parseInt(list.get(1));
 		int y = Integer.parseInt(list.get(2));
-		int w = Integer.parseInt(list.get(3));
-		int h = Integer.parseInt(list.get(4));
+		int w = MapSquare.PIXEL_X;
+		int h = MapSquare.PIXEL_Y;
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
 		return new Player(x, y, w, h, imageMap.get(list.get(0)));
@@ -62,13 +63,14 @@ public class Player extends SuperElement{
 	//移动
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
 		switch(moveType) {
-		case TOP: setY(getY()-5);break;
-		case LEFT: setX(getX()-5);break;
-		case RIGHT: setX(getX()+5);break;
-		case DOWN: setY(getY()+5);break;
+		case TOP: setY(getY()-SPEED);break;
+		case LEFT: setX(getX()-SPEED);break;
+		case RIGHT: setX(getX()+SPEED);break;
+		case DOWN: setY(getY()+SPEED);break;
 		case STOP:
+		default:
+			break;
 		}
 
 	}
@@ -76,7 +78,6 @@ public class Player extends SuperElement{
 	//重写父类模板
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		super.update();
 		addBubble();
 		updateImage();
@@ -85,12 +86,11 @@ public class Player extends SuperElement{
 	//更新图片
 	public void updateImage() {
 		if(moveType==MoveTypeEnum.STOP){
-			return ;
+			return;
 		}
 		
-		moveX++;
-		if(moveX>3)
-			moveX = 0;
+		moveX = ++moveX%4;
+		
 		switch (moveType) {
 		case TOP:moveY = 3;break;
 		case LEFT:moveY = 1;break;
@@ -102,13 +102,12 @@ public class Player extends SuperElement{
 	
 	//添加气泡
 	public void addBubble() {
-		if(!attack) {
-			return;
+		if(attack) {
+			List<SuperElement> list = 
+					ElementManager.getManager().getElementList("bubble");
+			list.add(Bubble.createBubble(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
+			attack = false;
 		}
-		List<SuperElement> list = 
-				ElementManager.getManager().getElementList("bubble");
-		list.add(Bubble.createBubble(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
-		attack = false;
 	}
 
 	@Override

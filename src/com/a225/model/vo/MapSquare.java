@@ -13,15 +13,15 @@ import com.a225.model.manager.ElementManager;
  * @CreateDate: 2019年4月11日 下午23：11
  */
 public class MapSquare extends SuperElement{
-	public final static int pixelx = 64;//单位像素x
-	public final static int pixely = 64;//单位像素y
+	public final static int PIXEL_X = 64;//单位像素x
+	public final static int PIXEL_Y = 64;//单位像素y
 	private ImageIcon img;
 	private int sx,sy,dx,dy;
 	
 	public MapSquare(int i, int j ,ImageIcon img, int sx, int sy, int dx, int dy, int scaleX,int scaleY) {
-		super((j-scaleX+1)*pixelx+ElementManager.getManager().getGameMap().getBiasX(), 
-				(i-scaleY+1)*pixely+ElementManager.getManager().getGameMap().getBiasY(), 
-				pixelx*scaleX, pixely*scaleY);
+		super((j-scaleX+1)*PIXEL_X+ElementManager.getManager().getGameMap().getBiasX(), 
+				(i-scaleY+1)*PIXEL_Y+ElementManager.getManager().getGameMap().getBiasY(), 
+				PIXEL_X*scaleX, PIXEL_Y*scaleY);
 		this.img = img;
 		this.setPictureLoc(sx, sy, dx, dy);
 	}
