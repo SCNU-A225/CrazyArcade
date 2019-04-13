@@ -1,16 +1,13 @@
 package com.a225.model.manager;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.vo.GameMap;
 import com.a225.model.vo.MapFloor;
-import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
 
 /**

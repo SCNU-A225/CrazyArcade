@@ -1,18 +1,10 @@
 package com.a225.model.vo;
 
-import java.awt.Graphics;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.ImageIcon;
-
 import com.a225.model.loader.ElementLoader;
-import com.a225.model.manager.ElementFactory;
 import com.a225.model.manager.ElementManager;
-
-public class GameMap {
-
 
 /**
  * 地图类
@@ -21,6 +13,7 @@ public class GameMap {
  * @author: DaXiao
  * @CreateDate: 2019年4月11日 下午21：11
  */
+public class GameMap {
 	private int windowW;
 	private int windowH;
 	private int mapRows;

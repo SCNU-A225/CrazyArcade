@@ -51,14 +51,12 @@ public class Player extends SuperElement{
 	//展示人物图片
 	@Override
 	public void showElement(Graphics g) {
-		// TODO Auto-generated method stub
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
 				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
 				moveX*100+25, moveY*100+40, 				//图片左上坐标
 				moveX*100+75, moveY*100+100, 			//图片右下坐标
 				null);
-//		System.out.println(getX() +" " +getY() +" "+ getW() +" "+ getH());
 	}
 
 	//移动

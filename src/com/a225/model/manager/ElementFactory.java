@@ -2,14 +2,7 @@ package com.a225.model.manager;
 
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.ImageIcon;
-
-import org.w3c.dom.NamedNodeMap;
-
 import com.a225.model.loader.ElementLoader;
-import com.a225.model.vo.Bubble;
-import com.a225.model.vo.MapFloor;
 import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
 

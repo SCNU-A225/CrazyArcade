@@ -13,8 +13,8 @@ import com.a225.model.manager.ElementManager;
  * @CreateDate: 2019年4月11日 下午23：11
  */
 public class MapSquare extends SuperElement{
-	public static int pixelx = 64;//单位像素x
-	public static int pixely = 64;//单位像素y
+	public final static int pixelx = 64;//单位像素x
+	public final static int pixely = 64;//单位像素y
 	private ImageIcon img;
 	private int sx,sy,dx,dy;
 	

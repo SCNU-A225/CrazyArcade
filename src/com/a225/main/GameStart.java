@@ -1,9 +1,6 @@
 package com.a225.main;
 
 import java.io.IOException;
-
-import javax.swing.JFrame;
-
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
 import com.a225.model.loader.ElementLoader;
