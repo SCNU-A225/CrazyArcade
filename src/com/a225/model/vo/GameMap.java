@@ -54,7 +54,6 @@ public class GameMap {
 				default:
 					break;
 				}
-				
 			}
 		}
 	}

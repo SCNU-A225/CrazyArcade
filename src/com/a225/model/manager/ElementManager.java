@@ -51,7 +51,7 @@ public class ElementManager {
 	
 	//¼üÖµ±È½ÏÆ÷
 	public Comparator<String> getMapKeyComparator() {
-		Map<String, Integer> priorityMap = new HashMap<>();
+		final Map<String, Integer> priorityMap = new HashMap<>();
 		priorityMap.put("player", 50);
 		priorityMap.put("bubble", 10);
 		priorityMap.put("explode", 30);
