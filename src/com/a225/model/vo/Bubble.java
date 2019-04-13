@@ -3,10 +3,13 @@ package com.a225.model.vo;
 import java.awt.Graphics;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
+import com.a225.model.manager.ElementManager;
 
 /**
  * 水泡炸弹类
@@ -67,16 +70,27 @@ public class Bubble extends SuperElement{
 		moveX = moveX % 4;
 	}
 	
+	//使用计时器，2.5秒改变Alive状态
 	@Override
 	public void move() {
-		
+		Timer timer = new Timer(true);
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				setAlive(false);
+			}
+		};
+		timer.schedule(task, 2500);
 	}
 	
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		if(!isAlive()) {	//显示爆炸效果，加入ExplodeBubble
+			List<SuperElement> list = 
+					ElementManager.getManager().getElementList("explode");
+			list.add(BubbleExplode.createExplode(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("explode")));
+		}
 	}
 
 	//getters and setters

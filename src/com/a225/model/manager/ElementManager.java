@@ -34,8 +34,9 @@ public class ElementManager {
 	private ElementManager() {
 		init();
 		//初始化player的list
-		map.put("player", new ArrayList<>());
-		map.put("bubble", new ArrayList<>());
+		map.put("player", new ArrayList<>());//玩家
+		map.put("bubble", new ArrayList<>());//水泡
+		map.put("explode",new ArrayList<>());//水泡爆炸
 	}
 	
 	//获得map集合

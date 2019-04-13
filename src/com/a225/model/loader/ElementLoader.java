@@ -76,7 +76,7 @@ public class ElementLoader {
 		}
 	}
 	
-	//读取气泡炸弹配置
+	//读取气泡炸弹和爆炸效果配置Bubble.pro
 	public void readBubblePro() throws IOException
 	{
 		InputStream inputStream = 
