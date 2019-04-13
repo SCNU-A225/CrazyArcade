@@ -65,6 +65,7 @@ public abstract class SuperElement {
 		this.h = h;
 	}
 	
+	
 	public int getX() {
 		return x;
 	}

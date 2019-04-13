@@ -35,7 +35,7 @@ public class Bubble extends SuperElement{
 		int h = Integer.parseInt(list.get(2));
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
-		return new Bubble(x, y, MapSquare.PIXEL_X, MapSquare.PIXEL_Y, imageMap.get(list.get(0)));
+		return new Bubble(x, y, w, h, imageMap.get(list.get(0)));
 	}
 	//创建气泡2
 	public static Bubble createBubble(List<String> list){
@@ -51,9 +51,9 @@ public class Bubble extends SuperElement{
 	public void showElement(Graphics g) {
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
-				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
-				moveX*32, 0, 				//图片左上坐标
-				moveX*32+32, 46, 			//图片右下坐标
+				getX()+MapSquare.PIXEL_X, getY()+MapSquare.PIXEL_Y, 	//屏幕右下坐标
+				moveX*getW(), 0, 				//图片左上坐标
+				(moveX+1)*getW(), 46, 			//图片右下坐标
 				null);
 	}
 	

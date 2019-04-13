@@ -1,6 +1,7 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
@@ -48,6 +49,16 @@ public class Player extends SuperElement{
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
 		return new Player(x, y, w, h, imageMap.get(list.get(0)));
 	}
+	
+	public static Player createPlayer(List<String> data,int i,int j) {
+		int x = j*MapSquare.PIXEL_X+ElementManager.getManager().getGameMap().getBiasX();
+		int y = i*MapSquare.PIXEL_Y+ElementManager.getManager().getGameMap().getBiasY();
+		int w = MapSquare.PIXEL_X;
+		int h = MapSquare.PIXEL_Y;
+		Map<String, ImageIcon> imageMap = 
+				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
+		return new Player(x, y, w, h, imageMap.get(data.get(0)));
+	}
 
 	//展示人物图片
 	@Override
@@ -55,24 +66,47 @@ public class Player extends SuperElement{
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
 				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
-				moveX*100+25, moveY*100+40, 				//图片左上坐标
-				moveX*100+75, moveY*100+100, 			//图片右下坐标
+				moveX*100+27, moveY*100+43, 				//图片左上坐标
+				moveX*100+72, moveY*100+99, 			//图片右下坐标
 				null);
 	}
 
 	//移动
 	@Override
 	public void move() {
+		int tx = getX();
+		int ty = getY();
+		int bias = SPEED;
+
 		switch(moveType) {
-		case TOP: setY(getY()-SPEED);break;
-		case LEFT: setX(getX()-SPEED);break;
-		case RIGHT: setX(getX()+SPEED);break;
-		case DOWN: setY(getY()+SPEED);break;
+		case TOP: ty-=SPEED;break;
+		case LEFT: tx-=SPEED;break;
+		case RIGHT: tx+=SPEED;break;
+		case DOWN: ty+=SPEED;break;
 		case STOP:
 		default:
 			break;
 		}
-
+		
+		Rectangle playerRect = new Rectangle(tx, ty, getW(), getH());
+		List<SuperElement> list = ElementManager.getManager().getElementList("obstacle");
+		for(SuperElement se:list) {
+			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
+			if(playerRect.intersects(elementRect)) {
+				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
+				return;
+			}
+		}
+		list = ElementManager.getManager().getElementList("fragility");
+		for(SuperElement se:list) {
+			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
+			if(playerRect.intersects(elementRect)) {
+				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
+				return;
+			}
+		}
+		setX(tx);
+		setY(ty);
 	}
 	
 	//重写父类模板
