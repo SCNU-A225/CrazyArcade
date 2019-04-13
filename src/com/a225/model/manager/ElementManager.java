@@ -34,9 +34,9 @@ public class ElementManager {
 	private ElementManager() {
 		init();
 		//初始化player的list
-		map.put("player", new ArrayList<>());//玩家
-		map.put("bubble", new ArrayList<>());//水泡
-		map.put("explode",new ArrayList<>());//水泡爆炸
+		map.put("player", new ArrayList<SuperElement>());//玩家
+		map.put("bubble", new ArrayList<SuperElement>());//水泡
+		map.put("explode",new ArrayList<SuperElement>());//水泡爆炸
 	}
 	
 	//获得map集合
@@ -57,6 +57,11 @@ public class ElementManager {
 	public void loadElement() {
 		// TODO Auto-generated method stub
 		map.get("player").add(ElementFactory.getElementFactory().produceElement("playerOne"));
+		
+	}
+	
+	public void loadMap(){
+		
 	}
 
 }

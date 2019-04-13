@@ -26,6 +26,7 @@ public class GameThread extends Thread{
 	
 	//¼ÓÔØµØÍ¼
 	private void loadElement() {
+		ElementManager.getManager().loadMap();
 		ElementManager.getManager().loadElement();
 	}
 	
