@@ -1,6 +1,7 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;

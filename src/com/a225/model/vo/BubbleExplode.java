@@ -1,6 +1,7 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,15 +42,11 @@ public class BubbleExplode extends SuperElement{
 	
 	@Override
 	public void showElement(Graphics g) {
-		// TODO Auto-generated method stub
-//		g.drawImage(img.get(moveX).getImage(), getX(), getY(), getW(), getH(), null);
-//		g.drawImage(img.get(moveX).getImage(), getX(), getY(),null);
-//		g.drawImage(img.get(moveX).getImage(), getX(), getY(), 32, 32, null);
 		g.drawImage(img.get(moveX).getImage(), 
-				getX()-64, getY()-64, 	//屏幕左上角坐标
-				getX()+getW()-64, getY()+getH()-64, 	//屏幕右下坐标
+				getX()-2*MapSquare.PIXEL_X, getY()-2*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
+				getX()+3*MapSquare.PIXEL_X, getY()+3*MapSquare.PIXEL_Y, 	//屏幕右下坐标
 				0, 0, 				//图片左上坐标
-				getW(), getH(), 			//图片右下坐标
+				getW(), getH(), 			//图片右下坐标\
 				null);
 	}
 
@@ -72,6 +69,19 @@ public class BubbleExplode extends SuperElement{
 			}
 		};
 		timer.schedule(task, 800);
+	}
+	
+	//判断爆炸与物体边缘冲突
+	@Override
+	public boolean crash(SuperElement se) {
+		Rectangle explodeColumn = 
+				new Rectangle(getX(), getY()-2*MapSquare.PIXEL_Y, MapSquare.PIXEL_X, 5*MapSquare.PIXEL_Y);//水泡爆炸十字纵向
+		Rectangle explodeRow = 
+				new Rectangle(getX()-2*MapSquare.PIXEL_X, getY(), 5*MapSquare.PIXEL_X, MapSquare.PIXEL_Y);//水泡爆炸十字横向
+		Rectangle rectangle = new Rectangle(se.getX(), se.getY(), se.getW(), se.getH());
+		boolean column = explodeColumn.intersects(rectangle);
+		boolean row = explodeRow.intersects(rectangle);
+		return (column||row);
 	}
 
 	//getters and setters

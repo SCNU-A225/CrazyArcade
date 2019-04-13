@@ -46,6 +46,9 @@ public class GameThread extends Thread{
 			
 			//添加游戏的流程控制linkGame()?
 			
+			//玩家与炸弹碰撞死亡
+			playerBoom();
+			
 			//控制runGame进程
 			try {	
 				sleep(50);
@@ -55,6 +58,19 @@ public class GameThread extends Thread{
 			}
 		}
 	}
+	
+	//玩家与炸弹碰撞判断
+	private void playerBoom() {
+		List<SuperElement> players = ElementManager.getManager().getElementList("player");
+		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
+		for(int i=0; i<players.size(); i++) {
+			for(int j=0; j<explodes.size(); j++) {
+				if(explodes.get(j).crash(players.get(i)))
+					players.get(i).setAlive(false);
+			}
+		}
+	}
+	
 	
 	//runGame调用，加入拓展
 	public void linkGame() {}
