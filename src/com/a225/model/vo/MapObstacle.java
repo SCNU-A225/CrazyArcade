@@ -1,11 +1,16 @@
 package com.a225.model.vo;
 
 import java.util.List;
-
 import javax.swing.ImageIcon;
-
 import com.a225.model.loader.ElementLoader;
 
+/**
+ * 地图障碍物类
+ * @ClassName: MapObstacle  
+ * @Description:    
+ * @author: WeiXiao
+ * @CreateDate: 2019年4月13日 下午6:31:18
+ */
 public class MapObstacle extends MapSquare{
 
 	public MapObstacle(int i, int j, ImageIcon img, int sx, int sy, int dx, int dy, int scaleX, int scaleY) {

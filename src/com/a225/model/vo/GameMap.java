@@ -26,6 +26,9 @@ public class GameMap {
 	private int mapRows;
 	private int mapCols;
 	
+	private int biasX;
+	private int biasY;
+	
 	public GameMap() {}
 	public GameMap(int windowW,int windowH) {
 		this.windowW = windowW;
@@ -41,37 +44,41 @@ public class GameMap {
 		}
 	}
 	
+	private void createSquare() {
+		List<List<String>> mapList = ElementLoader.getElementLoader().getMapList();
+		Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
+		Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
+		for (int i = 0; i < mapRows; i++) {
+			for (int j = 0; j < mapCols; j++) {
+				String type = mapList.get(i).get(j);
+				switch (type.charAt(0)) {
+				case '0':
+					elmenteMap.get("obstacle").add(MapObstacle.createMapObstacle(typeMap.get(type), i, j));
+					break;
+				case '2': 
+					elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
+					break;
+				default:
+					break;
+				}
+				
+			}
+		}
+	}
+	
 	public void createMap(String pro){
 		try {
 			ElementLoader.getElementLoader().readMapPro(pro);
 			List<String> size = ElementLoader.getElementLoader().getGameInfoMap().get("mapSize");
 			mapRows = Integer.parseInt(size.get(0));
 			mapCols = Integer.parseInt(size.get(1));
+			biasX = (windowW-MapSquare.pixelx*mapCols)/2;
+			biasY = (windowH-MapSquare.pixely*mapRows)/2;
 			
 			createFloor();
-			
-			List<List<String>> mapList = ElementLoader.getElementLoader().getMapList();
-			Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
-			Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
-			for (int i = 0; i < mapRows; i++) {
-				for (int j = 0; j < mapCols; j++) {
-					String type = mapList.get(i).get(j);
-					switch (type.charAt(0)) {
-					case '0':
-						elmenteMap.get("obstacle").add(MapObstacle.createMapObstacle(typeMap.get(type), i, j));
-						break;
-					case '2': 
-						elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
-						break;
-					default:
-						break;
-					}
-					
-				}
-			}
+			createSquare();
 			
 		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
 	}
@@ -83,6 +90,12 @@ public class GameMap {
 
 	public List<List<String>> getMapList(){
 		return ElementLoader.getElementLoader().getMapList(); 
+	}
+	public int getBiasX() {
+		return biasX;
+	}
+	public int getBiasY() {
+		return biasY;
 	}
 	
 }

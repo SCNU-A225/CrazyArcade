@@ -6,6 +6,13 @@ import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
 
+/**
+ * 地图可破坏物体类
+ * @ClassName: MapFragility  
+ * @Description:    
+ * @author: WeiXiao
+ * @CreateDate: 2019年4月13日 下午6:31:49
+ */
 public class MapFragility extends MapSquare{
 
 	public MapFragility(int i, int j, ImageIcon img, int sx, int sy, int dx, int dy, int scaleX, int scaleY) {

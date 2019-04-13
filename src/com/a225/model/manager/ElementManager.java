@@ -108,6 +108,11 @@ public class ElementManager {
 	public static ElementManager getManager() {
 		return elementManager;
 	}
+	
+	//获取游戏地图类
+	public GameMap getGameMap() {
+		return gameMap;
+	}
 
 	public void loadElement() {
 		// TODO Auto-generated method stub

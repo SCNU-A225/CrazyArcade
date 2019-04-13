@@ -1,13 +1,8 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.print.Printable;
-import java.util.List;
-
 import javax.swing.ImageIcon;
 
-import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 
 /**
@@ -18,13 +13,15 @@ import com.a225.model.manager.ElementManager;
  * @CreateDate: 2019年4月11日 下午23：11
  */
 public class MapSquare extends SuperElement{
-	private static int pixelx = 64;//单位像素x
-	private static int pixely = 64;//单位像素y
+	public static int pixelx = 64;//单位像素x
+	public static int pixely = 64;//单位像素y
 	private ImageIcon img;
 	private int sx,sy,dx,dy;
 	
 	public MapSquare(int i, int j ,ImageIcon img, int sx, int sy, int dx, int dy, int scaleX,int scaleY) {
-		super((j-scaleX+1)*pixelx, (i-scaleY+1)*pixely, pixelx*scaleX, pixely*scaleY);
+		super((j-scaleX+1)*pixelx+ElementManager.getManager().getGameMap().getBiasX(), 
+				(i-scaleY+1)*pixely+ElementManager.getManager().getGameMap().getBiasY(), 
+				pixelx*scaleX, pixely*scaleY);
 		this.img = img;
 		this.setPictureLoc(sx, sy, dx, dy);
 	}
@@ -51,23 +48,5 @@ public class MapSquare extends SuperElement{
 
 	@Override
 	public void destroy() {}
-
-	public static int getPixelx() {
-		return pixelx;
-	}
-
-	public static void setPixelx(int pixelx) {
-		MapSquare.pixelx = pixelx;
-	}
-
-	public static int getPixely() {
-		return pixely;
-	}
-
-	public static void setPixely(int pixely) {
-		MapSquare.pixely = pixely;
-	}
-
-	
 	
 }
