@@ -116,7 +116,7 @@ public class ElementManager {
 
 	public void loadElement() {
 		// TODO Auto-generated method stub
-		map.get("player").add(ElementFactory.getElementFactory().produceElement("playerOne"));
+		//map.get("player").add(ElementFactory.getElementFactory().produceElement("playerOne"));
 		
 	}
 	

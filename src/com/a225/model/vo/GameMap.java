@@ -41,6 +41,7 @@ public class GameMap {
 		List<List<String>> mapList = ElementLoader.getElementLoader().getMapList();
 		Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
 		Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
+		Map<String, List<String>> gameInfoMap = ElementLoader.getElementLoader().getGameInfoMap();
 		for (int i = 0; i < mapRows; i++) {
 			for (int j = 0; j < mapCols; j++) {
 				String type = mapList.get(i).get(j);
@@ -50,6 +51,10 @@ public class GameMap {
 					break;
 				case '2': 
 					elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
+					break;
+				case '6':
+					//System.out.println("ff");
+					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j));
 					break;
 				default:
 					break;
