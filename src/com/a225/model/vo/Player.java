@@ -1,17 +1,30 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import com.a225.model.loader.ElementLoader;
+import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.MoveTypeEnum;
 
+/**
+ * 玩家类
+ * @ClassName: Player  
+ * @Description: 玩家VO类   
+ * @author: WeiXiao
+ * @CreateDate: 2019年4月11日 下午5:10:20
+ */
 public class Player extends SuperElement{
 	
 	private ImageIcon img;
 	private MoveTypeEnum moveType;
 	private int moveX;
 	private int moveY;
+	private boolean attack;//记录攻击状态，默认为false
+	private boolean keepAttack;//记录是否为一直按着攻击键，实现一次按键只放一个水泡
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img) {
@@ -20,15 +33,19 @@ public class Player extends SuperElement{
 		moveType = MoveTypeEnum.STOP;
 		moveX = 0;
 		moveY = 0;
+		attack = false;
+		keepAttack = false;
 	}
 	
-	public static Player createPlayer(String str) {
-		int x = 0;
-		int y = 0;
-		int w = 50;
-		int h = 60;
-		String url = "img/Characters/Done_body16001_walk.png";
-		return new Player(x, y, w, h, new ImageIcon(url));
+	public static Player createPlayer(List<String> list) {
+		//list = [PlayerA,x,y,w,h]
+		int x = Integer.parseInt(list.get(1));
+		int y = Integer.parseInt(list.get(2));
+		int w = Integer.parseInt(list.get(3));
+		int h = Integer.parseInt(list.get(4));
+		Map<String, ImageIcon> imageMap = 
+				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
+		return new Player(x, y, w, h, imageMap.get(list.get(0)));
 	}
 
 	//展示人物图片
@@ -62,6 +79,7 @@ public class Player extends SuperElement{
 	public void update() {
 		
 		super.update();
+		addBubble();
 		updateImage();
 	}
 	
@@ -81,6 +99,17 @@ public class Player extends SuperElement{
 		case DOWN:moveY = 0;break;
 		default:break;
 		}
+	}
+	
+	//添加气泡
+	public void addBubble() {
+		if(!attack) {
+			return;
+		}
+		List<SuperElement> list = 
+				ElementManager.getManager().getElementList("bubble");
+		list.add(Bubble.createBubble(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
+		attack = false;
 	}
 
 	@Override
@@ -121,6 +150,22 @@ public class Player extends SuperElement{
 
 	public void setMoveY(int moveY) {
 		this.moveY = moveY;
+	}
+
+	public boolean isAttack() {
+		return attack;
+	}
+
+	public void setAttack(boolean attack) {
+		this.attack = attack;
+	}
+
+	public boolean isKeepAttack() {
+		return keepAttack;
+	}
+
+	public void setKeepAttack(boolean keepAttack) {
+		this.keepAttack = keepAttack;
 	}
 	
 	

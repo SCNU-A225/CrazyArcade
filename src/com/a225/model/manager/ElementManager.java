@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.a225.model.loader.ElementLoader;
 import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
 
@@ -15,7 +16,6 @@ import com.a225.model.vo.SuperElement;
  * 单例模式
  */
 public class ElementManager {
-	
 	//元素管理器单例
 	private static ElementManager elementManager;
 	static {
@@ -33,11 +33,9 @@ public class ElementManager {
 	//构造函数
 	private ElementManager() {
 		init();
-		
-		//暂时生成player
-		List<SuperElement> list = new ArrayList<>();
-		list.add(Player.createPlayer(""));
-		map.put("player", list);
+		//初始化player的list
+		map.put("player", new ArrayList<SuperElement>());
+		map.put("bubble", new ArrayList<SuperElement>());
 	}
 	
 	//获得map集合
@@ -53,6 +51,11 @@ public class ElementManager {
 	//元素管理器入口
 	public static ElementManager getManager() {
 		return elementManager;
+	}
+
+	public void loadElement() {
+		// TODO Auto-generated method stub
+		map.get("player").add(ElementFactory.getElementFactory().produceElement("playerOne"));
 	}
 
 }

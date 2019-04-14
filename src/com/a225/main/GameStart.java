@@ -1,10 +1,14 @@
 package com.a225.main;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
+import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameKeyListener;
 import com.a225.thread.GameThread;
 
@@ -25,6 +29,14 @@ public class GameStart {
 	//游戏启动入口
 	public static void main(String[] args) {
 		// 资源加载
+		try {
+			ElementLoader.getElementLoader().readGamePro();
+			ElementLoader.getElementLoader().readImagePro();
+			ElementLoader.getElementLoader().readCharactorsPro();
+			ElementLoader.getElementLoader().readBubblePro();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// 窗体加载（自动化……）
 		gameFrame = new GameFrame();
 		gameJPanel = new GameJPanel();
@@ -35,7 +47,6 @@ public class GameStart {
 		GameKeyListener gameListener = new GameKeyListener();
 		gameFrame.setKeyListener(gameListener);
 		gameFrame.setjPanel(beginJPanel);
-//		gameFrame.setjPanel(gameJPanel);
 		gameFrame.addJPanel();
 		// 监听加载
 		gameFrame.addListener();
@@ -45,7 +56,7 @@ public class GameStart {
 	}
 	
 	public static void changeJPanel(){
-		System.out.println(gameRuning);
+
 		if(gameRuning){
 			beginLock  = true;
 			gameFrame.setjPanel(beginJPanel);
