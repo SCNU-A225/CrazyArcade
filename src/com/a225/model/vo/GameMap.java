@@ -1,6 +1,7 @@
 package com.a225.model.vo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.a225.model.loader.ElementLoader;
@@ -19,8 +20,10 @@ public class GameMap {
 	private int mapRows;
 	private int mapCols;
 	
-	private int biasX;
-	private int biasY;
+	private static int biasX;
+	private static int biasY;
+	
+	private static List<List<String>> mapList;//µØÍ¼
 	
 	public GameMap() {}
 	public GameMap(int windowW,int windowH) {
@@ -38,7 +41,6 @@ public class GameMap {
 	}
 	
 	private void createSquare() {
-		List<List<String>> mapList = ElementLoader.getElementLoader().getMapList();
 		Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
 		Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
 		Map<String, List<String>> gameInfoMap = ElementLoader.getElementLoader().getGameInfoMap();
@@ -53,7 +55,6 @@ public class GameMap {
 					elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
 					break;
 				case '6':
-					//System.out.println("ff");
 					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j));
 					break;
 				default:
@@ -64,9 +65,10 @@ public class GameMap {
 		}
 	}
 	
+	//´´½¨
 	public void createMap(String pro){
 		try {
-			ElementLoader.getElementLoader().readMapPro(pro);
+			mapList = ElementLoader.getElementLoader().readMapPro(pro);
 			List<String> size = ElementLoader.getElementLoader().getGameInfoMap().get("mapSize");
 			mapRows = Integer.parseInt(size.get(0));
 			mapCols = Integer.parseInt(size.get(1));
@@ -81,18 +83,25 @@ public class GameMap {
 		}
 	}
 	
+	public List<Integer> getIJ(int x,int y){
+		//j-scaleX+1)*PIXEL_X+GameMap.getBiasX(),
+		List<Integer> list = new ArrayList<>();
+		list.add((x-biasX)/MapSquare.PIXEL_X-1);
+		return list;
+	}
+	
 	public void clearMap() {
 		ElementManager.getManager().getElementList("obstacle").clear();
 		ElementManager.getManager().getElementList("fragility").clear();
 	}
 
-	public List<List<String>> getMapList(){
-		return ElementLoader.getElementLoader().getMapList(); 
+	public static List<List<String>> getMapList(){
+		return mapList; 
 	}
-	public int getBiasX() {
+	public static int getBiasX() {
 		return biasX;
 	}
-	public int getBiasY() {
+	public static int getBiasY() {
 		return biasY;
 	}
 	
