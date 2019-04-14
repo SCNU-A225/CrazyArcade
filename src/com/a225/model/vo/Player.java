@@ -137,9 +137,15 @@ public class Player extends SuperElement{
 	//Ìí¼ÓÆøÅÝ
 	public void addBubble() {
 		if(attack) {
+			int bX = (getX()-GameMap.getBiasX())%MapSquare.PIXEL_X;
+			bX = bX<(MapSquare.PIXEL_X/2)?0:1;
+			int bY = (getY()-GameMap.getBiasY())%MapSquare.PIXEL_Y;
+			bY = bY<(MapSquare.PIXEL_Y/2)?0:1;
+			int bubbleX = GameMap.getBiasX()+MapSquare.PIXEL_X*((getX()-GameMap.getBiasX())/MapSquare.PIXEL_X+bX);
+			int bubbleY = GameMap.getBiasY()+MapSquare.PIXEL_Y*((getY()-GameMap.getBiasY())/MapSquare.PIXEL_Y+bY);
 			List<SuperElement> list = 
 					ElementManager.getManager().getElementList("bubble");
-			list.add(Bubble.createBubble(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
+			list.add(Bubble.createBubble(bubbleX, bubbleY, ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
 			attack = false;
 		}
 	}
