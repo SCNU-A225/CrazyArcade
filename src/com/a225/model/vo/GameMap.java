@@ -19,8 +19,8 @@ public class GameMap {
 	private int mapRows;
 	private int mapCols;
 	
-	private int biasX;
-	private int biasY;
+	private static int biasX;
+	private static int biasY;
 	
 	public GameMap() {}
 	public GameMap(int windowW,int windowH) {
@@ -89,10 +89,10 @@ public class GameMap {
 	public List<List<String>> getMapList(){
 		return ElementLoader.getElementLoader().getMapList(); 
 	}
-	public int getBiasX() {
+	public static int getBiasX() {
 		return biasX;
 	}
-	public int getBiasY() {
+	public static int getBiasY() {
 		return biasY;
 	}
 	
