@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +24,17 @@ public class ElementLoader {
 	private Properties properties;
 	private Map<String, List<String>> gameInfoMap;//游戏信息字典
 	private Map<String, ImageIcon> imageMap;//图片字典
-	private Map<String, List<String>> mapMap;//地图字典
+	private Map<String, List<String>> squareTypeMap;//方块类型字典
+	private List<List<String>> mapList;//地图
 	
 
 	//构造函数
 	private ElementLoader() {
 		properties = new Properties();
-		gameInfoMap = new HashMap<>();
+		gameInfoMap = new HashMap<>();		
 		imageMap = new HashMap<>();
-		mapMap = new HashMap<>();
+		squareTypeMap = new HashMap<>();
+		mapList = new ArrayList<>();
 	}
 	
 	//单例模式
@@ -76,7 +80,7 @@ public class ElementLoader {
 		}
 	}
 	
-	//读取气泡炸弹配置
+	//读取气泡炸弹和爆炸效果配置Bubble.pro
 	public void readBubblePro() throws IOException
 	{
 		InputStream inputStream = 
@@ -89,17 +93,35 @@ public class ElementLoader {
 		}
 	}
 	
-	/**
-	//读取地图
-	public void readMapPro() throws IOException{
+
+	//读取方块类型信息
+	public void readSquarePro() throws IOException{
 		InputStream inputStream = 
 				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("mapProPath").get(0));
 		properties.clear();
 		properties.load(inputStream);
 		for(Object o:properties.keySet()) {
-			String loc = properties.getProperty(o.toString());
-			mapMap.put(o.toString(), infoStringToList(loc,","));
+			String info = properties.getProperty(o.toString());
+			squareTypeMap.put(o.toString(),infoStringToList(info, ","));
 		}
+	}
+	
+	//读取特定地图
+	public void readMapPro(String mapPro) throws IOException{
+		mapList = new ArrayList<>();
+		InputStream inputStream = 
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get(mapPro).get(0));
+		properties.clear();
+		properties.load(inputStream);
+		for(Object o:properties.keySet()) {
+			String info = properties.getProperty(o.toString());
+			if(o.toString().equals("size")) {//地图大小
+				gameInfoMap.put("mapSize", infoStringToList(info,","));
+			} else {//地图信息
+				mapList.add(infoStringToList(info,","));				
+			}
+		}
+		Collections.reverse(mapList);
 	}
 	
 	/**
@@ -119,4 +141,15 @@ public class ElementLoader {
 	public Map<String, ImageIcon> getImageMap() {
 		return imageMap;
 	}
+
+	public List<List<String>> getMapList() {
+		return mapList;
+	}
+
+	public Map<String, List<String>> getSquareTypeMap() {
+		return squareTypeMap;
+	}
+	
+	
+	
 }

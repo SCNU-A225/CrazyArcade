@@ -1,78 +1,52 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
-import java.util.List;
-
 import javax.swing.ImageIcon;
+
+import com.a225.model.manager.ElementManager;
 
 /**
  * 地图方块类
- * @ClassName: Map  
+ * @ClassName: MapSquare  
  * @Description: 地图方块VO类   
  * @author: DaXiao
  * @CreateDate: 2019年4月11日 下午23：11
  */
 public class MapSquare extends SuperElement{
+	public final static int PIXEL_X = 64;//单位像素x
+	public final static int PIXEL_Y = 64;//单位像素y
 	private ImageIcon img;
-	private boolean beDestoried;
-	private boolean beWalked;
-	private int moveX;
-	private int moveY;
+	private int sx,sy,dx,dy;
 	
-public MapSquare(int x, int y, int w, int h) {
-		super(x, y, w, h);
-		this.img=img;
-		beDestoried=false;
-		beWalked=false;
+	public MapSquare(int i, int j ,ImageIcon img, int sx, int sy, int dx, int dy, int scaleX,int scaleY) {
+		super((j-scaleX+1)*PIXEL_X+ElementManager.getManager().getGameMap().getBiasX(), 
+				(i-scaleY+1)*PIXEL_Y+ElementManager.getManager().getGameMap().getBiasY(), 
+				PIXEL_X*scaleX, PIXEL_Y*scaleY);
+		this.img = img;
+		this.setPictureLoc(sx, sy, dx, dy);
 	}
-
-//
-//
-//	public static MapSquare createMapSquare(String s){
-//		switch (s) {
-//		case "01":
-//			moveX=2;
-//			moveY=1;
-//			break;
-//		case "02":
-//			
-//			break;
-//		case "11":
-//			
-//			break;
-//		case "21":
-//	
-//			break;
-//		default:
-//			break;
-//		}
-//		ImageIcon img=ElementLoad.getElementLoad().getMap().get(arrStrings[0]);
-//		return new Player(x,y,w,h,img);
-//		return new PlayerFire(x,y,30,30,img);
-//	}
+	
 	@Override
-	public void showElement(Graphics g) {
-		// TODO 自动生成的方法存根
+	public final void showElement(Graphics g) {
 		g.drawImage(img.getImage(), 
 				getX(), getY(),                  //屏幕左上角坐标
 				getX()+getW(), getY()+getH(),    //屏幕右下角坐标
-					60*moveX, 0,    //图片左上角坐标        60 ,0
-					60*(moveX+1), 60,    //图片右下角坐标  120,60
-//					moveX, 0,    //图片左上角坐标        60 ,0
-//					moveX+60, 60,	
-					null);
+				sx, sy,    //图片左上角坐标
+				dx, dy,    //图片右下角坐标
+				null);
+	}
+	
+	public void setPictureLoc(int sx,int sy,int dx,int dy){
+		this.sx = sx;
+		this.sy = sy;
+		this.dx = dx;
+		this.dy = dy;
 	}
 
 	@Override
-	public void move() {
-		// TODO 自动生成的方法存根
-		
-	}
+	public void move() {}
 
 	@Override
-	public void destroy() {
-		// TODO 自动生成的方法存根
-		
-	}
-
+	public void destroy() {}
+	
 }

@@ -3,7 +3,6 @@ package com.a225.thread;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
@@ -23,13 +22,6 @@ public class GameThread extends Thread{
 			while(GameStart.gameRuning) {
 				GameStart.beginLock = false;
 				
-				try {
-					sleep(6000);
-					break;
-				} catch (InterruptedException e) {
-					// TODO 自动生成的 catch 块
-					e.printStackTrace();
-				}
 				
 				//加载地图
 				//显示人物，流程，自动化
@@ -45,13 +37,17 @@ public class GameThread extends Thread{
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			}
+			overGame();
 		}
 		
 		
 	}
 	
 	//加载地图
-	private void loadElement() {}
+	private void loadElement() {
+		ElementManager.getManager().loadMap();
+		ElementManager.getManager().loadElement();
+	}
 	
 	//显示人物，游戏流程，自动化
 	private void runGame() {
@@ -60,7 +56,6 @@ public class GameThread extends Thread{
 			Set<String> set = map.keySet();
 			for(String key:set) {
 				List<SuperElement> list = map.get(key);
-				
 				for(int i=list.size()-1; i>=0; i--) {
 					list.get(i).update();
 					if(!list.get(i).isAlive())
@@ -69,6 +64,9 @@ public class GameThread extends Thread{
 			}
 			
 			//添加游戏的流程控制linkGame()?
+			
+			//玩家与炸弹碰撞死亡
+			playerBoom();
 			
 			//控制runGame进程
 			try {	
@@ -80,11 +78,26 @@ public class GameThread extends Thread{
 		}
 	}
 	
+	//玩家与炸弹碰撞判断
+	private void playerBoom() {
+		List<SuperElement> players = ElementManager.getManager().getElementList("player");
+		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
+		for(int i=0; i<players.size(); i++) {
+			for(int j=0; j<explodes.size(); j++) {
+				if(explodes.get(j).crash(players.get(i)))
+					players.get(i).setAlive(false);
+			}
+		}
+	}
+	
+	
 	//runGame调用，加入拓展
 	public void linkGame() {}
 	
 	//关卡结束
-	private void overGame() {}
+	private void overGame() {
+		ElementManager.getManager().overGame();
+	}
 
 	public void setTwoPlayer(boolean twoPlayer) {
 		this.twoPlayer = twoPlayer;

@@ -8,7 +8,7 @@ import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.MoveTypeEnum;
 import com.a225.model.vo.Player;
 
-/*
+/**
  * 暂时实现键盘监听以验证Player类人物移动是否正确
  * @author newcomer02
  */

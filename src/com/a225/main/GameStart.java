@@ -1,10 +1,8 @@
 package com.a225.main;
 
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
@@ -34,6 +32,7 @@ public class GameStart {
 			ElementLoader.getElementLoader().readImagePro();
 			ElementLoader.getElementLoader().readCharactorsPro();
 			ElementLoader.getElementLoader().readBubblePro();
+			ElementLoader.getElementLoader().readSquarePro();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -52,7 +51,6 @@ public class GameStart {
 		gameFrame.addListener();
 		// ÓÎÏ·¿ªÊ¼
 		gameFrame.setVisible(true);
-//		gameFrame.start();
 	}
 	
 	public static void changeJPanel(){

@@ -1,6 +1,7 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  * 
@@ -42,7 +43,29 @@ public abstract class SuperElement {
 	//元素销毁
 	public abstract void destroy();
 	
+	//this pk 参数，对象具有
+	public boolean crash(SuperElement se) {
+		Rectangle r1 = new Rectangle(x, y, w, h);
+		Rectangle r2 = new Rectangle(se.x, se.y, se.w, se.h);
+		return r1.intersects(r2);//有交集范围true
+	}
+	
+	//参数 pk 参数，比较工具
+	public static boolean crash(SuperElement se1,SuperElement se2) {
+		Rectangle r1 = new Rectangle(se1.x, se1.y, se1.w, se1.h);
+		Rectangle r2 = new Rectangle(se2.x, se2.y, se2.w, se2.h);
+		return r1.intersects(r2);//有交集范围true
+	}
+	
 	//getters and setters
+	public void setGeometry(int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+	
+	
 	public int getX() {
 		return x;
 	}
