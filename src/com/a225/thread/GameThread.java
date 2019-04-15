@@ -53,6 +53,7 @@ public class GameThread extends Thread{
 			
 			//Íæ¼ÒÓëÕ¨µ¯Åö×²ËÀÍö
 			playerBoom();
+			fragilityBoom();
 			
 			//¿ØÖÆrunGame½ø³Ì
 			try {	
@@ -73,6 +74,18 @@ public class GameThread extends Thread{
 				if(explodes.get(j).crash(players.get(i))) {
 					players.get(i).setAlive(false);
 					running = false;
+				}
+			}
+		}
+	}
+	//ÕÏ°­ÎïÓëÕ¨µ¯Åö×²ÅĞ¶Ï
+	private void fragilityBoom() {
+		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
+		List<SuperElement> fragility = ElementManager.getManager().getElementList("fragility");
+		for(int i=0; i<fragility.size(); i++) {
+			for(int j=0; j<explodes.size(); j++) {
+				if(explodes.get(j).crash(fragility.get(i))) {
+					fragility.get(i).setAlive(false);
 				}
 			}
 		}

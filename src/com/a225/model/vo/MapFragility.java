@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
+import com.a225.model.manager.ElementManager;
 
 /**
  * 地图可破坏物体类
@@ -39,6 +40,11 @@ public class MapFragility extends MapSquare{
 	@Override
 	public void destroy() {
 		super.destroy();
+		if(!isAlive()) {
+			GameMap gameMap = ElementManager.getManager().getGameMap();
+			List<Integer> list = GameMap.getIJ(getX(), getY());
+			gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);
+		}
 	}
 
 }
