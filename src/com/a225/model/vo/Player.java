@@ -51,8 +51,8 @@ public class Player extends SuperElement{
 	}
 	
 	public static Player createPlayer(List<String> data,int i,int j) {
-		int x = j*MapSquare.PIXEL_X+ElementManager.getManager().getGameMap().getBiasX();
-		int y = i*MapSquare.PIXEL_Y+ElementManager.getManager().getGameMap().getBiasY();
+		int x = j*MapSquare.PIXEL_X+GameMap.getBiasX();
+		int y = i*MapSquare.PIXEL_Y+GameMap.getBiasY();
 		int w = MapSquare.PIXEL_X;
 		int h = MapSquare.PIXEL_Y;
 		Map<String, ImageIcon> imageMap = 
