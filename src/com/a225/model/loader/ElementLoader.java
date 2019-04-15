@@ -97,7 +97,7 @@ public class ElementLoader {
 	//读取方块类型信息
 	public void readSquarePro() throws IOException{
 		InputStream inputStream = 
-				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("mapProPath").get(0));
+				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get("squareProPath").get(0));
 		properties.clear();
 		properties.load(inputStream);
 		for(Object o:properties.keySet()) {

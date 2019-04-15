@@ -3,6 +3,8 @@ package com.a225.thread;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.a225.main.GameController;
 import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
@@ -14,33 +16,17 @@ import com.a225.model.vo.SuperElement;
  */
 public class GameThread extends Thread{
 	private boolean twoPlayer = false;
+	private boolean running = true;
 	
 	public void run() {
-		while(true){
-			
-
-			while(GameStart.gameRuning) {
-				GameStart.beginLock = false;
-				
-				
-				//加载地图
-				//显示人物，流程，自动化
-				runGame();
-				//结束本地图
-				
-			}
-			if(!GameStart.beginLock)
-				GameStart.changeJPanel();
-			try {
-				sleep(100);
-			} catch (InterruptedException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
-			}
-			overGame();
-		}
-		
-		
+		while(GameController.isGameRunning()) {
+			//加载地图
+			loadElement();
+			//显示人物，流程，自动化
+			runGame();
+			//结束本地图
+			overGame();				
+		}	
 	}
 	
 	//加载地图
@@ -51,7 +37,7 @@ public class GameThread extends Thread{
 	
 	//显示人物，游戏流程，自动化
 	private void runGame() {
-		while(true) {
+		while(running) {
 			Map<String, List<SuperElement>> map = ElementManager.getManager().getMap();
 			Set<String> set = map.keySet();
 			for(String key:set) {
@@ -86,6 +72,7 @@ public class GameThread extends Thread{
 			for(int j=0; j<explodes.size(); j++) {
 				if(explodes.get(j).crash(players.get(i)))
 					players.get(i).setAlive(false);
+					running = false;
 			}
 		}
 	}

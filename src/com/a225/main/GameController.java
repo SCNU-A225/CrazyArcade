@@ -8,7 +8,7 @@ package com.a225.main;
  * @CreateDate: 2019年4月12日 上午9:13:13
  */
 public class GameController {
-	private static boolean gameRunning;
+	private static boolean gameRunning = false;
 	private static boolean twoPlayer;
 	
 	public static boolean isGameRunning() {

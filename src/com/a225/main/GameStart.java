@@ -19,10 +19,8 @@ import com.a225.thread.GameThread;
  */
 public class GameStart {
 	private static GameFrame gameFrame;
-	private static GameJPanel gameJPanel;
 	private static BeginJPanel beginJPanel;
-	public static boolean gameRuning = false;
-	public static boolean beginLock = true;
+	private static GameKeyListener keyListener;
 
 	//游戏启动入口
 	public static void main(String[] args) {
@@ -38,33 +36,38 @@ public class GameStart {
 		}
 		// 窗体加载（自动化……）
 		gameFrame = new GameFrame();
-		gameJPanel = new GameJPanel();
-		new Thread((Runnable)gameJPanel).start();
-		GameThread gameThread = new GameThread();
-		gameThread.start();
+		keyListener = new GameKeyListener();
+		gameFrame.setKeyListener(keyListener);
+		gameFrame.addListener();
+		
 		beginJPanel = new BeginJPanel("img/bg/title.png");
-		GameKeyListener gameListener = new GameKeyListener();
-		gameFrame.setKeyListener(gameListener);
 		gameFrame.setjPanel(beginJPanel);
 		gameFrame.addJPanel();
 		// 监听加载
-		gameFrame.addListener();
-		// 游戏开始
+		
+		// 界面显示
 		gameFrame.setVisible(true);
 	}
 	
-	public static void changeJPanel(){
-
-		if(gameRuning){
-			beginLock  = true;
-			gameFrame.setjPanel(beginJPanel);
+	public static void changeJPanel(boolean gamePanel){
+		if(GameController.isGameRunning()==gamePanel) return;
+		gameFrame.setVisible(false);
+		if(gamePanel){
+			GameController.setGameRunning(true);
+			gameFrame.setjPanel(new GameJPanel());
+			gameFrame.addJPanel();
+			gameFrame.start();
 		} else {
-			beginLock  = false;
-			gameFrame.setjPanel(gameJPanel);
+			GameController.setGameRunning(false);
+			gameFrame.setjPanel(beginJPanel);
+			gameFrame.addJPanel();
 		}
-		gameFrame.addJPanel();
-		gameRuning = !gameRuning;
+		//System.out.println(gamePanel);
+		gameFrame.setVisible(false);
 		gameFrame.setVisible(true);
+		
+		
+		
 		//gameFrame.start();
 		
 	}

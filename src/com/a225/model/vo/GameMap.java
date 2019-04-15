@@ -53,7 +53,6 @@ public class GameMap {
 					elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
 					break;
 				case '6':
-					//System.out.println("ff");
 					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j));
 					break;
 				default:
@@ -72,7 +71,6 @@ public class GameMap {
 			mapCols = Integer.parseInt(size.get(1));
 			biasX = (windowW-MapSquare.PIXEL_X*mapCols)/2;
 			biasY = (windowH-MapSquare.PIXEL_Y*mapRows)/2;
-			
 			createFloor();
 			createSquare();
 			
@@ -84,6 +82,8 @@ public class GameMap {
 	public void clearMap() {
 		ElementManager.getManager().getElementList("obstacle").clear();
 		ElementManager.getManager().getElementList("fragility").clear();
+		ElementManager.getManager().getElementList("player").clear();
+		ElementManager.getManager().getElementList("explode").clear();
 	}
 
 	public List<List<String>> getMapList(){
