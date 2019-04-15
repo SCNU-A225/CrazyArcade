@@ -105,7 +105,7 @@ public class BubbleExplode extends SuperElement{
 	
 	//ªÒ»°±¨’®∑∂Œßup down left right
 	public void setMoveStep() {
-		List<List<String>> mapList = ElementLoader.getElementLoader().getMapList();
+		List<List<String>> mapList = GameMap.getMapList();
 		int mapJ = (getX()-GameMap.getBiasX())/MapSquare.PIXEL_X;
 		int mapI = (getY()-GameMap.getBiasY())/MapSquare.PIXEL_Y;
 		
