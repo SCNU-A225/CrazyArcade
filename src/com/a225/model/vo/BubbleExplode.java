@@ -88,7 +88,7 @@ public class BubbleExplode extends SuperElement{
 	//ÅĞ¶Ï±¬Õ¨ÓëÎïÌå±ßÔµ³åÍ»
 	@Override
 	public boolean crash(SuperElement se) {
-		int bias = 0;
+		int bias = 8;
 		Rectangle explodeColumn = 
 				new Rectangle(getX()+bias, getY()-getUp()*MapSquare.PIXEL_Y+bias, MapSquare.PIXEL_X-bias, (getUp()+getDown()+1)*MapSquare.PIXEL_Y-bias);//Ë®Åİ±¬Õ¨Ê®×Ö×İÏò
 		Rectangle explodeRow =  
