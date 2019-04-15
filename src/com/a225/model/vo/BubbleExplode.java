@@ -56,8 +56,8 @@ public class BubbleExplode extends SuperElement{
 		int perW = getW()/5;
 		int perH = getH()/5;
 		g.drawImage(img.get(moveX).getImage(), 
-				getX()-2*MapSquare.PIXEL_X, getY()-2*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
-				getX()+3*MapSquare.PIXEL_X, getY()+3*MapSquare.PIXEL_Y, 	//屏幕右下坐标
+				getX()-getLeft()*MapSquare.PIXEL_X, getY()-getUp()*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
+				getX()+(getRight()+1)*MapSquare.PIXEL_X, getY()+(getDown()+1)*MapSquare.PIXEL_Y, 	//屏幕右下坐标
 				(2-getLeft())*perW, (2-getUp())*perH, 				//图片左上坐标
 				(3+getRight())*perW, (3+getDown())*perH, 			//图片右下坐标\
 				null);
@@ -115,23 +115,21 @@ public class BubbleExplode extends SuperElement{
 		for(int i=0; i<mapH; i++) {
 			for(int j=0; j<mapW; j++) {
 				map[i][j]=Integer.parseInt(mapList.get(i).get(j));
-				System.out.print(map[i][j]+" ");
 			}
-			System.out.println();
 		}
 		//up
 		switch(mapI-1) {
 		case -1: setUp(0);break;
 		case 0: 
-			if(map[0][mapJ]>=20) {
+			if(map[0][mapJ]>=11) {
 				setUp(1);
 			}else {
 				setUp(0);
 			}
 			break;
 		default:
-			if(map[mapI-1][mapJ]>=20) {
-				if(map[mapI-2][mapJ]>=20) {
+			if(map[mapI-1][mapJ]>=11) { 
+				if(map[mapI-2][mapJ]>=11) {
 					setUp(2);
 				}else {
 					setUp(1);
@@ -145,15 +143,15 @@ public class BubbleExplode extends SuperElement{
 		switch(mapJ-1) {
 		case -1: setLeft(0);break;
 		case 0:
-			if(map[mapI][0]>=20) {
+			if(map[mapI][0]>=11) {
 				setLeft(1);
 			}else {
 				setLeft(0);
 			}
 			break;
 		default:
-			if(map[mapI][mapJ-1]>=20) {
-				if(map[mapI][mapJ-2]>=20) {
+			if(map[mapI][mapJ-1]>=11) {
+				if(map[mapI][mapJ-2]>=11) {
 					setLeft(2);
 				}else {
 					setLeft(1);
@@ -167,14 +165,14 @@ public class BubbleExplode extends SuperElement{
 		if(mapI==mapH) {
 			setDown(0);
 		}else if (mapI+1==mapH) {
-			if(map[mapI+1][mapJ]>=20)
+			if(map[mapI+1][mapJ]>=11)
 				setDown(1);
 			else
 				setDown(0);
 		}
 		else {
-			if(map[mapI+1][mapJ]>=20) {
-				if(map[mapI+2][mapJ]>=20)
+			if(map[mapI+1][mapJ]>=11) {
+				if(map[mapI+2][mapJ]>=11)
 					setDown(2);
 				else
 					setDown(1);
@@ -187,13 +185,13 @@ public class BubbleExplode extends SuperElement{
 		if(mapJ==mapW) {
 			setRight(0);
 		}else if (mapJ+1==mapW) {
-			if(map[mapI][mapJ+1]>=20)
+			if(map[mapI][mapJ+1]>=11)
 				setRight(1);
 			else
 				setRight(0);
 		}else {
-			if(map[mapI][mapJ+1]>=20) {
-				if(map[mapI][mapJ+2]>=20)
+			if(map[mapI][mapJ+1]>=11) {
+				if(map[mapI][mapJ+2]>=11)
 					setRight(2);
 				else 
 					setRight(1);
@@ -202,8 +200,6 @@ public class BubbleExplode extends SuperElement{
 			}
 		}
 		
-		System.out.println("mapI"+mapI+" mapJ"+mapJ);
-		System.out.println("up"+getUp()+" down"+getDown()+" left"+getLeft()+" right"+getRight());
 		
 	}
 
