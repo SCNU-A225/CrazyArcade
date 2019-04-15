@@ -19,8 +19,8 @@ public class MapSquare extends SuperElement{
 	private int sx,sy,dx,dy;
 	
 	public MapSquare(int i, int j ,ImageIcon img, int sx, int sy, int dx, int dy, int scaleX,int scaleY) {
-		super((j-scaleX+1)*PIXEL_X+ElementManager.getManager().getGameMap().getBiasX(), 
-				(i-scaleY+1)*PIXEL_Y+ElementManager.getManager().getGameMap().getBiasY(), 
+		super((j-scaleX+1)*PIXEL_X+GameMap.getBiasX(), 
+				(i-scaleY+1)*PIXEL_Y+GameMap.getBiasY(), 
 				PIXEL_X*scaleX, PIXEL_Y*scaleY);
 		this.img = img;
 		this.setPictureLoc(sx, sy, dx, dy);

@@ -26,10 +26,10 @@ public class ElementManager {
 	}
 	
 	//元素的Map集合
-	Map<String, List<SuperElement>> map;
+	private Map<String, List<SuperElement>> map;
 	
 	//游戏地图
-	GameMap gameMap;
+	private GameMap gameMap;
 	
 	//初始化函数
 	protected void init() {
