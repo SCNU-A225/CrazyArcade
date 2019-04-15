@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
@@ -55,7 +57,6 @@ public class Player extends SuperElement{
 		int y = i*MapSquare.PIXEL_Y+GameMap.getBiasY();
 		int w = MapSquare.PIXEL_X;
 		int h = MapSquare.PIXEL_Y;
-		System.out.println(x+" "+y);
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
 		return new Player(x, y, w, h, imageMap.get(data.get(0)));
@@ -77,7 +78,7 @@ public class Player extends SuperElement{
 	public void move() {
 		int tx = getX();
 		int ty = getY();
-		int bias = 1;
+		
 
 		switch(moveType) {
 		case TOP: ty-=SPEED;break;
@@ -89,27 +90,62 @@ public class Player extends SuperElement{
 			break;
 		}
 		
-		Rectangle playerRect = new Rectangle(tx, ty, getW(), getH());
-		List<SuperElement> list = ElementManager.getManager().getElementList("obstacle");
-		for(SuperElement se:list) {
-			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
-			if(playerRect.intersects(elementRect)) {
-				return;
-			}
+		boolean det1 = crashDetection(tx, ty, ElementManager.getManager().getElementList("obstacle"));
+		boolean det2 = crashDetection(tx, ty, ElementManager.getManager().getElementList("fragility"));
+		if(det1&&det2) {
+			setX(tx);
+			setY(ty);			
 		}
-		list = ElementManager.getManager().getElementList("fragility");
-		for(SuperElement se:list) {
-			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
-			if(playerRect.intersects(elementRect)) {
-				return;
-			}
-		}
-		setX(tx);
-		setY(ty);
 	}
 	
-	private void crashDtection(List<SuperElement> list){
+	private boolean crashDetection(int tx, int ty, List<SuperElement> list){
+		int bias = 1;
+		int THRESHOLD = 25;
+		Rectangle playerRect = new Rectangle(tx, ty, getW(), getH());
+		Random random = new Random();
 		
+		for(SuperElement se:list) {
+			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
+			if(playerRect.intersects(elementRect)) {
+				switch(moveType) {
+				case TOP:
+				case DOWN:
+					int width=Math.min(getX()+getW(),se.getX()+se.getW())-Math.max(getX(), se.getX());
+					if(width>THRESHOLD) break;
+					if(getX()<se.getX()) {
+						for(int i=0;i<width;i++) {
+							if(random.nextBoolean())
+								setX(getX()-1);
+						}
+					} else {
+						for(int i=0;i<width;i++) {
+							if(random.nextBoolean())
+								setX(getX()+1);
+						}
+					}
+					break;
+				case LEFT:
+				case RIGHT:
+					int height=Math.min(getY()+getH(),se.getY()+se.getH())-Math.max(getY(), se.getY());
+					if(height>THRESHOLD) break;
+					if(getY()<se.getY()) {
+						for(int i=0;i<height;i++) {
+							if(random.nextBoolean())
+								setY(getY()-1);
+						}
+					} else {
+						for(int i=0;i<height;i++) {
+							if(random.nextBoolean())
+								setY(getY()+1);
+						}
+					}
+					break;
+				default:break;
+				}
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	
