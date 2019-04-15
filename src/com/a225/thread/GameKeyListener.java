@@ -18,7 +18,6 @@ public class GameKeyListener implements KeyListener{
 	private List<?> list;
 	
 	public void keyPressed(KeyEvent e) {
-
 		list = ElementManager.getManager().getElementList("player");
 		Player play = (Player) list.get(0);
 		switch (e.getKeyCode()) {

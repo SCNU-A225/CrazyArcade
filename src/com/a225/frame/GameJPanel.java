@@ -10,6 +10,8 @@ import java.util.TreeSet;
 
 import javax.swing.JPanel;
 
+import com.a225.main.GameController;
+import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
 
@@ -31,30 +33,23 @@ public class GameJPanel extends JPanel implements Runnable{
 	
 	@Override
 	public void run() {
-		while(true) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		//while(true){
+			while(GameController.isGameRunning()) {
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				this.repaint(); //每隔100毫秒刷新画板
 			}
-			this.repaint(); //每隔100毫秒刷新画板
-		}
+		//}
+		
 	}
 	
 	//展示元素管理器中所有的元素
 	public void gameRuntime(Graphics g) {
 		Map<String, List<SuperElement>> map = ElementManager.getManager().getMap();
-		
-//		List<SuperElement> tempList = new ArrayList<>();
-//		for (List<SuperElement> list:map.values()) {
-//			tempList.addAll(list);
-//		}
-//		tempList.sort(ElementManager.getManager().getElementComparator());
-//		for (SuperElement superElement: tempList) {
-//			superElement.showElement(g);
-//		}
-
 		Set<String> set = map.keySet();
 		Set<String> sortSet = new TreeSet<String>(ElementManager.getManager().getMapKeyComparator());
         sortSet.addAll(set);
