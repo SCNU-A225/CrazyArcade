@@ -86,7 +86,7 @@ public class GameMap {
 					elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
 					break;
 				case '6':
-					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j));
+					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j, 0));//player1´«0 player2´«1
 					break;
 				default:
 					break;

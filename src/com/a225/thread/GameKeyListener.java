@@ -27,7 +27,13 @@ public class GameKeyListener implements KeyListener{
 		int code = e.getKeyCode();
 		switch (code) {
 		case 10:
-			player1.setAttack(true);break;
+			if(player1.isKeepAttack())
+				player1.setAttack(false);
+			else {
+				player1.setKeepAttack(true);
+				player1.setAttack(true);
+			}
+			break;
 		case 37:
 		case 38:
 		case 39:
@@ -69,6 +75,7 @@ public class GameKeyListener implements KeyListener{
 		switch (code) {
 		case 10:
 			player1.setAttack(false);
+			player1.setKeepAttack(false);
 			break;
 		case 37:
 		case 38:
