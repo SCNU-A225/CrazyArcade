@@ -72,5 +72,3 @@ com.a225.pro 配置文件
 Game.pro	配置文件入口
 Images.pro	图片配置文件
 
-
-

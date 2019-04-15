@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.a225.main.GameController;
+import com.a225.main.GameStart;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.vo.GameMap;
 import com.a225.model.vo.MapFloor;
@@ -51,7 +54,7 @@ public class ElementManager {
 	
 	//¼üÖµ±È½ÏÆ÷
 	public Comparator<String> getMapKeyComparator() {
-		Map<String, Integer> priorityMap = new HashMap<>();
+		final Map<String, Integer> priorityMap = new HashMap<>();
 		priorityMap.put("player", 50);
 		priorityMap.put("bubble", 10);
 		priorityMap.put("explode", 30);
@@ -126,6 +129,7 @@ public class ElementManager {
 
 	public void overGame() {
 		gameMap.clearMap();
+		GameStart.changeJPanel(false);
 	}
 
 }

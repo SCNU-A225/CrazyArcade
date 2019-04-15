@@ -51,8 +51,8 @@ public class Player extends SuperElement{
 	}
 	
 	public static Player createPlayer(List<String> data,int i,int j) {
-		int x = j*MapSquare.PIXEL_X+ElementManager.getManager().getGameMap().getBiasX();
-		int y = i*MapSquare.PIXEL_Y+ElementManager.getManager().getGameMap().getBiasY();
+		int x = j*MapSquare.PIXEL_X+GameMap.getBiasX();
+		int y = i*MapSquare.PIXEL_Y+GameMap.getBiasY();
 		int w = MapSquare.PIXEL_X;
 		int h = MapSquare.PIXEL_Y;
 		Map<String, ImageIcon> imageMap = 
@@ -93,7 +93,7 @@ public class Player extends SuperElement{
 		for(SuperElement se:list) {
 			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
 			if(playerRect.intersects(elementRect)) {
-				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
+//				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
 				return;
 			}
 		}
@@ -101,7 +101,7 @@ public class Player extends SuperElement{
 		for(SuperElement se:list) {
 			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
 			if(playerRect.intersects(elementRect)) {
-				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
+//				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
 				return;
 			}
 		}
@@ -152,7 +152,7 @@ public class Player extends SuperElement{
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	

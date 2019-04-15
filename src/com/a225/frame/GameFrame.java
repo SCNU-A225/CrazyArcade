@@ -2,8 +2,12 @@ package com.a225.frame;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameThread;
 
 /**
@@ -23,8 +27,9 @@ public class GameFrame  extends JFrame{
 
 //	初始化
 	protected void init() {
+		List<String> str = ElementLoader.getElementLoader().getGameInfoMap().get("windowSize");
 		this.setTitle("CrazyArcade");
-		this.setSize(1200, 800);
+		this.setSize(new Integer(str.get(0)).intValue(), new Integer(str.get(1)).intValue());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -40,8 +45,9 @@ public class GameFrame  extends JFrame{
 	
 //	画板注入
 	public void addJPanel() {
-		if(jPanel!=null)
-			this.add(jPanel);
+		if(jPanel!=null){
+			this.setContentPane(jPanel);
+		}
 	}
 	
 //	窗体启动
@@ -55,6 +61,7 @@ public class GameFrame  extends JFrame{
 		}
 		this.setVisible(true);
 	}
+	
 	
 	
 //	getter and setter
@@ -80,6 +87,8 @@ public class GameFrame  extends JFrame{
 
 	public void setjPanel(JPanel jPanel) {
 		this.jPanel = jPanel;
+		//this.setContentPane(jPanel);
+		//this.jPanel.setBounds(0, 0, getWidth(), getHeight());
 	}
 	
 }
