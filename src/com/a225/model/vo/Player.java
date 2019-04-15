@@ -98,20 +98,27 @@ public class Player extends SuperElement{
 		}
 	}
 	
+	/**
+	 * 碰撞检测+平滑移动
+	 * @param tx
+	 * @param ty
+	 * @param list
+	 * @return 是否碰撞
+	 */
 	private boolean crashDetection(int tx, int ty, List<SuperElement> list){
-		int bias = 1;
-		int THRESHOLD = 25;
+		int bias = 1;//判断碰撞偏差值
+		int THRESHOLD = 25;//平滑移动阈值
 		Rectangle playerRect = new Rectangle(tx, ty, getW(), getH());
 		Random random = new Random();
 		
 		for(SuperElement se:list) {
 			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
-			if(playerRect.intersects(elementRect)) {
-				switch(moveType) {
+			if(playerRect.intersects(elementRect)) {//如果碰撞
+				switch(moveType) {//判断方向
 				case TOP:
 				case DOWN:
 					int width=Math.min(getX()+getW(),se.getX()+se.getW())-Math.max(getX(), se.getX());
-					if(width>THRESHOLD) break;
+					if(width>THRESHOLD) break;//超过阈值不做平滑处理
 					if(getX()<se.getX()) {
 						for(int i=0;i<width;i++) {
 							if(random.nextBoolean())

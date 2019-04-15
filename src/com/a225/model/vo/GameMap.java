@@ -124,9 +124,18 @@ public class GameMap {
 	
 	/**
 	 * 设置地图ij点方块类型
+	 * @param list
+	 * @param type
+	 */
+	public void setBlockSquareType(List<Integer> list,SquareType type) {
+		mapList.get(list.get(0)).set(list.get(1), type.value+"");
+	}
+	
+	/**
+	 * 设置地图ij点方块类型
 	 * @param i
 	 * @param j
-	 * @param type 方块类型
+	 * @param type
 	 */
 	public void setBlockSquareType(int i,int j,SquareType type) {
 		mapList.get(i).set(j, type.value+"");
