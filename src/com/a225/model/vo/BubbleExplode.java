@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 
 import com.a225.model.loader.ElementLoader;
+import com.a225.model.manager.ElementManager;
 
 public class BubbleExplode extends SuperElement{
 	
@@ -103,61 +104,72 @@ public class BubbleExplode extends SuperElement{
 		return (column||row);
 	}
 	
+	
 	//获取爆炸范围up down left right
 	public void setMoveStep() {
+		GameMap gameMap = ElementManager.getManager().getGameMap();
 		List<List<String>> mapList = GameMap.getMapList();
 		int mapJ = (getX()-GameMap.getBiasX())/MapSquare.PIXEL_X;
 		int mapI = (getY()-GameMap.getBiasY())/MapSquare.PIXEL_Y;
 		
 		int mapH = mapList.size();
 		int mapW = mapList.get(0).size();
-		int[][] map = new int[mapH][mapW];
-		for(int i=0; i<mapH; i++) {
-			for(int j=0; j<mapW; j++) {
-				map[i][j]=Integer.parseInt(mapList.get(i).get(j));
-			}
-		}
+//		int[][] map = new int[mapH][mapW];
+//		for(int i=0; i<mapH; i++) {
+//			for(int j=0; j<mapW; j++) {
+//				map[i][j]=Integer.parseInt(mapList.get(i).get(j));
+//			}
+//		}
 		//up
 		switch(mapI-1) {
 		case -1: setUp(0);break;
 		case 0: 
-			if(map[0][mapJ]>=11) {
-				setUp(1);
-			}else {
+			if(gameMap.getBlockSquareType(0, mapJ)==GameMap.SquareType.OBSTACLE) {
 				setUp(0);
+			}else {
+				setUp(1);
 			}
 			break;
 		default:
-			if(map[mapI-1][mapJ]==11) {  //是路
-				if(map[mapI-2][mapJ]>=11) { //可破坏
+			if(gameMap.getBlockSquareType(mapI-1, mapJ)==GameMap.SquareType.FLOOR) {  //是路
+				if(gameMap.getBlockSquareType(mapI-2, mapJ)==GameMap.SquareType.OBSTACLE) { //不可破坏
+					setUp(1);
+				}else {
 					setUp(2);
+				}
+			}else { //不是路
+				if(gameMap.getBlockSquareType(mapI-1, mapJ)==GameMap.SquareType.OBSTACLE) { //不可破坏
+					setUp(0);
 				}else {
 					setUp(1);
 				}
-			}else { //不可破坏
-				setUp(0);
 			}
 		}
 		
+		//Todo
 		//left
 		switch(mapJ-1) {
 		case -1: setLeft(0);break;
 		case 0:
-			if(map[mapI][0]>=11) {
+			if(gameMap.getBlockSquareType(mapI, 0)==GameMap.SquareType.OBSTACLE) {
 				setLeft(1);
 			}else {
 				setLeft(0);
 			}
 			break;
 		default:
-			if(map[mapI][mapJ-1]>=11) {
-				if(map[mapI][mapJ-2]>=11) {
+			if(gameMap.getBlockSquareType(mapI, mapJ-1)==GameMap.SquareType.FLOOR) {//是路
+				if(gameMap.getBlockSquareType(mapI, mapJ-2)==GameMap.SquareType.OBSTACLE) { //不可破坏
+					setLeft(1);
+				}else {
 					setLeft(2);
+				}
+			}else {//不是路
+				if(gameMap.getBlockSquareType(mapI, mapJ-1)==GameMap.SquareType.OBSTACLE) { //不可破坏
+					setLeft(0);
 				}else {
 					setLeft(1);
 				}
-			}else {
-				setLeft(0);
 			}
 		}
 		
@@ -165,19 +177,23 @@ public class BubbleExplode extends SuperElement{
 		if(mapI==mapH) {
 			setDown(0);
 		}else if (mapI+1==mapH) {
-			if(map[mapI+1][mapJ]>=11)
-				setDown(1);
-			else
+			if(gameMap.getBlockSquareType(mapI+1,mapJ)==GameMap.SquareType.OBSTACLE)
 				setDown(0);
+			else
+				setDown(1);
 		}
 		else {
-			if(map[mapI+1][mapJ]>=11) {
-				if(map[mapI+2][mapJ]>=11)
-					setDown(2);
-				else
+			if(gameMap.getBlockSquareType(mapI+1, mapJ)==GameMap.SquareType.FLOOR) { //是路
+				if(gameMap.getBlockSquareType(mapI+2, mapJ)==GameMap.SquareType.OBSTACLE)//不可破坏
 					setDown(1);
-			}else {
-				setDown(0);
+				else
+					setDown(2);
+			}else {//不是路
+				if(gameMap.getBlockSquareType(mapI+1, mapJ)==GameMap.SquareType.OBSTACLE) { //不可破坏
+					setDown(0);
+				}else {
+					setDown(1);
+				}
 			}
 		}
 		
@@ -185,18 +201,22 @@ public class BubbleExplode extends SuperElement{
 		if(mapJ==mapW) {
 			setRight(0);
 		}else if (mapJ+1==mapW) {
-			if(map[mapI][mapJ+1]>=11)
-				setRight(1);
+			if(gameMap.getBlockSquareType(mapI,mapJ+1)==GameMap.SquareType.OBSTACLE)
+				setRight(0);
 			else
-				setRight(0);
+				setRight(1);
 		}else {
-			if(map[mapI][mapJ+1]>=11) {
-				if(map[mapI][mapJ+2]>=11)
-					setRight(2);
-				else 
+			if(gameMap.getBlockSquareType(mapI,mapJ+1)==GameMap.SquareType.FLOOR) {//是路
+				if(gameMap.getBlockSquareType(mapI,mapJ+2)==GameMap.SquareType.OBSTACLE)
 					setRight(1);
-			}else {
-				setRight(0);
+				else 
+					setRight(2);
+			}else {//不是路
+				if(gameMap.getBlockSquareType(mapI, mapJ+1)==GameMap.SquareType.OBSTACLE) { //不可破坏
+					setRight(0);
+				}else {
+					setRight(1);
+				}
 			}
 		}
 		
