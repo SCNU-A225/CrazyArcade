@@ -70,9 +70,10 @@ public class GameThread extends Thread{
 		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
 		for(int i=0; i<players.size(); i++) {
 			for(int j=0; j<explodes.size(); j++) {
-				if(explodes.get(j).crash(players.get(i)))
+				if(explodes.get(j).crash(players.get(i))) {
 					players.get(i).setAlive(false);
 					running = false;
+				}
 			}
 		}
 	}
