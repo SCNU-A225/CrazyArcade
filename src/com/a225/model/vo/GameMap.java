@@ -92,12 +92,10 @@ public class GameMap {
 				default:
 					break;
 				}
-				
 			}
 		}
 	}
 	
-	//´´½¨
 	public void createMap(String pro){
 		try {
 			mapList = ElementLoader.getElementLoader().readMapPro(pro);
@@ -106,7 +104,6 @@ public class GameMap {
 			mapCols = Integer.parseInt(size.get(1));
 			biasX = (windowW-MapSquare.PIXEL_X*mapCols)/2;
 			biasY = (windowH-MapSquare.PIXEL_Y*mapRows)/2;
-			
 			createFloor();
 			createSquare();
 			
@@ -171,6 +168,8 @@ public class GameMap {
 		ElementManager.getManager().getElementList("obstacle").clear();
 		ElementManager.getManager().getElementList("fragility").clear();
 		ElementManager.getManager().getElementList("floor").clear();
+		ElementManager.getManager().getElementList("player").clear();
+		ElementManager.getManager().getElementList("explode").clear();
 	}
 
 	public static List<List<String>> getMapList(){

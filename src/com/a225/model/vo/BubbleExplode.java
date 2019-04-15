@@ -112,13 +112,13 @@ public class BubbleExplode extends SuperElement{
 		int mapH = mapList.size();
 		int mapW = mapList.get(0).size();
 		int[][] map = new int[mapH][mapW];
-		for(int i=0; i<mapH; i++) {
-			for(int j=0; j<mapW; j++) {
-				map[i][j]=Integer.parseInt(mapList.get(i).get(j));
-				System.out.print(map[i][j]+" ");
-			}
-			System.out.println();
-		}
+//		for(int i=0; i<mapH; i++) {
+//			for(int j=0; j<mapW; j++) {
+//				map[i][j]=Integer.parseInt(mapList.get(i).get(j));
+//				System.out.print(map[i][j]+" ");
+//			}
+//			System.out.println();
+//		}
 		//up
 		switch(mapI-1) {
 		case -1: setUp(0);break;
@@ -202,8 +202,8 @@ public class BubbleExplode extends SuperElement{
 			}
 		}
 		
-		System.out.println("mapI"+mapI+" mapJ"+mapJ);
-		System.out.println("up"+getUp()+" down"+getDown()+" left"+getLeft()+" right"+getRight());
+//		System.out.println("mapI"+mapI+" mapJ"+mapJ);
+//		System.out.println("up"+getUp()+" down"+getDown()+" left"+getLeft()+" right"+getRight());
 		
 	}
 

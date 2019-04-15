@@ -7,6 +7,16 @@ PlayerB=img/player/player2.png
 mapFloor=img/map/1.png
 mapObstacle=img/map/2.png
 floor=img/map/floor.png
+#道具路径
+magicBox1=img/item/1.png
+magicBox2=img/item/2.png
+magicBox3=img/item/3.png
+magicBox4=img/item/4.png
+magicBox5=img/item/5.png
+magicBox6=img/item/6.png
+magicBox7=img/item/7.png
+magicBox8=img/item/8.png
+magicBox9=img/item/9.png
 #Bubble水泡路径
 Bubble=img/boom/1.png
 #水泡爆炸图片路径

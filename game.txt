@@ -57,20 +57,15 @@ GameMouseListener 游戏鼠标监听器
 
 com.a225.model.loader
 ElementLoader	元素加载器
-ElementFactory	工厂类
 
 com.a225.model.manager
 ElementLoader	元素管理器
 MoveTypeEnum	移动状态枚举类
 
 com.a225.model.vo vo类
-SuperElement	顶级元素抽象类
 Player	玩家类
 Enemy	敌人类
 
 com.a225.pro 配置文件
-Game.pro	配置文件入口
-Images.pro	图片配置文件
-
-
+game.pro	配置文件入口
 
