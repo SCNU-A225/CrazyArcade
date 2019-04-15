@@ -25,7 +25,7 @@ public class ElementLoader {
 	private Map<String, List<String>> gameInfoMap;//游戏信息字典
 	private Map<String, ImageIcon> imageMap;//图片字典
 	private Map<String, List<String>> squareTypeMap;//方块类型字典
-	private List<List<String>> mapList;//地图
+	
 	
 
 	//构造函数
@@ -34,7 +34,6 @@ public class ElementLoader {
 		gameInfoMap = new HashMap<>();		
 		imageMap = new HashMap<>();
 		squareTypeMap = new HashMap<>();
-		mapList = new ArrayList<>();
 	}
 	
 	//单例模式
@@ -107,8 +106,8 @@ public class ElementLoader {
 	}
 	
 	//读取特定地图
-	public void readMapPro(String mapPro) throws IOException{
-		mapList = new ArrayList<>();
+	public List<List<String>> readMapPro(String mapPro) throws IOException{
+		List<List<String>> mapList = new ArrayList<>();
 		InputStream inputStream = 
 				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get(mapPro).get(0));
 		properties.clear();
@@ -122,6 +121,7 @@ public class ElementLoader {
 			}
 		}
 		Collections.reverse(mapList);
+		return mapList;
 	}
 	
 	/**
@@ -140,10 +140,6 @@ public class ElementLoader {
 
 	public Map<String, ImageIcon> getImageMap() {
 		return imageMap;
-	}
-
-	public List<List<String>> getMapList() {
-		return mapList;
 	}
 
 	public Map<String, List<String>> getSquareTypeMap() {
