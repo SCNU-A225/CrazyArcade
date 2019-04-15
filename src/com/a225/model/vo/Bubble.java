@@ -20,31 +20,37 @@ public class Bubble extends SuperElement{
 	
 	private ImageIcon img;
 	private int moveX;
+	private int playerNum;//表示对应玩家的炸弹，0为玩家一，1为玩家二
 
 	//构造函数
-	public Bubble(int x, int y, int w, int h, ImageIcon img) {
+	public Bubble(int x, int y, int w, int h, ImageIcon img, int playerNum) {
 		super(x, y, w, h);
 		this.img = img;
+		this.playerNum = playerNum;
 		moveX = 0;
+		//地图对应位置设置为Bubble
+		GameMap gameMap = ElementManager.getManager().getGameMap();
+		List<Integer> maplist = GameMap.getIJ(x, y);
+		gameMap.setBlockSquareType(maplist.get(0), maplist.get(1), GameMap.SquareType.BUBBLE);
 	}
 	
 	//创建气泡1
-	public static Bubble createBubble(int x, int y,List<String> list) {
+	public static Bubble createBubble(int x, int y,List<String> list,int playerNum) {
 		//list=[Bubble,w,h]
 		int w = Integer.parseInt(list.get(1));
 		int h = Integer.parseInt(list.get(2));
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
-		return new Bubble(x, y, w, h, imageMap.get(list.get(0)));
+		return new Bubble(x, y, w, h, imageMap.get(list.get(0)),playerNum);
 	}
 	//创建气泡2
-	public static Bubble createBubble(List<String> list){
+	public static Bubble createBubble(List<String> list,int playerNum){
 		//list=[水泡图片，图片宽w，图片高h]
 		int w = Integer.parseInt(list.get(1));
 		int h = Integer.parseInt(list.get(2));
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
-		return new Bubble(0, 0, w, h, imageMap.get(list.get(0)));
+		return new Bubble(0, 0, w, h, imageMap.get(list.get(0)),playerNum);
 	}
 
 	@Override
@@ -90,6 +96,16 @@ public class Bubble extends SuperElement{
 			List<SuperElement> list = 
 					ElementManager.getManager().getElementList("explode");
 			list.add(BubbleExplode.createExplode(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("explode")));
+			
+			//将地图位置设为floor
+			GameMap gameMap = ElementManager.getManager().getGameMap();
+			List<Integer> maplist = GameMap.getIJ(getX(), getY());
+			gameMap.setBlockSquareType(maplist.get(0), maplist.get(1), GameMap.SquareType.FLOOR);
+			
+			//改变炸弹玩家已经放在炸弹数bubbleNum
+			List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
+			Player player = (Player) list2.get(playerNum);
+			player.setBubbleNum(player.getBubbleNum()-1);
 		}
 	}
 
@@ -110,4 +126,7 @@ public class Bubble extends SuperElement{
 		this.moveX = moveX;
 	}
 	
+	public int getPlayerNum() {
+		return this.playerNum;
+	}
 }

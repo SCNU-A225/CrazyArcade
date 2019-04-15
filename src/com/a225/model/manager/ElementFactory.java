@@ -33,9 +33,9 @@ public class ElementFactory {
 
 		switch(name) {
 		case "playerOne":
-			return Player.createPlayer(gameInfoMap.get(name));
+			return Player.createPlayer(gameInfoMap.get(name),0);
 		case "playerTwo":
-			return Player.createPlayer(gameInfoMap.get(name));
+			return Player.createPlayer(gameInfoMap.get(name),1);
 //		case "bubble":
 //			return Bubble.createBubble(gameInfoMap.get(name));
 		}

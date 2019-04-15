@@ -47,6 +47,11 @@ public class MapFragility extends MapSquare{
 		Random rd = new Random();
 		int creating = rd.nextInt(2);
 		if(creating==1) elmenteMap.get("magicBox").add(MagicBox.createMagicBox(getX(), getY()));
+		if(!isAlive()) {
+			GameMap gameMap = ElementManager.getManager().getGameMap();
+			List<Integer> list = GameMap.getIJ(getX(), getY());
+			gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);
+		}
 	}
 
 }

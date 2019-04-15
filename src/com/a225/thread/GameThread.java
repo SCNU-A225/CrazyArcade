@@ -54,6 +54,7 @@ public class GameThread extends Thread{
 			
 			//玩家与炸弹碰撞死亡
 			playerBoom();
+			fragilityBoom();
 			
 			//玩家与道具碰撞效果
 			playerMagicBox();
@@ -74,9 +75,22 @@ public class GameThread extends Thread{
 		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
 		for(int i=0; i<players.size(); i++) {
 			for(int j=0; j<explodes.size(); j++) {
-				if(explodes.get(j).crash(players.get(i)))
+				if(explodes.get(j).crash(players.get(i))){
 					players.get(i).setAlive(false);
 					running = false;
+				}
+			}
+		}
+	}
+	//障碍物与炸弹碰撞判断
+	private void fragilityBoom() {
+		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
+		List<SuperElement> fragility = ElementManager.getManager().getElementList("fragility");
+		for(int i=0; i<fragility.size(); i++) {
+			for(int j=0; j<explodes.size(); j++) {
+				if(explodes.get(j).crash(fragility.get(i))) {
+					fragility.get(i).setAlive(false);
+				}
 			}
 		}
 	}
