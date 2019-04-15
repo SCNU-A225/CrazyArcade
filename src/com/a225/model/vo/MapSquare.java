@@ -1,6 +1,9 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 
 import com.a225.model.manager.ElementManager;
@@ -47,6 +50,10 @@ public class MapSquare extends SuperElement{
 	public void move() {}
 
 	@Override
-	public void destroy() {}
+	public void destroy() {
+//		传入位置，调用MagicBox的create方法
+		Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
+		elmenteMap.get("magicBox").add(MagicBox.createMagicBox(getX(), getY()));	
+	}
 	
 }

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.a225.main.GameController;
 import com.a225.main.GameStart;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.vo.GameMap;
@@ -46,9 +45,10 @@ public class ElementManager {
 		map.put("player", new ArrayList<SuperElement>());//玩家
 		map.put("bubble", new ArrayList<SuperElement>());//水泡
 		map.put("explode",new ArrayList<SuperElement>());//水泡爆炸
-		map.put("fragility", new ArrayList<SuperElement>());
-		map.put("floor", new ArrayList<SuperElement>());
-		map.put("obstacle", new ArrayList<SuperElement>());
+		map.put("fragility", new ArrayList<SuperElement>());//可破坏方块
+		map.put("floor", new ArrayList<SuperElement>());//地板
+		map.put("obstacle", new ArrayList<SuperElement>());//不可破坏方块
+		map.put("magicBox", new ArrayList<SuperElement>());//道具
 	}
 	
 	
@@ -56,11 +56,13 @@ public class ElementManager {
 	public Comparator<String> getMapKeyComparator() {
 		final Map<String, Integer> priorityMap = new HashMap<>();
 		priorityMap.put("player", 50);
-		priorityMap.put("bubble", 10);
-		priorityMap.put("explode", 30);
-		priorityMap.put("fragility", 20);
-		priorityMap.put("floor", -10);
 		priorityMap.put("obstacle", 40);
+		priorityMap.put("explode", 30);
+		priorityMap.put("magicBox", 25);
+		priorityMap.put("fragility", 20);
+		priorityMap.put("bubble", 10);
+		priorityMap.put("floor", -10);
+		
 		return new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {

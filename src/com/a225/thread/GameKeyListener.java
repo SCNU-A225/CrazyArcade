@@ -17,6 +17,7 @@ public class GameKeyListener implements KeyListener{
 
 	private List<?> list;
 	
+	@Override
 	public void keyPressed(KeyEvent e) {
 		list = ElementManager.getManager().getElementList("player");
 		Player play = (Player) list.get(0);
@@ -37,6 +38,7 @@ public class GameKeyListener implements KeyListener{
 	}
 
 	
+	@Override
 	public void keyReleased(KeyEvent e) {
 		List<?> list = ElementManager.getManager().getElementList("player");
 		Player play = (Player) list.get(0);

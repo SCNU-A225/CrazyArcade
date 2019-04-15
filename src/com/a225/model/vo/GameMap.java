@@ -2,7 +2,6 @@ package com.a225.model.vo;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.a225.model.loader.ElementLoader;
@@ -86,6 +85,9 @@ public class GameMap {
 				case '2': 
 					elmenteMap.get("fragility").add(MapFragility.createMapFragility(typeMap.get(type), i, j));
 					break;
+				case '3':
+					elmenteMap.get("magicBox").add(MagicBox.createMagicBox(i, j));
+					break;
 				case '6':
 					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j));
 					break;
@@ -130,6 +132,7 @@ public class GameMap {
 	 * @param type 方块类型
 	 */
 	public void setBlockSquareType(int i,int j,SquareType type) {
+		System.out.println(i+" "+j);
 		mapList.get(i).set(j, type.value+"");
 	}
 	
@@ -151,16 +154,16 @@ public class GameMap {
 	//将xy转换为ij
 	public List<Integer> getIJ(int x,int y){
 		List<Integer> list = new ArrayList<>();
-		list.add((x-biasX)/MapSquare.PIXEL_X);
 		list.add((y-biasY)/MapSquare.PIXEL_Y);
+		list.add((x-biasX)/MapSquare.PIXEL_X);
 		return list;
 	}
 	
 	//将ij转换为xy
 	public List<Integer> getXY(int i,int j){
 		List<Integer> list = new ArrayList<>();
-		list.add(j*MapSquare.PIXEL_X+biasX);
 		list.add(i*MapSquare.PIXEL_Y+biasY);
+		list.add(j*MapSquare.PIXEL_X+biasX);
 		return list;
 	}
 	

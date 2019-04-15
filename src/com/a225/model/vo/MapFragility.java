@@ -1,10 +1,13 @@
 package com.a225.model.vo;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
+import com.a225.model.manager.ElementManager;
 
 /**
  * 地图可破坏物体类
@@ -38,7 +41,12 @@ public class MapFragility extends MapSquare{
 	
 	@Override
 	public void destroy() {
-		super.destroy();
+//		判断是否被破坏
+//		if
+		Map<String, List<SuperElement>> elmenteMap = ElementManager.getManager().getMap();
+		Random rd = new Random();
+		int creating = rd.nextInt(2);
+		if(creating==1) elmenteMap.get("magicBox").add(MagicBox.createMagicBox(getX(), getY()));
 	}
 
 }

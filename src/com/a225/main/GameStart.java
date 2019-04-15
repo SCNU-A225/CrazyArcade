@@ -1,14 +1,11 @@
 package com.a225.main;
 
 import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
 import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameKeyListener;
-import com.a225.thread.GameThread;
 
 /**
  * 游戏启动入口

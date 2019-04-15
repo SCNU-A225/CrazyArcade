@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.a225.main.GameController;
-import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
+import com.a225.model.vo.MagicBox;
 import com.a225.model.vo.SuperElement;
 
 /**
@@ -18,6 +18,7 @@ public class GameThread extends Thread{
 	private boolean twoPlayer = false;
 	private boolean running = true;
 	
+	@Override
 	public void run() {
 		while(GameController.isGameRunning()) {
 			//加载地图
@@ -54,6 +55,9 @@ public class GameThread extends Thread{
 			//玩家与炸弹碰撞死亡
 			playerBoom();
 			
+			//玩家与道具碰撞效果
+			playerMagicBox();
+			
 			//控制runGame进程
 			try {	
 				sleep(50);
@@ -77,6 +81,20 @@ public class GameThread extends Thread{
 		}
 	}
 	
+	//玩家与道具碰撞判断
+	private void playerMagicBox() {
+		List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
+		List<SuperElement> magicBoxList = ElementManager.getManager().getElementList("magicBox");
+		for(int i=0; i<playerList.size(); i++) {
+			for(int j=magicBoxList.size()-1; j>=0; j--) {
+				if(magicBoxList.get(j).crash(playerList.get(i))){
+					MagicBox magicBox = (MagicBox) magicBoxList.get(j);
+					magicBox.setEaten(true);
+				}
+				
+			}
+		}
+	}
 	
 	//runGame调用，加入拓展
 	public void linkGame() {}
