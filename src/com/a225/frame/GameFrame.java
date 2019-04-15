@@ -50,6 +50,13 @@ public class GameFrame  extends JFrame{
 		}
 	}
 	
+	public void removeListener() {
+		if(keyListener!=null) {
+			this.removeKeyListener(keyListener);
+			keyListener = null;
+		}
+	}
+	
 //	窗体启动
 	public void start() {
 		//线程启动

@@ -26,7 +26,7 @@ public class Player extends SuperElement{
 	private boolean attack;//记录攻击状态，默认为false
 	private boolean keepAttack;//记录是否为一直按着攻击键，实现一次按键只放一个水泡
 	
-	private static final int SPEED = 5;
+	private static final int SPEED = 8;
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img) {
@@ -55,6 +55,7 @@ public class Player extends SuperElement{
 		int y = i*MapSquare.PIXEL_Y+GameMap.getBiasY();
 		int w = MapSquare.PIXEL_X;
 		int h = MapSquare.PIXEL_Y;
+		System.out.println(x+" "+y);
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
 		return new Player(x, y, w, h, imageMap.get(data.get(0)));
@@ -76,7 +77,7 @@ public class Player extends SuperElement{
 	public void move() {
 		int tx = getX();
 		int ty = getY();
-		int bias = SPEED;
+		int bias = 1;
 
 		switch(moveType) {
 		case TOP: ty-=SPEED;break;
@@ -93,7 +94,6 @@ public class Player extends SuperElement{
 		for(SuperElement se:list) {
 			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
 			if(playerRect.intersects(elementRect)) {
-//				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
 				return;
 			}
 		}
@@ -101,13 +101,18 @@ public class Player extends SuperElement{
 		for(SuperElement se:list) {
 			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
 			if(playerRect.intersects(elementRect)) {
-//				System.out.println(tx+" "+ty+" "+"b:"+se.getX()+" "+se.getY());
 				return;
 			}
 		}
 		setX(tx);
 		setY(ty);
 	}
+	
+	private void crashDtection(List<SuperElement> list){
+		
+	}
+	
+	
 	
 	//重写父类模板
 	@Override
@@ -137,22 +142,16 @@ public class Player extends SuperElement{
 	//添加气泡
 	public void addBubble() {
 		if(attack) {
-			int bX = (getX()-GameMap.getBiasX())%MapSquare.PIXEL_X;
-			bX = bX<(MapSquare.PIXEL_X/2)?0:1;
-			int bY = (getY()-GameMap.getBiasY())%MapSquare.PIXEL_Y;
-			bY = bY<(MapSquare.PIXEL_Y/2)?0:1;
-			int bubbleX = GameMap.getBiasX()+MapSquare.PIXEL_X*((getX()-GameMap.getBiasX())/MapSquare.PIXEL_X+bX);
-			int bubbleY = GameMap.getBiasY()+MapSquare.PIXEL_Y*((getY()-GameMap.getBiasY())/MapSquare.PIXEL_Y+bY);
+			List<Integer> loc = GameMap.getXY(GameMap.getIJ(getX()+getW()/2, getY()+getH()/2));
 			List<SuperElement> list = 
 					ElementManager.getManager().getElementList("bubble");
-			list.add(Bubble.createBubble(bubbleX, bubbleY, ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
+			list.add(Bubble.createBubble(loc.get(0), loc.get(1), ElementLoader.getElementLoader().getGameInfoMap().get("bubble")));
 			attack = false;
 		}
 	}
 
 	@Override
 	public void destroy() {
-		
 		
 	}
 	

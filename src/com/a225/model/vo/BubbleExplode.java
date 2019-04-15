@@ -57,17 +57,11 @@ public class BubbleExplode extends SuperElement{
 		int perW = getW()/5;
 		int perH = getH()/5;
 		g.drawImage(img.get(moveX).getImage(), 
-				getX()-getLeft()*MapSquare.PIXEL_X, getY()-getUp()*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
-				getX()+(getRight()+1)*MapSquare.PIXEL_X, getY()+(getDown()+1)*MapSquare.PIXEL_Y, 	//屏幕右下坐标
-				(2-getLeft())*perW, (2-getUp())*perH, 				//图片左上坐标
-				(3+getRight())*perW, (3+getDown())*perH, 			//图片右下坐标\
+				getX()-left*MapSquare.PIXEL_X, getY()-up*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
+				getX()+(right+1)*MapSquare.PIXEL_X, getY()+(down+1)*MapSquare.PIXEL_Y, 	//屏幕右下坐标
+				(2-left)*perW, (2-up)*perH, 				//图片左上坐标
+				(3+right)*perW, (3+down)*perH, 			//图片右下坐标\
 				null);
-//		g.drawImage(img.get(moveX).getImage(), 
-//				getX()-2*MapSquare.PIXEL_X, getY()-2*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
-//				getX()+3*MapSquare.PIXEL_X, getY()+3*MapSquare.PIXEL_Y, 	//屏幕右下坐标
-//				0, 0, 				//图片左上坐标
-//				getW(), getH(), 			//图片右下坐标\
-//				null);
 	}
 
 	//更换图片，图片播完后进入消亡状态
@@ -94,133 +88,58 @@ public class BubbleExplode extends SuperElement{
 	//判断爆炸与物体边缘冲突
 	@Override
 	public boolean crash(SuperElement se) {
+		int bias = 0;
 		Rectangle explodeColumn = 
-				new Rectangle(getX(), getY()-getUp()*MapSquare.PIXEL_Y, MapSquare.PIXEL_X, (getUp()+getDown()+1)*MapSquare.PIXEL_Y);//水泡爆炸十字纵向
-		Rectangle explodeRow = 
-				new Rectangle(getX()-getLeft()*MapSquare.PIXEL_X, getY(), (getLeft()+getRight()+1)*MapSquare.PIXEL_X, MapSquare.PIXEL_Y);//水泡爆炸十字横向
-		Rectangle rectangle = new Rectangle(se.getX(), se.getY(), se.getW(), se.getH());
+				new Rectangle(getX()+bias, getY()-getUp()*MapSquare.PIXEL_Y+bias, MapSquare.PIXEL_X-bias, (getUp()+getDown()+1)*MapSquare.PIXEL_Y-bias);//水泡爆炸十字纵向
+		Rectangle explodeRow =  
+				new Rectangle(getX()-getLeft()*MapSquare.PIXEL_X+bias, getY()+bias, (getLeft()+getRight()+1)*MapSquare.PIXEL_X-bias, MapSquare.PIXEL_Y-bias);//水泡爆炸十字横向
+		Rectangle rectangle = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
 		boolean column = explodeColumn.intersects(rectangle);
 		boolean row = explodeRow.intersects(rectangle);
 		return (column||row);
 	}
 	
+	private int getMoveStep(int i, int j, String direction) {
+		//计算方向改变量
+		int bi = 0;
+		int bj = 0;
+		switch (direction) {
+		case "up": bi=-1;break;
+		case "down": bi=1;break;
+		case "left": bj=-1;break;
+		case "right": bj=1;break;
+		default: break;
+		}
+		//获取地图
+		GameMap gameMap = ElementManager.getManager().getGameMap();
+		//计算step
+		int step = 0;
+		int tpower = 2;
+		for(int k=0;k<tpower;k++) {
+			i += bi;
+			j += bj;
+			if(gameMap.outOfBoundary(i,j)||gameMap.blockIsObstacle(i, j)) {
+				break;
+			} else {
+				step++;
+				if(gameMap.getBlockSquareType(i, j)==GameMap.SquareType.FRAGILITY) {
+					break;
+				}
+			}
+		}
+		return step;
+	}
+	
 	
 	//获取爆炸范围up down left right
 	public void setMoveStep() {
-		GameMap gameMap = ElementManager.getManager().getGameMap();
-		List<List<String>> mapList = GameMap.getMapList();
-		int mapJ = (getX()-GameMap.getBiasX())/MapSquare.PIXEL_X;
-		int mapI = (getY()-GameMap.getBiasY())/MapSquare.PIXEL_Y;
+		int mapI = GameMap.getIJ(getX(), getY()).get(0);
+		int mapJ = GameMap.getIJ(getX(), getY()).get(1);
 		
-		int mapH = mapList.size();
-		int mapW = mapList.get(0).size();
-//		int[][] map = new int[mapH][mapW];
-//		for(int i=0; i<mapH; i++) {
-//			for(int j=0; j<mapW; j++) {
-//				map[i][j]=Integer.parseInt(mapList.get(i).get(j));
-//			}
-//		}
-		//up
-		switch(mapI-1) {
-		case -1: setUp(0);break;
-		case 0: 
-			if(gameMap.getBlockSquareType(0, mapJ)==GameMap.SquareType.OBSTACLE) {
-				setUp(0);
-			}else {
-				setUp(1);
-			}
-			break;
-		default:
-			if(gameMap.getBlockSquareType(mapI-1, mapJ)==GameMap.SquareType.FLOOR) {  //是路
-				if(gameMap.getBlockSquareType(mapI-2, mapJ)==GameMap.SquareType.OBSTACLE) { //不可破坏
-					setUp(1);
-				}else {
-					setUp(2);
-				}
-			}else { //不是路
-				if(gameMap.getBlockSquareType(mapI-1, mapJ)==GameMap.SquareType.OBSTACLE) { //不可破坏
-					setUp(0);
-				}else {
-					setUp(1);
-				}
-			}
-		}
-		
-		//Todo
-		//left
-		switch(mapJ-1) {
-		case -1: setLeft(0);break;
-		case 0:
-			if(gameMap.getBlockSquareType(mapI, 0)==GameMap.SquareType.OBSTACLE) {
-				setLeft(1);
-			}else {
-				setLeft(0);
-			}
-			break;
-		default:
-			if(gameMap.getBlockSquareType(mapI, mapJ-1)==GameMap.SquareType.FLOOR) {//是路
-				if(gameMap.getBlockSquareType(mapI, mapJ-2)==GameMap.SquareType.OBSTACLE) { //不可破坏
-					setLeft(1);
-				}else {
-					setLeft(2);
-				}
-			}else {//不是路
-				if(gameMap.getBlockSquareType(mapI, mapJ-1)==GameMap.SquareType.OBSTACLE) { //不可破坏
-					setLeft(0);
-				}else {
-					setLeft(1);
-				}
-			}
-		}
-		
-		//down
-		if(mapI==mapH) {
-			setDown(0);
-		}else if (mapI+1==mapH) {
-			if(gameMap.getBlockSquareType(mapI+1,mapJ)==GameMap.SquareType.OBSTACLE)
-				setDown(0);
-			else
-				setDown(1);
-		}
-		else {
-			if(gameMap.getBlockSquareType(mapI+1, mapJ)==GameMap.SquareType.FLOOR) { //是路
-				if(gameMap.getBlockSquareType(mapI+2, mapJ)==GameMap.SquareType.OBSTACLE)//不可破坏
-					setDown(1);
-				else
-					setDown(2);
-			}else {//不是路
-				if(gameMap.getBlockSquareType(mapI+1, mapJ)==GameMap.SquareType.OBSTACLE) { //不可破坏
-					setDown(0);
-				}else {
-					setDown(1);
-				}
-			}
-		}
-		
-		//right
-		if(mapJ==mapW) {
-			setRight(0);
-		}else if (mapJ+1==mapW) {
-			if(gameMap.getBlockSquareType(mapI,mapJ+1)==GameMap.SquareType.OBSTACLE)
-				setRight(0);
-			else
-				setRight(1);
-		}else {
-			if(gameMap.getBlockSquareType(mapI,mapJ+1)==GameMap.SquareType.FLOOR) {//是路
-				if(gameMap.getBlockSquareType(mapI,mapJ+2)==GameMap.SquareType.OBSTACLE)
-					setRight(1);
-				else 
-					setRight(2);
-			}else {//不是路
-				if(gameMap.getBlockSquareType(mapI, mapJ+1)==GameMap.SquareType.OBSTACLE) { //不可破坏
-					setRight(0);
-				}else {
-					setRight(1);
-				}
-			}
-		}
-		
-		
+		up = getMoveStep(mapI, mapJ, "up");
+		down = getMoveStep(mapI, mapJ, "down");
+		left = getMoveStep(mapI, mapJ, "left");
+		right = getMoveStep(mapI, mapJ, "right");
 	}
 
 	//getters and setters

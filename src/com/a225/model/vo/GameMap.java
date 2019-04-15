@@ -18,9 +18,8 @@ import com.a225.model.manager.ElementManager;
 public class GameMap {
 	private int windowW;
 	private int windowH;
-	private int mapRows;
-	private int mapCols;
-	
+	private static int mapRows;
+	private static int mapCols;
 	private static int biasX;
 	private static int biasY;
 	
@@ -140,28 +139,66 @@ public class GameMap {
 	 * @return 是否是障碍物
 	 */
 	public boolean blockIsObstacle(int i,int j) {
+		if(outOfBoundary(i, j)) return true;
+		
 		String type = mapList.get(i).get(j);
-		if(type.charAt(0)-'0' == SquareType.OBSTACLE.value) {
+		if(type.charAt(0) == SquareType.OBSTACLE.value) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	//将xy转换为ij
-	public List<Integer> getIJ(int x,int y){
+	/**
+	 * 判断是否超出边界
+	 * @param list ij列表
+	 * @return 是否超出边界
+	 */
+	public boolean outOfBoundary(List<Integer> list) {
+		int i = list.get(0);
+		int j = list.get(1);
+		if (i<0||i>=mapRows||j<0||j>=mapCols) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 判断是否超出边界
+	 * @param i
+	 * @param j
+	 * @return 是否超出边界
+	 */
+	public boolean outOfBoundary(int i,int j) {
+		if (i<0||i>=mapRows||j<0||j>=mapCols) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	//将xy转换为ij 0是i 1是j
+	public static List<Integer> getIJ(int x,int y){
 		List<Integer> list = new ArrayList<>();
-		list.add((x-biasX)/MapSquare.PIXEL_X);
 		list.add((y-biasY)/MapSquare.PIXEL_Y);
+		list.add((x-biasX)/MapSquare.PIXEL_X);
 		return list;
 	}
 	
-	//将ij转换为xy
-	public List<Integer> getXY(int i,int j){
-		List<Integer> list = new ArrayList<>();
-		list.add(j*MapSquare.PIXEL_X+biasX);
-		list.add(i*MapSquare.PIXEL_Y+biasY);
-		return list;
+	//将ij转换为xy 0是x 1是y
+	public static List<Integer> getXY(int i,int j){
+		List<Integer> tempList = new ArrayList<>();
+		tempList.add(i*MapSquare.PIXEL_Y+biasY);
+		tempList.add(j*MapSquare.PIXEL_X+biasX);
+		return tempList;
+	}
+	public static List<Integer> getXY(List<Integer> list){
+		List<Integer> tempList = new ArrayList<>();
+		tempList.add(list.get(1)*MapSquare.PIXEL_X+biasX);
+		tempList.add(list.get(0)*MapSquare.PIXEL_Y+biasY);
+		return tempList;
 	}
 	
 	public void clearMap() {
@@ -181,5 +218,13 @@ public class GameMap {
 	public static int getBiasY() {
 		return biasY;
 	}
+	public static int getMapRows() {
+		return mapRows;
+	}
+	public static int getMapCols() {
+		return mapCols;
+	}
+	
+	
 	
 }

@@ -37,9 +37,6 @@ public class GameStart {
 		// 窗体加载（自动化……）
 		gameFrame = new GameFrame();
 		keyListener = new GameKeyListener();
-		gameFrame.setKeyListener(keyListener);
-		gameFrame.addListener();
-		
 		beginJPanel = new BeginJPanel("img/bg/title.png");
 		gameFrame.setjPanel(beginJPanel);
 		gameFrame.addJPanel();
@@ -55,21 +52,18 @@ public class GameStart {
 		if(gamePanel){
 			GameController.setGameRunning(true);
 			gameFrame.setjPanel(new GameJPanel());
+			gameFrame.setKeyListener(keyListener);
+			gameFrame.addListener();
 			gameFrame.addJPanel();
 			gameFrame.start();
 		} else {
 			GameController.setGameRunning(false);
 			gameFrame.setjPanel(beginJPanel);
+			gameFrame.removeListener();
 			gameFrame.addJPanel();
 		}
-		//System.out.println(gamePanel);
 		gameFrame.setVisible(false);
 		gameFrame.setVisible(true);
-		
-		
-		
-		//gameFrame.start();
-		
 	}
 
 }
