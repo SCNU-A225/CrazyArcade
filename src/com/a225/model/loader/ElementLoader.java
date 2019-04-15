@@ -26,7 +26,6 @@ public class ElementLoader {
 	private Map<String, ImageIcon> imageMap;//图片字典
 	private Map<String, List<String>> squareTypeMap;//方块类型字典
 	
-	
 
 	//构造函数
 	private ElementLoader() {

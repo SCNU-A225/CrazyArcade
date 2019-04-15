@@ -128,13 +128,13 @@ public class BubbleExplode extends SuperElement{
 			}
 			break;
 		default:
-			if(map[mapI-1][mapJ]>=11) { 
-				if(map[mapI-2][mapJ]>=11) {
+			if(map[mapI-1][mapJ]==11) {  //是路
+				if(map[mapI-2][mapJ]>=11) { //可破坏
 					setUp(2);
 				}else {
 					setUp(1);
 				}
-			}else {
+			}else { //不可破坏
 				setUp(0);
 			}
 		}
