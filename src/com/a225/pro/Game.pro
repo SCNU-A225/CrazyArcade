@@ -13,6 +13,7 @@ bubblePath=com/a225/pro/Bubble.pro
 
 #地图配置文件
 stage1Map=com/a225/pro/stage1/Map.pro
+testMap=com/a225/pro/test/Map.pro
 
 #方块类型配置文件
 squareProPath=com/a225/pro/Square.pro

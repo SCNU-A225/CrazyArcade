@@ -49,6 +49,7 @@ public class ElementManager {
 		map.put("fragility", new ArrayList<SuperElement>());
 		map.put("floor", new ArrayList<SuperElement>());
 		map.put("obstacle", new ArrayList<SuperElement>());
+		map.put("npc", new ArrayList<SuperElement>());
 	}
 	
 	
@@ -56,6 +57,7 @@ public class ElementManager {
 	public Comparator<String> getMapKeyComparator() {
 		final Map<String, Integer> priorityMap = new HashMap<>();
 		priorityMap.put("player", 50);
+		priorityMap.put("npc", 45);
 		priorityMap.put("bubble", 10);
 		priorityMap.put("explode", 30);
 		priorityMap.put("fragility", 20);
@@ -124,7 +126,7 @@ public class ElementManager {
 	}
 	
 	public void loadMap(){
-		gameMap.createMap("stage1Map");
+		gameMap.createMap("testMap");
 	}
 
 	public void overGame() {

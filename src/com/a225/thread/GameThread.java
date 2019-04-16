@@ -54,7 +54,7 @@ public class GameThread extends Thread{
 			//Íæ¼ÒÓëÕ¨µ¯Åö×²ËÀÍö
 			playerBoom();
 			fragilityBoom();
-			
+			npcBoom();
 			//¿ØÖÆrunGame½ø³Ì
 			try {	
 				sleep(50);
@@ -78,6 +78,19 @@ public class GameThread extends Thread{
 			}
 		}
 	}
+	//npcÓëÕ¨µ¯Åö×²ÅĞ¶Ï
+	private void npcBoom() {
+		List<SuperElement> npc = ElementManager.getManager().getElementList("npc");
+		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
+		for(int i=0; i<npc.size(); i++) {
+			for(int j=0; j<explodes.size(); j++) {
+				if(explodes.get(j).crash(npc.get(i))){
+					npc.get(i).setAlive(false);
+				}
+			}
+		}
+	}
+	
 	//ÕÏ°­ÎïÓëÕ¨µ¯Åö×²ÅĞ¶Ï
 	private void fragilityBoom() {
 		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");

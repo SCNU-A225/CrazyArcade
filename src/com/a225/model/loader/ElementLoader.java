@@ -25,7 +25,6 @@ public class ElementLoader {
 	private Map<String, List<String>> gameInfoMap;//游戏信息字典
 	private Map<String, ImageIcon> imageMap;//图片字典
 	private Map<String, List<String>> squareTypeMap;//方块类型字典
-	
 
 	//构造函数
 	private ElementLoader() {
@@ -78,6 +77,18 @@ public class ElementLoader {
 		}
 	}
 	
+	//获取npc图片列表
+	public List<ImageIcon> getNpcImageList(String s){ //s的值为npcA,npcB或npcC 对应相应的npc
+		List<ImageIcon> imageList = new ArrayList<>();
+		String npc = new String();
+		for(int i=0; i<4; i++) {//4张图片
+			npc = s + (char)(i+'0');
+			imageList.add(imageMap.get(npc));
+		}
+		return imageList;
+	}
+	
+	
 	//读取气泡炸弹和爆炸效果配置Bubble.pro
 	public void readBubblePro() throws IOException
 	{
@@ -123,6 +134,7 @@ public class ElementLoader {
 		return mapList;
 	}
 	
+
 	/**
 	 * 将配置项按照指定字符串切割后转为字符串List
 	 * @param info 配置项字符串

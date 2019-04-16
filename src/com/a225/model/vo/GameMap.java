@@ -8,6 +8,7 @@ import java.util.Map;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 
+
 /**
  * 地图类
  * @ClassName: Map  
@@ -88,6 +89,10 @@ public class GameMap {
 				case '6':
 					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j, 0));//player1传0 player2传1
 					break;
+				case '8':
+					elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcA"), i, j, 0));
+					break;
+				
 				default:
 					break;
 				}
