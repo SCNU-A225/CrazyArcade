@@ -3,7 +3,7 @@
 #新建配置项请写注释
 
 #窗口大小
-windowSize=1200,800
+windowSize=1080,960
 
 #图片配置文件
 imageProPath=com/a225/pro/Images.pro
