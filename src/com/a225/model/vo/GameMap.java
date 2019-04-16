@@ -140,7 +140,6 @@ public class GameMap {
 	 * @param type
 	 */
 	public void setBlockSquareType(int i,int j,SquareType type) {
-		System.out.println(i+" "+j);
 		mapList.get(i).set(j, type.value+"");
 	}
 	
@@ -219,6 +218,7 @@ public class GameMap {
 		ElementManager.getManager().getElementList("floor").clear();
 		ElementManager.getManager().getElementList("player").clear();
 		ElementManager.getManager().getElementList("explode").clear();
+		ElementManager.getManager().getElementList("magicBox").clear();
 	}
 
 	public static List<List<String>> getMapList(){
