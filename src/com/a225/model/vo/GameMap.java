@@ -140,7 +140,6 @@ public class GameMap {
 	 * @param type
 	 */
 	public void setBlockSquareType(int i,int j,SquareType type) {
-		System.out.println(i+" "+j);
 		mapList.get(i).set(j, type.value+"");
 	}
 	
