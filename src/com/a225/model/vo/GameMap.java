@@ -218,6 +218,7 @@ public class GameMap {
 		ElementManager.getManager().getElementList("floor").clear();
 		ElementManager.getManager().getElementList("player").clear();
 		ElementManager.getManager().getElementList("explode").clear();
+		ElementManager.getManager().getElementList("magicBox").clear();
 	}
 
 	public static List<List<String>> getMapList(){

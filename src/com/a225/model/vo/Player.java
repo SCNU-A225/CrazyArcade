@@ -5,8 +5,11 @@ import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.MoveTypeEnum;
@@ -30,8 +33,8 @@ public class Player extends SuperElement{
 	private int playerNum;//记录第几个玩家，0为玩家一，1为玩家二
 	private int bubbleNum;//记录玩家已经放了多少个炸弹
 	private int bubbleLargest;//玩家最多可以放多少个炸弹，初始值为3
-	
-	private static final int SPEED = 8;
+	private static int INIT_SPEED = 4; //初始移动速度
+	private int speed;//移动速度
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img, int playerNum) {
@@ -45,6 +48,7 @@ public class Player extends SuperElement{
 		keepAttack = false;
 		bubbleNum = 0;
 		bubbleLargest = 3;
+		speed = INIT_SPEED;
 	}
 	
 	public static Player createPlayer(List<String> list,int playerNum) {
@@ -87,10 +91,10 @@ public class Player extends SuperElement{
 		
 
 		switch(moveType) {
-		case TOP: ty-=SPEED;break;
-		case LEFT: tx-=SPEED;break;
-		case RIGHT: tx+=SPEED;break;
-		case DOWN: ty+=SPEED;break;
+		case TOP: ty-=speed;break;
+		case LEFT: tx-=speed;break;
+		case RIGHT: tx+=speed;break;
+		case DOWN: ty+=speed;break;
 		case STOP:
 		default:
 			break;
@@ -203,6 +207,20 @@ public class Player extends SuperElement{
 			bubbleNum++;
 		}
 	}
+	
+//	改变一段时间的移动速度,传入速度需要提升的倍数和持续的时间（秒）
+	public void changeSpeed(double times,int lastTime) {
+		speed = (int)(getSPEED()*times);
+		Timer timer = new Timer(true);
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				setSPEED(INIT_SPEED);
+				System.out.println(getSPEED());
+			}
+		};
+		timer.schedule(task,lastTime*1000);
+	}
 
 	@Override
 	public void destroy() {
@@ -277,6 +295,14 @@ public class Player extends SuperElement{
 
 	public void setBubbleLargest(int bubbleLargest) {
 		this.bubbleLargest = bubbleLargest;
+	}
+
+	public int getSPEED() {
+		return speed;
+	}
+
+	public void setSPEED(int speed) {
+		this.speed = speed;
 	}
 	
 	
