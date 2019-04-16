@@ -17,9 +17,11 @@ import com.a225.model.manager.ElementManager;
  * @CreateDate: 2019年4月13日 下午6:31:49
  */
 public class MapFragility extends MapSquare{
-
+	private boolean destoried;
+	
 	public MapFragility(int i, int j, ImageIcon img, int sx, int sy, int dx, int dy, int scaleX, int scaleY) {
 		super(i, j, img, sx, sy, dx, dy, scaleX, scaleY);
+		destoried = false;
 	}
 	
 	public static MapFragility createMapFragility(List<String> data,int i, int j) {
@@ -42,16 +44,28 @@ public class MapFragility extends MapSquare{
 	@Override
 	public void destroy() {
 //		判断是否被破坏
-//		if
+		if(!isDestoried()) return;
+//		设置地板
+		GameMap gameMap = ElementManager.getManager().getGameMap();
+		List<Integer> list = GameMap.getIJ(getX(), getY());
+		gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);	
+//		可能生成道具
 		Map<String, List<SuperElement>> elmenteMap = ElementManager.getManager().getMap();
 		Random rd = new Random();
 		int creating = rd.nextInt(2);
-		if(creating==1) elmenteMap.get("magicBox").add(MagicBox.createMagicBox(getX(), getY()));
-		if(!isAlive()) {
-			GameMap gameMap = ElementManager.getManager().getGameMap();
-			List<Integer> list = GameMap.getIJ(getX(), getY());
-			gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);
+		if(creating==1){
+			List<Integer> locList = GameMap.getIJ(getX(), getY());
+			elmenteMap.get("magicBox").add(MagicBox.createMagicBox(locList.get(0),locList.get(1)));
 		}
+		setDestoried(false);
+		setAlive(false);
 	}
 
+	public boolean isDestoried() {
+		return destoried;
+	}
+
+	public void setDestoried(boolean destoried) {
+		this.destoried = destoried;
+	}
 }

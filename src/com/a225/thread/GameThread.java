@@ -7,6 +7,7 @@ import java.util.Set;
 import com.a225.main.GameController;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.MagicBox;
+import com.a225.model.vo.MapFragility;
 import com.a225.model.vo.SuperElement;
 
 /**
@@ -61,7 +62,7 @@ public class GameThread extends Thread{
 			
 			//控制runGame进程
 			try {	
-				sleep(50);
+				sleep(20);
 			} catch (InterruptedException e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -89,7 +90,8 @@ public class GameThread extends Thread{
 		for(int i=0; i<fragility.size(); i++) {
 			for(int j=0; j<explodes.size(); j++) {
 				if(explodes.get(j).crash(fragility.get(i))) {
-					fragility.get(i).setAlive(false);
+					MapFragility mapFragility = (MapFragility)fragility.get(i);
+					mapFragility.setDestoried(true);
 				}
 			}
 		}
@@ -103,7 +105,8 @@ public class GameThread extends Thread{
 			for(int j=magicBoxList.size()-1; j>=0; j--) {
 				if(magicBoxList.get(j).crash(playerList.get(i))){
 					MagicBox magicBox = (MagicBox) magicBoxList.get(j);
-					magicBox.setEaten(true);
+					magicBox.setPlayer(i);//谁吃方块
+					magicBox.setEaten(true);//方块被吃
 				}
 				
 			}

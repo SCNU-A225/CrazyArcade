@@ -33,7 +33,7 @@ public class GameJPanel extends JPanel implements Runnable{
 		//while(true){
 			while(GameController.isGameRunning()) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
