@@ -3,11 +3,14 @@ package com.a225.model.vo;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
+import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.MoveTypeEnum;
+import com.a225.model.vo.GameMap.SquareType;
 
 public class Npc extends SuperElement{
 	
@@ -21,6 +24,7 @@ public class Npc extends SuperElement{
 	private int bubbleLargest;//玩家最多可以放多少个炸弹，初始值为3
 	
 	private int speed = 8;
+	private int step = 0; //控制npc步伐节奏
 
 	public Npc(int x, int y, int w, int h, int imgW, int imgH,List<ImageIcon> img, int npcNum) {
 		super(x, y, w, h);
@@ -31,7 +35,7 @@ public class Npc extends SuperElement{
 		moveX = 0;
 		this.npcNum = npcNum;
 		bubbleNum = 0;
-		bubbleLargest = 3;
+		bubbleLargest = 1;
 	}
 	
 	public static Npc createNpc(List<String> data,int i,int j,int npcNum) {
@@ -73,10 +77,67 @@ public class Npc extends SuperElement{
 		}
 	}
 
+	//移动
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
-		
+		if(step==8) {
+			step=0;
+			if(!letsGo(moveType)||Math.random()<0.2) {//如果前面有障碍物，转弯
+				turn();
+			}
+		}
+		switch(moveType) {
+		case LEFT:
+				setX(getX()-speed);
+				break;
+		case RIGHT:
+				setX(getX()+speed);
+				break;
+		case TOP:
+				setY(getY()-speed);
+				break;
+		case DOWN:
+				setY(getY()+speed);
+				break;
+		}
+		step++;
+	}
+
+	//转弯
+	public void turn() {
+		MoveTypeEnum m = randomOrient();
+		boolean go = letsGo(m);
+		if(go) {
+			setMoveType(m);
+			addBubble();
+		}
+		else {
+			turn();
+		}
+	}
+	//随机获得一个方向
+	public MoveTypeEnum randomOrient() {
+		MoveTypeEnum moveTypeEnum[] = {MoveTypeEnum.LEFT,MoveTypeEnum.RIGHT,MoveTypeEnum.TOP,MoveTypeEnum.DOWN};
+		Random random = new Random();
+		return moveTypeEnum[random.nextInt(moveTypeEnum.length)];
+	}
+	//判断前面是否能走过去
+	public boolean letsGo(MoveTypeEnum m) {
+		GameMap gameMap = ElementManager.getManager().getGameMap();
+		boolean go = false;
+		List<Integer> ijList = GameMap.getIJ(getX(), getY());
+		//暂时判断前面是地板即可前进，TODO判断前面是Bubble
+		switch(m) {
+		case LEFT: if(gameMap.getBlockSquareType(ijList.get(0), ijList.get(1)-1)==SquareType.FLOOR) go = true;
+			break;  
+		case RIGHT: if(gameMap.getBlockSquareType(ijList.get(0), ijList.get(1)+1)==SquareType.FLOOR) go = true;
+			break;
+		case TOP: if(gameMap.getBlockSquareType(ijList.get(0)-1, ijList.get(1))==SquareType.FLOOR) go = true;
+			break;  
+		case DOWN: if(gameMap.getBlockSquareType(ijList.get(0)+1, ijList.get(1))==SquareType.FLOOR) go = true;
+			break; 
+		}
+		return go;
 	}
 
 	@Override
@@ -85,7 +146,20 @@ public class Npc extends SuperElement{
 		
 	}
 
-	
+	//添加气泡
+	public void addBubble() {
+		List<Integer> loc = GameMap.getXY(GameMap.getIJ(getX()+getW()/2, getY()+getH()/2));
+		GameMap gameMap = ElementManager.getManager().getGameMap();
+		List<Integer> maplist = GameMap.getIJ(loc.get(0), loc.get(1));
+		if( bubbleNum<bubbleLargest &&  //当前的炸弹数小于上限值，当前位置没有炸弹
+				gameMap.getBlockSquareType(maplist.get(0), maplist.get(1))!=GameMap.SquareType.BUBBLE) {
+
+			List<SuperElement> list = 
+					ElementManager.getManager().getElementList("bubble");
+			list.add(Bubble.createBubble(loc.get(0), loc.get(1), ElementLoader.getElementLoader().getGameInfoMap().get("bubble"),npcNum+2));
+			bubbleNum++;
+		}
+	}
 
 	public List<ImageIcon> getImg() {
 		return img;

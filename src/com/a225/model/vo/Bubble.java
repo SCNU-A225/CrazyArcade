@@ -20,7 +20,7 @@ public class Bubble extends SuperElement{
 	
 	private ImageIcon img;
 	private int moveX;
-	private int playerNum;//表示对应玩家的炸弹，0为玩家一，1为玩家二
+	private int playerNum;//表示对应玩家的炸弹，0为玩家一，1为玩家二，2为npcA，3为npcB，4为npcC
 
 	//构造函数
 	public Bubble(int x, int y, int w, int h, ImageIcon img, int playerNum) {
@@ -103,9 +103,16 @@ public class Bubble extends SuperElement{
 			gameMap.setBlockSquareType(maplist.get(0), maplist.get(1), GameMap.SquareType.FLOOR);
 			
 			//改变炸弹玩家已经放在炸弹数bubbleNum
-			List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
-			Player player = (Player) list2.get(playerNum);
-			player.setBubbleNum(player.getBubbleNum()-1);
+			if(playerNum<2) {
+				List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
+				Player player = (Player) list2.get(playerNum);
+				player.setBubbleNum(player.getBubbleNum()-1);
+			}
+			else {
+				List<SuperElement> list2 = ElementManager.getManager().getElementList("npc");
+				Npc npc = (Npc) list2.get(playerNum-2);
+				npc.setBubbleNum(npc.getBubbleNum()-1);
+			}
 		}
 	}
 
