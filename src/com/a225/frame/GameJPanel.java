@@ -1,8 +1,6 @@
 package com.a225.frame;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +9,6 @@ import java.util.TreeSet;
 import javax.swing.JPanel;
 
 import com.a225.main.GameController;
-import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
 
@@ -36,7 +33,7 @@ public class GameJPanel extends JPanel implements Runnable{
 		//while(true){
 			while(GameController.isGameRunning()) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

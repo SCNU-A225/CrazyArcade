@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.a225.main.GameController;
-import com.a225.main.GameStart;
 import com.a225.model.loader.ElementLoader;
-import com.a225.model.vo.GameMap;
-import com.a225.model.vo.MapFloor;
 import com.a225.model.vo.SuperElement;
 
 /**
@@ -28,6 +24,9 @@ public class ElementManager {
 	//元素的Map集合
 	private Map<String, List<SuperElement>> map;
 	
+	//图层顺序map
+	private Map<String,Integer> priorityMap;
+	
 	//游戏地图
 	private GameMap gameMap;
 	
@@ -37,32 +36,44 @@ public class ElementManager {
 		List<String> windowSize = gameInfoMap.get("windowSize");
 		gameMap = new GameMap(Integer.parseInt(windowSize.get(0)),Integer.parseInt(windowSize.get(1)));
 		map = new HashMap<>();
+		priorityMap = new HashMap<>();
+	}
+	
+	//初始化元素列表字典
+	private void initMap() {
+		map.put("player", new ArrayList<SuperElement>());//玩家
+		map.put("bubble", new ArrayList<SuperElement>());//水泡
+		map.put("explode",new ArrayList<SuperElement>());//水泡爆炸
+		map.put("fragility", new ArrayList<SuperElement>());//可破坏方块
+		map.put("floor", new ArrayList<SuperElement>());//地板
+		map.put("obstacle", new ArrayList<SuperElement>());//不可破坏方块
+		map.put("magicBox", new ArrayList<SuperElement>());//道具
+		map.put("npc", new ArrayList<SuperElement>());
+	}
+	
+	//初始化图层优先级字典
+	private void initPriorityMap() {
+		priorityMap.put("player", 50);
+		priorityMap.put("npc", 45);
+		priorityMap.put("bubble", 10);
+		priorityMap.put("obstacle", 40);
+		priorityMap.put("explode", 30);
+		priorityMap.put("magicBox", 25);
+		priorityMap.put("fragility", 20);
+		priorityMap.put("bubble", 10);
+		priorityMap.put("floor", -10);
 	}
 	
 	//构造函数
 	private ElementManager() {
-		init();
-		//初始化player的list
-		map.put("player", new ArrayList<SuperElement>());//玩家
-		map.put("bubble", new ArrayList<SuperElement>());//水泡
-		map.put("explode",new ArrayList<SuperElement>());//水泡爆炸
-		map.put("fragility", new ArrayList<SuperElement>());
-		map.put("floor", new ArrayList<SuperElement>());
-		map.put("obstacle", new ArrayList<SuperElement>());
-		map.put("npc", new ArrayList<SuperElement>());
+		init();//初始化变量
+		initMap();//初始化元素列表字典
+		initPriorityMap();//初始化图层优先级字典
 	}
 	
 	
-	//键值比较器
+	//图层优先级比较器
 	public Comparator<String> getMapKeyComparator() {
-		final Map<String, Integer> priorityMap = new HashMap<>();
-		priorityMap.put("player", 50);
-		priorityMap.put("npc", 45);
-		priorityMap.put("bubble", 10);
-		priorityMap.put("explode", 30);
-		priorityMap.put("fragility", 20);
-		priorityMap.put("floor", -10);
-		priorityMap.put("obstacle", 40);
 		return new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
@@ -71,26 +82,6 @@ public class ElementManager {
 				if(p1 > p2) {
 					return 1;
 				} else if(p1 < p2) {
-					return -1;
-				} else {
-					return 0;
-				}
-			}
-		};
-	}
-	
-	//图层透视比较器	线程不安全
-	public Comparator<SuperElement> getElementComparator() {
-		return new Comparator<SuperElement>() {
-			@Override
-			public int compare(SuperElement o1, SuperElement o2) {
-				if(o1 instanceof MapFloor) return -1;//地板永远最先显示
-	
-				int loc1 = o1.getY()+o1.getH();
-				int loc2 = o2.getY()+o2.getH();
-				if(loc1 > loc2) {
-					return 1;
-				} else if(loc1 < loc2) {
 					return -1;
 				} else {
 					return 0;
@@ -118,20 +109,19 @@ public class ElementManager {
 	public GameMap getGameMap() {
 		return gameMap;
 	}
-
-	public void loadElement() {
-		// TODO Auto-generated method stub
-		//map.get("player").add(ElementFactory.getElementFactory().produceElement("playerOne"));
-		
-	}
 	
 	public void loadMap(){
 		gameMap.createMap("testMap");
 	}
 
-	public void overGame() {
-		gameMap.clearMap();
-		GameStart.changeJPanel(false);
+	public void overGame(Boolean over) {
+		if(over) {
+			gameMap.clearMapALL();
+			//失败动画
+		} else {
+			gameMap.clearMapOther();
+			//恭喜动画
+		}
 	}
 
 }

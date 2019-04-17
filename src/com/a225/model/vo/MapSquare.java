@@ -3,7 +3,7 @@ package com.a225.model.vo;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
-import com.a225.model.manager.ElementManager;
+import com.a225.model.manager.GameMap;
 
 /**
  * 地图方块类
@@ -27,7 +27,7 @@ public class MapSquare extends SuperElement{
 	}
 	
 	@Override
-	public final void showElement(Graphics g) {
+	public void showElement(Graphics g) {
 		g.drawImage(img.getImage(), 
 				getX(), getY(),                  //屏幕左上角坐标
 				getX()+getW(), getY()+getH(),    //屏幕右下角坐标

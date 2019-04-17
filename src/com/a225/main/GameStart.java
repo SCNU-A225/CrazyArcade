@@ -1,14 +1,11 @@
 package com.a225.main;
 
 import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;
 import com.a225.frame.GameJPanel;
 import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameKeyListener;
-import com.a225.thread.GameThread;
 
 /**
  * 游戏启动入口
@@ -20,7 +17,7 @@ import com.a225.thread.GameThread;
 public class GameStart {
 	private static GameFrame gameFrame;
 	private static BeginJPanel beginJPanel;
-	private static GameKeyListener keyListener;
+	private static GameKeyListener gameKeyListener;
 
 	//游戏启动入口
 	public static void main(String[] args) {
@@ -36,7 +33,7 @@ public class GameStart {
 		}
 		// 窗体加载（自动化……）
 		gameFrame = new GameFrame();
-		keyListener = new GameKeyListener();
+		gameKeyListener = new GameKeyListener();
 		beginJPanel = new BeginJPanel("img/bg/title.png");
 		gameFrame.setjPanel(beginJPanel);
 		gameFrame.addJPanel();
@@ -52,12 +49,13 @@ public class GameStart {
 		if(gamePanel){
 			GameController.setGameRunning(true);
 			gameFrame.setjPanel(new GameJPanel());
-			gameFrame.setKeyListener(keyListener);
+			gameFrame.setKeyListener(gameKeyListener);
 			gameFrame.addListener();
 			gameFrame.addJPanel();
 			gameFrame.start();
 		} else {
 			GameController.setGameRunning(false);
+			gameKeyListener.clearKeyStatcks();//清除按键记录
 			gameFrame.setjPanel(beginJPanel);
 			gameFrame.removeListener();
 			gameFrame.addJPanel();

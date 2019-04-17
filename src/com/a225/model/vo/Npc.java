@@ -9,33 +9,28 @@ import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
+import com.a225.model.manager.GameMap;
 import com.a225.model.manager.MoveTypeEnum;
-import com.a225.model.vo.GameMap.SquareType;
+import com.a225.model.manager.GameMap.SquareType;
 
-public class Npc extends SuperElement{
-	
-	private List<ImageIcon> img;
-	private MoveTypeEnum moveType;//开始为stop
+public class Npc extends Character{
+	private Random random;
+	private List<ImageIcon> imgList;
 	private int moveX;//记录图片索引
 	private int imgW;//图片宽
 	private int imgH;//图片高
-	private int npcNum;//记录第几个npc，0为npcA，1为npcB,2为npcC
-	private int bubbleNum;//记录已经放了多少个炸弹
-	private int bubbleLargest;//玩家最多可以放多少个炸弹，初始值为3
-	
-	private int speed = 8;
-	private int step = 0; //控制npc步伐节奏
+	private int npcNum;//记录第几个npc，2为npcA，3为npcB,4为npcC
+	private int step; //控制npc步伐节奏
 
 	public Npc(int x, int y, int w, int h, int imgW, int imgH,List<ImageIcon> img, int npcNum) {
 		super(x, y, w, h);
 		this.imgW = imgW;
 		this.imgH = imgH;
-		this.img = new ArrayList<>(img);
-		moveType = MoveTypeEnum.DOWN;
-		moveX = 0;
+		this.imgList = new ArrayList<>(img);
 		this.npcNum = npcNum;
-		bubbleNum = 0;
-		bubbleLargest = 1;
+		random = new Random();
+		moveX = 0;
+		step = 0;
 	}
 	
 	public static Npc createNpc(List<String> data,int i,int j,int npcNum) {
@@ -53,7 +48,7 @@ public class Npc extends SuperElement{
 
 	@Override
 	public void showElement(Graphics g) {
-		g.drawImage(getImg().get(moveX).getImage(),
+		g.drawImage(imgList.get(moveX).getImage(),
 				getX(), getY(), 
 				getX()+getW(), getY()+getH(), 
 				0, 0, 
@@ -63,11 +58,14 @@ public class Npc extends SuperElement{
 	
 	@Override
 	public void update() {
-		super.update();
-		updateImage();
+		if(!dead) {
+			move();
+			updateImage();
+			destroy();
+		}
 	}
 	
-	public void updateImage() {
+	private void updateImage() {
 		switch(moveType) {
 		case STOP: moveX = 0;break;
 		case LEFT: moveX = 1;break;
@@ -80,7 +78,7 @@ public class Npc extends SuperElement{
 	//移动
 	@Override
 	public void move() {
-		if(step==8) {
+		if(step==64/Character.INIT_SPEED) {
 			step=0;
 			if(!letsGo(moveType)||Math.random()<0.2) {//如果前面有障碍物，转弯
 				turn();
@@ -104,21 +102,23 @@ public class Npc extends SuperElement{
 	}
 
 	//转弯
-	public void turn() {
+	private void turn() {
 		MoveTypeEnum m = randomOrient();
 		boolean go = letsGo(m);
 		if(go) {
 			setMoveType(m);
-			addBubble();
+			if(Math.random()<0.4) {
+				addBubble();
+			}
 		}
 		else {
 			turn();
 		}
 	}
 	//随机获得一个方向
-	public MoveTypeEnum randomOrient() {
+	private MoveTypeEnum randomOrient() {
 		MoveTypeEnum moveTypeEnum[] = {MoveTypeEnum.LEFT,MoveTypeEnum.RIGHT,MoveTypeEnum.TOP,MoveTypeEnum.DOWN};
-		Random random = new Random();
+		
 		return moveTypeEnum[random.nextInt(moveTypeEnum.length)];
 	}
 	//判断前面是否能走过去
@@ -156,17 +156,9 @@ public class Npc extends SuperElement{
 
 			List<SuperElement> list = 
 					ElementManager.getManager().getElementList("bubble");
-			list.add(Bubble.createBubble(loc.get(0), loc.get(1), ElementLoader.getElementLoader().getGameInfoMap().get("bubble"),npcNum+2));
+			list.add(Bubble.createBubble(loc.get(0), loc.get(1), ElementLoader.getElementLoader().getGameInfoMap().get("bubble"),npcNum+2,getBubblePower()));
 			bubbleNum++;
 		}
-	}
-
-	public List<ImageIcon> getImg() {
-		return img;
-	}
-
-	public void setImg(List<ImageIcon> img) {
-		this.img = img;
 	}
 
 	public MoveTypeEnum getMoveType() {

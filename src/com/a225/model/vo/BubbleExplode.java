@@ -13,66 +13,74 @@ import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
+import com.a225.model.manager.GameMap;
 
 public class BubbleExplode extends SuperElement{
-	
-	private List<ImageIcon> img; //保存爆炸图片
-	private int moveX;
+	//爆炸四个方向及中心的图片
+	private static ImageIcon imgCenter = ElementLoader.getElementLoader().getImageMap().get("explodeCenter");
+	private static ImageIcon imgUp = ElementLoader.getElementLoader().getImageMap().get("explodeUp");
+	private static ImageIcon imgDown = ElementLoader.getElementLoader().getImageMap().get("explodeDown");
+	private static ImageIcon imgLeft = ElementLoader.getElementLoader().getImageMap().get("explodeLeft");
+	private static ImageIcon imgRight = ElementLoader.getElementLoader().getImageMap().get("explodeRight");
+
 	
 	//炸弹在地图中往四个方向延申的步数
 	private int up;
 	private int down;
 	private int left;
 	private int right;
+	
+	private int power;
 
 
-	public BubbleExplode(int x,int y, int w, int h, List<ImageIcon> imageList) {
+	public BubbleExplode(int x,int y, int w, int h, int power) {
 		//参数表：坐标x，坐标y，宽w，高h，爆炸图片列表
 		super(x, y, w, h);
-		img = new ArrayList<>(imageList);
-		moveX = 0;
 		up = 0;
 		down = 0;
 		left = 0;
 		right = 0;
+		this.power = power;
 		setMoveStep();
 	}
 	
 	//创建实例
-	public static BubbleExplode createExplode(int x, int y,List<String> list) {
-		//list=[图片0，图片1，图片2，图片宽w，图片高h]
-		int w = Integer.parseInt(list.get(3));
-		int h = Integer.parseInt(list.get(4));
-		List<ImageIcon> imageList = new ArrayList<>();
-		Map<String, ImageIcon> imageMap = ElementLoader.getElementLoader().getImageMap();
-		for(int i=0; i<3; i++) { //爆炸效果图有3张
-			imageList.add(imageMap.get(list.get(i)));
-		}
-		return new BubbleExplode(x, y, w, h, imageList);
+	public static BubbleExplode createExplode(int x, int y,int power) {
+		return new BubbleExplode(x, y, MapSquare.PIXEL_X, MapSquare.PIXEL_Y, power);
 	}
 
 	
 	@Override
 	public void showElement(Graphics g) {
-		int perW = getW()/5;
-		int perH = getH()/5;
-		g.drawImage(img.get(moveX).getImage(), 
-				getX()-left*MapSquare.PIXEL_X, getY()-up*MapSquare.PIXEL_Y, 	//屏幕左上角坐标
-				getX()+(right+1)*MapSquare.PIXEL_X, getY()+(down+1)*MapSquare.PIXEL_Y, 	//屏幕右下坐标
-				(2-left)*perW, (2-up)*perH, 				//图片左上坐标
-				(3+right)*perW, (3+down)*perH, 			//图片右下坐标\
+		final int PIXEL_X = MapSquare.PIXEL_X;
+		final int PIXEL_Y = MapSquare.PIXEL_Y;
+		//分开显示
+		g.drawImage(imgCenter.getImage(),
+				getX(), getY(), getX()+PIXEL_X, getY()+PIXEL_Y,
+				0, 0, 32, 32,
+				null);
+		g.drawImage(imgUp.getImage(),
+				getX(), getY()-up*PIXEL_Y, getX()+PIXEL_X, getY(),
+				0, 0, 32, 64,
+				null);
+		g.drawImage(imgDown.getImage(),
+				getX(), getY()+PIXEL_Y, getX()+PIXEL_X, getY()+(down+1)*PIXEL_Y,
+				0, 0, 32, 64,
+				null);
+		g.drawImage(imgLeft.getImage(),
+				getX()-left*PIXEL_X, getY(), getX(), getY()+PIXEL_Y,
+				0, 0, 64, 32,
+				null);
+		g.drawImage(imgRight.getImage(),
+				getX()+PIXEL_X, getY(), getX()+(right+1)*PIXEL_X, getY()+PIXEL_Y,
+				0, 0, 64, 32,
 				null);
 	}
 
-	//更换图片，图片播完后进入消亡状态
 	@Override
-	public void move() {
-		if(moveX<2) {
-			moveX++;
-		}
-	}
+	public void move() {}
 
-	//爆炸效果持续0.8秒
+	//爆炸效果持续0.7秒
 	@Override
 	public void destroy() {
 		Timer timer = new Timer(true);
@@ -82,7 +90,7 @@ public class BubbleExplode extends SuperElement{
 				setAlive(false);
 			}
 		};
-		timer.schedule(task, 800);
+		timer.schedule(task, 700);
 	}
 	
 	//判断爆炸与物体边缘冲突
@@ -114,8 +122,7 @@ public class BubbleExplode extends SuperElement{
 		GameMap gameMap = ElementManager.getManager().getGameMap();
 		//计算step
 		int step = 0;
-		int tpower = 2;
-		for(int k=0;k<tpower;k++) {
+		for(int k=0;k<power;k++) {
 			i += bi;
 			j += bj;
 			if(gameMap.outOfBoundary(i,j)||gameMap.blockIsObstacle(i, j)) {
@@ -136,31 +143,13 @@ public class BubbleExplode extends SuperElement{
 		int mapI = GameMap.getIJ(getX(), getY()).get(0);
 		int mapJ = GameMap.getIJ(getX(), getY()).get(1);
 		
-		up = getMoveStep(mapI, mapJ, "up");
-		down = getMoveStep(mapI, mapJ, "down");
-		left = getMoveStep(mapI, mapJ, "left");
-		right = getMoveStep(mapI, mapJ, "right");
+		up = Math.min(getMoveStep(mapI, mapJ, "up"), power);
+		down = Math.min(getMoveStep(mapI, mapJ, "down"), power);
+		left = Math.min(getMoveStep(mapI, mapJ, "left"), power);
+		right = Math.min(getMoveStep(mapI, mapJ, "right"), power);
 	}
 
 	//getters and setters
-	
-
-	public int getMoveX() {
-		return moveX;
-	}
-
-	public List<ImageIcon> getImg() {
-		return img;
-	}
-
-	public void setImg(List<ImageIcon> img) {
-		this.img = img;
-	}
-
-	public void setMoveX(int moveX) {
-		this.moveX = moveX;
-	}
-
 	public int getUp() {
 		return up;
 	}
