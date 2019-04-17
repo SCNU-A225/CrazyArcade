@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.a225.main.GameController;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
+
 
 /**
  * 地图类
@@ -89,8 +92,16 @@ public class GameMap {
 					elmenteMap.get("magicBox").add(MagicBox.createMagicBox(i, j));
 					break;
 				case '6':
-					elmenteMap.get("player").add(Player.createPlayer(gameInfoMap.get("playerOne"), i, j, 0));//player1传0 player2传1
+					initPlayer(i, j, 0);
 					break;
+				case '7':
+					if(GameController.isTwoPlayer())
+						initPlayer(i, j, 1);
+					break;
+				case '8':
+					//elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcA"), i, j, 0));
+					break;
+				
 				default:
 					break;
 				}
@@ -111,6 +122,38 @@ public class GameMap {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 按地图加载角色
+	 * @param i 
+	 * @param j
+	 * @param num 编号，玩家1传0，玩家2传1
+	 */
+	private void initPlayer(int i, int j, int num) {
+		List<SuperElement> playerList = ElementManager.getManager().getMap().get("player");
+		if(playerList.size()==(GameController.isTwoPlayer()?2:1)) {
+			List<Integer> locList = GameMap.getXY(i,j);
+			playerList.get(num).setX(locList.get(0));
+			playerList.get(num).setY(locList.get(1));
+		} else {
+			Map<String, List<String>> gameInfoMap = ElementLoader.getElementLoader().getGameInfoMap();
+			for(SuperElement se:playerList) {
+				Player player = (Player) se;
+				if(player.getPlayerNum()==num) {
+					return;
+				}
+			}
+			Player player = null;
+			if(num==0) {
+				player = Player.createPlayer(gameInfoMap.get("playerOne"), i, j, num);				
+			} else if(num==1) {
+				player = Player.createPlayer(gameInfoMap.get("playerTwo"), i, j, num);
+			} else {
+				return;
+			}
+			playerList.add(num, player);				
 		}
 	}
 	
@@ -212,14 +255,24 @@ public class GameMap {
 		tempList.add(list.get(0)*MapSquare.PIXEL_Y+biasY);
 		return tempList;
 	}
-	
-	public void clearMap() {
+	/**
+	 * 清空地图中除玩家以外的对象
+	 */
+	public void clearMapOther() {
 		ElementManager.getManager().getElementList("obstacle").clear();
 		ElementManager.getManager().getElementList("fragility").clear();
 		ElementManager.getManager().getElementList("floor").clear();
-		ElementManager.getManager().getElementList("player").clear();
 		ElementManager.getManager().getElementList("explode").clear();
 		ElementManager.getManager().getElementList("magicBox").clear();
+		ElementManager.getManager().getElementList("npc").clear();
+	}
+	
+	/**
+	 * 清空地图所有对象
+	 */
+	public void clearMapALL() {
+		ElementManager.getManager().getElementList("player").clear();
+		clearMapOther();
 	}
 
 	public static List<List<String>> getMapList(){

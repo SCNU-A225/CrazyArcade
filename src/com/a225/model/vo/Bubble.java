@@ -28,7 +28,7 @@ public class Bubble extends SuperElement{
 		this.img = img;
 		this.playerNum = playerNum;
 		moveX = 0;
-		//地图对应位置设置为Bubble
+		//地图对应位置设置为障碍物，不能通过
 		GameMap gameMap = ElementManager.getManager().getGameMap();
 		List<Integer> maplist = GameMap.getIJ(x, y);
 		gameMap.setBlockSquareType(maplist.get(0), maplist.get(1), GameMap.SquareType.BUBBLE);

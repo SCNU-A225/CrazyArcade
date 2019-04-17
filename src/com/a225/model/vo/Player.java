@@ -28,6 +28,7 @@ public class Player extends SuperElement{
 	private MoveTypeEnum moveType;
 	private int moveX;
 	private int moveY;
+	private boolean dead;//记录是否存活
 	private boolean attack;//记录攻击状态，默认为false
 	private boolean keepAttack;//记录是否为一直按着攻击键，实现一次按键只放一个水泡
 	private int playerNum;//记录第几个玩家，0为玩家一，1为玩家二
@@ -47,6 +48,7 @@ public class Player extends SuperElement{
 		moveY = 0;
 		attack = false;
 		keepAttack = false;
+		dead = false;
 		bubbleNum = 0;
 		bubbleLargest = 3;
 		speed = INIT_SPEED;
@@ -76,6 +78,8 @@ public class Player extends SuperElement{
 	//展示人物图片
 	@Override
 	public void showElement(Graphics g) {
+		if(dead) return;
+		
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
 				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
@@ -307,6 +311,14 @@ public class Player extends SuperElement{
 
 	public void setSPEED(int speed) {
 		this.speed = speed;
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 	
 	
