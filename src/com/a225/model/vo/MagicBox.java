@@ -10,7 +10,7 @@ import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 
 public class MagicBox extends MapSquare{
-
+	private static Random rd = new Random();
 	private boolean eaten;//被吃掉消失。
 	private int moveX;//图片变换
 	private String type;//道具类型
@@ -27,8 +27,6 @@ public class MagicBox extends MapSquare{
 	}
 	
 	public static MagicBox createMagicBox(int i,int j) {
-//		下生成随机数
-		Random rd = new Random();
 		int letter = rd.nextInt(8)+1;
 		String boxtype = "3" + letter;
 		List<String> data = typeMap.get(boxtype);
@@ -55,10 +53,11 @@ public class MagicBox extends MapSquare{
 //	切换图片
 	public void updateImage() {
 		if(eaten) return;
-		moveX = ++moveX%3;
-		int sx = moveX*32;
+		if(++moveX>=40)
+			moveX = 0;
+		int sx = (moveX/10)*32;
 		int sy = Integer.parseInt(typeMap.get(type).get(2));
-		int dx = (moveX+1)*32;
+		int dx = (moveX/10+1)*32;
 		int dy = Integer.parseInt(typeMap.get(type).get(4));
 		setPictureLoc(sx, sy, dx, dy);
 	}
