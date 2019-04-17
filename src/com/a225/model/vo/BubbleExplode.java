@@ -16,7 +16,6 @@ import com.a225.model.manager.ElementManager;
 
 public class BubbleExplode extends SuperElement{
 	//爆炸四个方向及中心的图片
-	private static List<String> photoNameList = ElementLoader.getElementLoader().getGameInfoMap().get("explode");
 	private static ImageIcon imgCenter = ElementLoader.getElementLoader().getImageMap().get("explodeCenter");
 	private static ImageIcon imgUp = ElementLoader.getElementLoader().getImageMap().get("explodeUp");
 	private static ImageIcon imgDown = ElementLoader.getElementLoader().getImageMap().get("explodeDown");
