@@ -38,7 +38,7 @@ public class Player extends SuperElement{
 	private static int INIT_SPEED = 4; //初始移动速度
 	private int speed;//移动速度
 	private int speedItemCount = 0;//生效中的加速卡数量
-	private boolean inBubble;
+	private int bubblePower = 2;
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img, int playerNum) {
@@ -54,7 +54,6 @@ public class Player extends SuperElement{
 		bubbleNum = 0;
 		bubbleLargest = 1;
 		speed = INIT_SPEED;
-		inBubble = false;
 	}
 	
 	public static Player createPlayer(List<String> list,int playerNum) {
@@ -365,14 +364,13 @@ public class Player extends SuperElement{
 		this.dead = dead;
 	}
 
-	public boolean isInBubble() {
-		return inBubble;
+	public int getBubblePower() {
+		return bubblePower;
 	}
 
-	public void setInBubble(boolean inBubble) {
-		this.inBubble = inBubble;
+	public void setBubblePower(int bubblePower) {
+		this.bubblePower = bubblePower;
 	}
-	
 	
 
 }

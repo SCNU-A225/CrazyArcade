@@ -20,9 +20,11 @@ magicBox9=img/item/9.png
 #BubbleË®ÅÝÂ·¾¶
 Bubble=img/boom/1.png
 #Ë®ÅÝ±¬Õ¨Í¼Æ¬Â·¾¶
-Explode0=img/boom/explode0.png
-Explode1=img/boom/explode1.png
-Explode2=img/boom/explode2.png
+explodeUp=img/boom/up.png
+explodeDown=img/boom/down.png
+explodeLeft=img/boom/left.png
+explodeRight=img/boom/right.png
+explodeCenter=img/boom/center.png
 #npcAÍ¼Æ¬Â·¾¶
 npcA0=img/computer/1/down.png
 npcA1=img/computer/1/left.png

@@ -89,21 +89,23 @@ public class Bubble extends SuperElement{
 
 	@Override
 	public void destroy() {
-		if(!isAlive()) {	//显示爆炸效果，加入ExplodeBubble
+		if(!isAlive()) {	
+			//改变炸弹玩家已经放在炸弹数bubbleNum
+			List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
+			Player player = (Player) list2.get(playerNum);
+			player.setBubbleNum(player.getBubbleNum()-1);
+			
+			//显示爆炸效果，加入ExplodeBubble
 			List<SuperElement> list = 
 					ElementManager.getManager().getElementList("explode");
-			list.add(BubbleExplode.createExplode(getX(), getY(), ElementLoader.getElementLoader().getGameInfoMap().get("explode")));
+			list.add(BubbleExplode.createExplode(getX(), getY(), player.getBubblePower()));
 			
 			//将地图位置设为floor
 			GameMap gameMap = ElementManager.getManager().getGameMap();
 			List<Integer> maplist = GameMap.getIJ(getX(), getY());
 			gameMap.setBlockSquareType(maplist.get(0), maplist.get(1), GameMap.SquareType.FLOOR);
 			
-			//改变炸弹玩家已经放在炸弹数bubbleNum
-			List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
-			Player player = (Player) list2.get(playerNum);
-			player.setBubbleNum(player.getBubbleNum()-1);
-			player.setInBubble(true);
+			
 		}
 	}
 
