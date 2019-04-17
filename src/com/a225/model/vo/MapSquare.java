@@ -1,12 +1,7 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
-import java.util.List;
-import java.util.Map;
-
 import javax.swing.ImageIcon;
-
-import com.a225.model.manager.ElementManager;
 
 /**
  * 地图方块类
@@ -30,7 +25,7 @@ public class MapSquare extends SuperElement{
 	}
 	
 	@Override
-	public final void showElement(Graphics g) {
+	public void showElement(Graphics g) {
 		g.drawImage(img.getImage(), 
 				getX(), getY(),                  //屏幕左上角坐标
 				getX()+getW(), getY()+getH(),    //屏幕右下角坐标
@@ -50,10 +45,6 @@ public class MapSquare extends SuperElement{
 	public void move() {}
 
 	@Override
-	public void destroy() {
-//		传入位置，调用MagicBox的create方法
-		Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
-		elmenteMap.get("magicBox").add(MagicBox.createMagicBox(getX(), getY()));	
-	}
+	public void destroy() {}
 	
 }

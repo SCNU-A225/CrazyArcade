@@ -65,6 +65,21 @@ public abstract class SuperElement {
 		this.h = h;
 	}
 	
+	public int getTopBound() {
+		return y;
+	}
+	
+	public int getLeftBound() {
+		return x;
+	}
+	
+	public int getRightBound() {
+		return x+w;
+	}
+	
+	public int getBottomBound() {
+		return y+h;
+	}
 	
 	public int getX() {
 		return x;

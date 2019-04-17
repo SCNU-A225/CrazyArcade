@@ -1,6 +1,5 @@
 package com.a225.main;
 
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;

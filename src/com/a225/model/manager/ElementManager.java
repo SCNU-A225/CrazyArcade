@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.a225.main.GameStart;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.vo.GameMap;
-import com.a225.model.vo.MapFloor;
 import com.a225.model.vo.SuperElement;
 
 /**

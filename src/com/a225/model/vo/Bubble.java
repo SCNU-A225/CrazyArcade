@@ -21,12 +21,16 @@ public class Bubble extends SuperElement{
 	private ImageIcon img;
 	private int moveX;
 	private int playerNum;//表示对应玩家的炸弹，0为玩家一，1为玩家二
+	private int imgW;
+	private int imgH;
 
 	//构造函数
-	public Bubble(int x, int y, int w, int h, ImageIcon img, int playerNum) {
+	public Bubble(int x, int y, int w, int h, ImageIcon img, int imgW, int imgH, int playerNum) {
 		super(x, y, w, h);
 		this.img = img;
 		this.playerNum = playerNum;
+		this.imgW = imgW;
+		this.imgH = imgH;
 		moveX = 0;
 		//地图对应位置设置为障碍物，不能通过
 		GameMap gameMap = ElementManager.getManager().getGameMap();
@@ -34,32 +38,25 @@ public class Bubble extends SuperElement{
 		gameMap.setBlockSquareType(maplist.get(0), maplist.get(1), GameMap.SquareType.BUBBLE);
 	}
 	
-	//创建气泡1
+	//创建气泡
 	public static Bubble createBubble(int x, int y,List<String> list,int playerNum) {
 		//list=[Bubble,w,h]
-		int w = Integer.parseInt(list.get(1));
-		int h = Integer.parseInt(list.get(2));
+		int imgW = Integer.parseInt(list.get(1));
+		int imgH = Integer.parseInt(list.get(2));
+		int w = MapSquare.PIXEL_X;
+		int h = MapSquare.PIXEL_Y;
 		Map<String, ImageIcon> imageMap = 
 				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
-		return new Bubble(x, y, w, h, imageMap.get(list.get(0)),playerNum);
-	}
-	//创建气泡2
-	public static Bubble createBubble(List<String> list,int playerNum){
-		//list=[水泡图片，图片宽w，图片高h]
-		int w = Integer.parseInt(list.get(1));
-		int h = Integer.parseInt(list.get(2));
-		Map<String, ImageIcon> imageMap = 
-				ElementLoader.getElementLoader().getImageMap();//获取资源加载器的图片字典
-		return new Bubble(0, 0, w, h, imageMap.get(list.get(0)),playerNum);
+		return new Bubble(x, y, w, h, imageMap.get(list.get(0)), imgW, imgH ,playerNum);
 	}
 
 	@Override
 	public void showElement(Graphics g) {
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
-				getX()+MapSquare.PIXEL_X, getY()+MapSquare.PIXEL_Y, 	//屏幕右下坐标
-				moveX*getW(), 0, 				//图片左上坐标
-				(moveX+1)*getW(), 46, 			//图片右下坐标
+				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
+				(moveX/8)*imgW, 0, 				//图片左上坐标
+				(moveX/8+1)*imgW, imgH, 			//图片右下坐标
 				null);
 	}
 	
@@ -72,8 +69,8 @@ public class Bubble extends SuperElement{
 
 	//更新图片
 	public void updateImage() {
-		moveX++;
-		moveX = moveX % 4;
+		if(++moveX>=32)
+			moveX = 0;
 	}
 	
 	//使用计时器，2.5秒改变Alive状态
@@ -106,6 +103,7 @@ public class Bubble extends SuperElement{
 			List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
 			Player player = (Player) list2.get(playerNum);
 			player.setBubbleNum(player.getBubbleNum()-1);
+			player.setInBubble(true);
 		}
 	}
 

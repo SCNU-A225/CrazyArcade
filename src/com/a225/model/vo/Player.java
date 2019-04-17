@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.MoveTypeEnum;
+import com.a225.util.Utils;
 
 
 /**
@@ -37,6 +38,7 @@ public class Player extends SuperElement{
 	private static int INIT_SPEED = 4; //初始移动速度
 	private int speed;//移动速度
 	private int speedItemCount = 0;//生效中的加速卡数量
+	private boolean inBubble;
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img, int playerNum) {
@@ -50,8 +52,9 @@ public class Player extends SuperElement{
 		keepAttack = false;
 		dead = false;
 		bubbleNum = 0;
-		bubbleLargest = 3;
+		bubbleLargest = 1;
 		speed = INIT_SPEED;
+		inBubble = false;
 	}
 	
 	public static Player createPlayer(List<String> list,int playerNum) {
@@ -83,18 +86,19 @@ public class Player extends SuperElement{
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
 				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
-				moveX*100+27, moveY*100+43, 				//图片左上坐标
-				moveX*100+72, moveY*100+99, 			//图片右下坐标
+				(moveX/6)*100+27, moveY*100+43, 				//图片左上坐标
+				(moveX/6)*100+72, moveY*100+99, 			//图片右下坐标
 				null);
 	}
 
 	//移动
 	@Override
 	public void move() {
+		if(dead) return;
+		
 		int tx = getX();
 		int ty = getY();
 		
-
 		switch(moveType) {
 		case TOP: ty-=speed;break;
 		case LEFT: tx-=speed;break;
@@ -107,10 +111,38 @@ public class Player extends SuperElement{
 		
 		boolean det1 = crashDetection(tx, ty, ElementManager.getManager().getElementList("obstacle"));
 		boolean det2 = crashDetection(tx, ty, ElementManager.getManager().getElementList("fragility"));
-		if(det1&&det2) {
+		boolean det3 = bubbleCrashDetection(tx, ty, ElementManager.getManager().getElementList("bubble"));
+		
+		if(det1&&det2&&det3) {
 			setX(tx);
 			setY(ty);			
 		}
+	}
+	
+	private boolean bubbleCrashDetection(int tx, int ty, List<SuperElement> list) {
+		for(SuperElement se:list) {
+			switch(moveType) {
+			case TOP: 
+			case DOWN:
+				if(Utils.between(getBottomBound(), se.getTopBound(), se.getBottomBound())
+						||Utils.between(getTopBound(), se.getTopBound(), se.getBottomBound())
+						||(getBottomBound()==se.getBottomBound()&&getTopBound()==se.getTopBound())) {
+					return true;
+				}
+				break;
+			case LEFT:
+			case RIGHT:
+				if(Utils.between(getLeftBound(), se.getLeftBound(), se.getRightBound())
+						||Utils.between(getRightBound(), se.getLeftBound(), se.getRightBound())
+						||(getLeftBound()==se.getLeftBound()&&getRightBound()==se.getRightBound())) {
+					return true;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		return crashDetection(tx, ty, list);
 	}
 	
 	/**
@@ -118,13 +150,14 @@ public class Player extends SuperElement{
 	 * @param tx
 	 * @param ty
 	 * @param list
-	 * @return 是否碰撞
+	 * @return 没有碰撞
 	 */
 	private boolean crashDetection(int tx, int ty, List<SuperElement> list){
 		int bias = 1;//判断碰撞偏差值
 		int THRESHOLD = 25;//平滑移动阈值
 		Rectangle playerRect = new Rectangle(tx, ty, getW(), getH());
 		Random random = new Random();
+		GameMap gameMap = ElementManager.getManager().getGameMap();
 		
 		for(SuperElement se:list) {
 			Rectangle elementRect = new Rectangle(se.getX()+bias, se.getY()+bias, se.getW()-bias, se.getH()-bias);
@@ -134,12 +167,17 @@ public class Player extends SuperElement{
 				case DOWN:
 					int width=Math.min(getX()+getW(),se.getX()+se.getW())-Math.max(getX(), se.getX());
 					if(width>THRESHOLD) break;//超过阈值不做平滑处理
-					if(getX()<se.getX()) {
+					
+					if(getX()<se.getX()) {//玩家在左边
+						if(moveType==MoveTypeEnum.TOP&&!gameMap.blockIsWalkable(GameMap.getIJ(getLeftBound(), getTopBound()-10))) break;
+						else if(moveType==MoveTypeEnum.DOWN&&!gameMap.blockIsWalkable(GameMap.getIJ(getLeftBound(), getBottomBound()+10))) break;
 						for(int i=0;i<width;i++) {
 							if(random.nextBoolean())
 								setX(getX()-1);
 						}
 					} else {
+						if(moveType==MoveTypeEnum.TOP&&!gameMap.blockIsWalkable(GameMap.getIJ(getRightBound(), getTopBound()-10))) break;
+						else if(moveType==MoveTypeEnum.DOWN&&!gameMap.blockIsWalkable(GameMap.getIJ(getRightBound(), getBottomBound()+10))) break;
 						for(int i=0;i<width;i++) {
 							if(random.nextBoolean())
 								setX(getX()+1);
@@ -150,12 +188,17 @@ public class Player extends SuperElement{
 				case RIGHT:
 					int height=Math.min(getY()+getH(),se.getY()+se.getH())-Math.max(getY(), se.getY());
 					if(height>THRESHOLD) break;
-					if(getY()<se.getY()) {
+					
+					if(getY()<se.getY()) {//玩家在上面
+						if(moveType==MoveTypeEnum.LEFT&&!gameMap.blockIsWalkable(GameMap.getIJ(getLeftBound()-10, getTopBound()))) break;
+						else if(moveType==MoveTypeEnum.RIGHT&&!gameMap.blockIsWalkable(GameMap.getIJ(getLeftBound()+10, getTopBound()))) break;
 						for(int i=0;i<height;i++) {
 							if(random.nextBoolean())
 								setY(getY()-1);
 						}
 					} else {
+						if(moveType==MoveTypeEnum.LEFT&&!gameMap.blockIsWalkable(GameMap.getIJ(getLeftBound()-10, getBottomBound()))) break;
+						else if(moveType==MoveTypeEnum.RIGHT&&!gameMap.blockIsWalkable(GameMap.getIJ(getLeftBound()+10, getBottomBound()))) break;
 						for(int i=0;i<height;i++) {
 							if(random.nextBoolean())
 								setY(getY()+1);
@@ -186,7 +229,8 @@ public class Player extends SuperElement{
 			return;
 		}
 		
-		moveX = ++moveX%4;
+		if(++moveX>=24)
+			moveX = 0;
 		
 		switch (moveType) {
 		case TOP:moveY = 3;break;
@@ -202,7 +246,7 @@ public class Player extends SuperElement{
 		List<Integer> loc = GameMap.getXY(GameMap.getIJ(getX()+getW()/2, getY()+getH()/2));
 		GameMap gameMap = ElementManager.getManager().getGameMap();
 		List<Integer> maplist = GameMap.getIJ(loc.get(0), loc.get(1));
-		if(attack && bubbleNum<bubbleLargest &&  //判断是否为攻击状态，当前的炸弹数小于上限值，当前位置没有炸弹
+		if(attack && !dead && bubbleNum<bubbleLargest &&  //判断是否为攻击状态，当前的炸弹数小于上限值，当前位置没有炸弹
 				gameMap.getBlockSquareType(maplist.get(0), maplist.get(1))!=GameMap.SquareType.BUBBLE) {
 
 			List<SuperElement> list = 
@@ -319,6 +363,14 @@ public class Player extends SuperElement{
 
 	public void setDead(boolean dead) {
 		this.dead = dead;
+	}
+
+	public boolean isInBubble() {
+		return inBubble;
+	}
+
+	public void setInBubble(boolean inBubble) {
+		this.inBubble = inBubble;
 	}
 	
 	

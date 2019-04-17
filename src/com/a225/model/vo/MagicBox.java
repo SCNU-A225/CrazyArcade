@@ -69,7 +69,7 @@ public class MagicBox extends MapSquare{
 		if(eaten){	
 //			将被摧毁方块设置为地板
 			GameMap gameMap = ElementManager.getManager().getGameMap();
-			List<Integer> list = gameMap.getIJ(getX(), getY());
+			List<Integer> list = GameMap.getIJ(getX(), getY());
 			gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);
 //			得到buff
 			List<SuperElement> playerList = ElementManager.getManager().getElementList("player");

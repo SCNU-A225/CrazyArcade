@@ -169,8 +169,18 @@ public class GameMap {
 	}
 	
 	/**
+	 * 获取地图ij点的方块类型
+	 * @param list ij列表
+	 * @return 方块类型
+	 */
+	public SquareType getBlockSquareType(List<Integer> list) {
+		String str = mapList.get(list.get(0)).get(list.get(1));
+		return SquareType.valueOf(str.charAt(0));
+	}
+	
+	/**
 	 * 设置地图ij点方块类型
-	 * @param list
+	 * @param list ij列表
 	 * @param type
 	 */
 	public void setBlockSquareType(List<Integer> list,SquareType type) {
@@ -204,6 +214,20 @@ public class GameMap {
 		}
 	}
 	
+	/**
+	 * 获取ij位置是否可通过
+	 * @param list
+	 * @return 可通过
+	 */
+	public boolean blockIsWalkable(List<Integer> list) {
+		String type = mapList.get(list.get(0)).get(list.get(1));
+		if(type.charAt(0) == SquareType.OBSTACLE.value
+				||type.charAt(0) == SquareType.FRAGILITY.value) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	/**
 	 * 判断是否超出边界
 	 * @param list ij列表
@@ -265,6 +289,7 @@ public class GameMap {
 		ElementManager.getManager().getElementList("explode").clear();
 		ElementManager.getManager().getElementList("magicBox").clear();
 		ElementManager.getManager().getElementList("npc").clear();
+		ElementManager.getManager().getElementList("bubble").clear();
 	}
 	
 	/**
