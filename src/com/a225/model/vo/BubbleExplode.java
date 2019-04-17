@@ -17,11 +17,11 @@ import com.a225.model.manager.ElementManager;
 public class BubbleExplode extends SuperElement{
 	//爆炸四个方向及中心的图片
 	private static List<String> photoNameList = ElementLoader.getElementLoader().getGameInfoMap().get("explode");
-	private static ImageIcon imgCenter = ElementLoader.getElementLoader().getImageMap().get(photoNameList.get(0));
-	private static ImageIcon imgUp = ElementLoader.getElementLoader().getImageMap().get(photoNameList.get(1));
-	private static ImageIcon imgDown = ElementLoader.getElementLoader().getImageMap().get(photoNameList.get(2));
-	private static ImageIcon imgLeft = ElementLoader.getElementLoader().getImageMap().get(photoNameList.get(3));
-	private static ImageIcon imgRight = ElementLoader.getElementLoader().getImageMap().get(photoNameList.get(4));
+	private static ImageIcon imgCenter = ElementLoader.getElementLoader().getImageMap().get("explodeCenter");
+	private static ImageIcon imgUp = ElementLoader.getElementLoader().getImageMap().get("explodeUp");
+	private static ImageIcon imgDown = ElementLoader.getElementLoader().getImageMap().get("explodeDown");
+	private static ImageIcon imgLeft = ElementLoader.getElementLoader().getImageMap().get("explodeLeft");
+	private static ImageIcon imgRight = ElementLoader.getElementLoader().getImageMap().get("explodeRight");
 
 	
 	//炸弹在地图中往四个方向延申的步数
