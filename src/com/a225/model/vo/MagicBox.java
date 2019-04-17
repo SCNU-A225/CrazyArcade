@@ -75,20 +75,15 @@ public class MagicBox extends MapSquare{
 			List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
 			Player player = (Player) playerList.get(this.getPlayer());
 			switch (type) {
-			
 			case "34": //增加移动速度
 				player.changeSpeed(2,5);//传入移速增加倍数和持续时间（秒）
 				System.out.println(player.getSPEED());
 				break;
-			
 			case "35": //气泡个数增加
 				player.setBubbleLargest(player.getBubbleLargest()+1);
 				System.out.println(player.getBubbleLargest());	
 				break;
-				
-
 			default:
-				System.out.println("1");	
 				break;
 			}
 			

@@ -26,7 +26,7 @@ public class GameMap {
 	
 	//自定义方块类型对应枚举类
 	public enum SquareType{
-		OBSTACLE('0'),FLOOR('1'),FRAGILITY('2'),ITEM('3'),PLAYER_1('6'),PLAYER_2('7'),BUBBLE('9');
+		OBSTACLE('0'),FLOOR('1'),FRAGILITY('2'),ITEM('3'),PLAYER_1('6'),PLAYER_2('7'),NPC('8'),BUBBLE('9');
 		
 		private char value = 0;
 		
@@ -42,6 +42,7 @@ public class GameMap {
 	        case '3':  return ITEM;  
 	        case '6':  return PLAYER_1;  
 	        case '7':  return PLAYER_2;  
+	        case '8':  return NPC;
 	        case '9':  return BUBBLE;  
 	        default:  
 	            return null;  

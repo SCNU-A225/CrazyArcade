@@ -16,7 +16,6 @@ import com.a225.model.vo.SuperElement;
  *
  */
 public class GameThread extends Thread{
-	private boolean twoPlayer = false;
 	private boolean running = true;
 	
 	@Override
@@ -120,11 +119,5 @@ public class GameThread extends Thread{
 	private void overGame() {
 		ElementManager.getManager().overGame();
 	}
-
-	public void setTwoPlayer(boolean twoPlayer) {
-		this.twoPlayer = twoPlayer;
-	}
-	
-	
 
 }

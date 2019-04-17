@@ -129,5 +129,10 @@ public class GameKeyListener implements KeyListener{
 		// TODO 自动生成的方法存根
 		
 	}
+	
+	public void clearKeyStatcks() {
+		p1PressStack.clear();
+		p2PressStack.clear();
+	}
 
 }

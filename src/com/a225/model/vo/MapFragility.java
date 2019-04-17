@@ -3,9 +3,7 @@ package com.a225.model.vo;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
-
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 

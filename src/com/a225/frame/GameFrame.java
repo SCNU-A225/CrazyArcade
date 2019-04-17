@@ -94,8 +94,6 @@ public class GameFrame  extends JFrame{
 
 	public void setjPanel(JPanel jPanel) {
 		this.jPanel = jPanel;
-		//this.setContentPane(jPanel);
-		//this.jPanel.setBounds(0, 0, getWidth(), getHeight());
 	}
 	
 }

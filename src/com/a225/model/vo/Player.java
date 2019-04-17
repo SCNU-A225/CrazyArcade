@@ -35,6 +35,7 @@ public class Player extends SuperElement{
 	private int bubbleLargest;//玩家最多可以放多少个炸弹，初始值为3
 	private static int INIT_SPEED = 4; //初始移动速度
 	private int speed;//移动速度
+	private int speedItemCount = 0;//生效中的加速卡数量
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img, int playerNum) {
@@ -212,11 +213,14 @@ public class Player extends SuperElement{
 	public void changeSpeed(double times,int lastTime) {
 		speed = (int)(getSPEED()*times);
 		Timer timer = new Timer(true);
+		speedItemCount++;
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
-				setSPEED(INIT_SPEED);
-				System.out.println(getSPEED());
+				speedItemCount--;
+				if(speedItemCount==0) {
+					setSPEED(INIT_SPEED);					
+				}
 			}
 		};
 		timer.schedule(task,lastTime*1000);

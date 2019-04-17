@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.a225.main.GameController;
 import com.a225.main.GameStart;
 import com.a225.model.loader.ElementLoader;
 
@@ -46,6 +48,7 @@ public class BeginJPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				GameController.setTwoPlayer(false);
 				GameStart.changeJPanel(true);
 			}
 		});
@@ -60,6 +63,7 @@ public class BeginJPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				GameController.setTwoPlayer(true);
 				GameStart.changeJPanel(true);
 			}
 		});
