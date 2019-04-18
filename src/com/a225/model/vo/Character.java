@@ -6,6 +6,13 @@ import java.util.TimerTask;
 
 import com.a225.model.manager.MoveTypeEnum;
 
+/**
+ * 角色类
+ * @ClassName: Character  
+ * @Description:为玩家和电脑的父类，保存玩家与电脑共有的属性和方法    
+ * @author: WeiXiao
+ * @CreateDate: 2019年4月18日 下午5:27:20
+ */
 public class Character extends SuperElement{
 	public final static int INIT_SPEED = 4; //初始移动速度
 	

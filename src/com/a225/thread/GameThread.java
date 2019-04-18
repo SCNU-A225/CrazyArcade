@@ -32,7 +32,7 @@ public class GameThread extends Thread{
 			//结束当前关
 			overGame(over);
 		}
-		GameStart.changeJPanel(false);
+		GameStart.changeJPanel("over");
 	}
 	
 	//加载元素

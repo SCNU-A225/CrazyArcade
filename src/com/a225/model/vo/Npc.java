@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 
@@ -21,12 +22,15 @@ public class Npc extends Character{
 	private int imgH;//图片高
 	private int npcNum;//记录第几个npc，2为npcA，3为npcB,4为npcC
 	private int step; //控制npc步伐节奏
+	
+	private Vector<MoveTypeEnum> path;
 
 	public Npc(int x, int y, int w, int h, int imgW, int imgH,List<ImageIcon> img, int npcNum) {
 		super(x, y, w, h);
 		this.imgW = imgW;
 		this.imgH = imgH;
 		this.imgList = new ArrayList<>(img);
+		this.path = new Vector<>();
 		this.npcNum = npcNum;
 		random = new Random();
 		moveX = 0;
@@ -65,6 +69,34 @@ public class Npc extends Character{
 		}
 	}
 	
+	private void findPath() {
+		
+	}
+	
+	private void tmove() {
+		if(step==MapSquare.PIXEL_X/Character.INIT_SPEED) {
+			moveType = path.firstElement();
+			path.remove(0);
+		}
+		switch(moveType) {
+		case LEFT:
+				setX(getX()-speed);
+				break;
+		case RIGHT:
+				setX(getX()+speed);
+				break;
+		case TOP:
+				setY(getY()-speed);
+				break;
+		case DOWN:
+				setY(getY()+speed);
+				break;
+		default:
+			break;
+		}
+		step++;
+	}
+	
 	private void updateImage() {
 		switch(moveType) {
 		case STOP: moveX = 0;break;
@@ -74,11 +106,12 @@ public class Npc extends Character{
 		case DOWN: moveX = 0;break;
 		}
 	}
+	
 
 	//移动
 	@Override
 	public void move() {
-		if(step==64/Character.INIT_SPEED) {
+		if(step==MapSquare.PIXEL_X/Character.INIT_SPEED) {
 			step=0;
 			if(!letsGo(moveType)||Math.random()<0.2) {//如果前面有障碍物，转弯
 				turn();
@@ -97,6 +130,8 @@ public class Npc extends Character{
 		case DOWN:
 				setY(getY()+speed);
 				break;
+		default:
+			break;
 		}
 		step++;
 	}
@@ -161,14 +196,6 @@ public class Npc extends Character{
 		}
 	}
 
-	public MoveTypeEnum getMoveType() {
-		return moveType;
-	}
-
-	public void setMoveType(MoveTypeEnum moveType) {
-		this.moveType = moveType;
-	}
-
 	public int getMoveX() {
 		return moveX;
 	}
@@ -183,22 +210,6 @@ public class Npc extends Character{
 
 	public void setNpcNum(int npcNum) {
 		this.npcNum = npcNum;
-	}
-
-	public int getBubbleNum() {
-		return bubbleNum;
-	}
-
-	public void setBubbleNum(int bubbleNum) {
-		this.bubbleNum = bubbleNum;
-	}
-
-	public int getBubbleLargest() {
-		return bubbleLargest;
-	}
-
-	public void setBubbleLargest(int bubbleLargest) {
-		this.bubbleLargest = bubbleLargest;
 	}
 
 	public int getImgW() {

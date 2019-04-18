@@ -13,7 +13,7 @@ import com.a225.model.manager.ElementManager;
 import com.a225.model.vo.SuperElement;
 
 /**
- * 
+ * 游戏面板
  * @author Jenson
  * 窗体容器：画板类
  */
@@ -23,25 +23,19 @@ public class GameJPanel extends JPanel implements Runnable{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		//前动画
 		gameRuntime(g);
-		//衔接动画
 	}
 	
 	@Override
 	public void run() {
-		//while(true){
-			while(GameController.isGameRunning()) {
-				try {
-					Thread.sleep(20);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.repaint(); //每隔100毫秒刷新画板
+		while(GameController.isGameRunning()) {
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		//}
-		
+			this.repaint(); //每隔100毫秒刷新画板
+		}
 	}
 	
 	//展示元素管理器中所有的元素
@@ -56,7 +50,6 @@ public class GameJPanel extends JPanel implements Runnable{
 				list.get(i).showElement(g);
 			}
 		}
-
 	}
 	
 

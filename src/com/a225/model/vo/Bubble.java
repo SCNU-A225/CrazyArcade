@@ -139,4 +139,8 @@ public class Bubble extends SuperElement{
 	public int getPlayerNum() {
 		return this.playerNum;
 	}
+
+	public int getPower() {
+		return power;
+	}
 }

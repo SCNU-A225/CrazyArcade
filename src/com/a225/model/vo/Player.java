@@ -5,9 +5,6 @@ import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
@@ -294,10 +291,12 @@ public class Player extends Character{
 		return this.playerNum;
 	}
 
+	@Override
 	public boolean isDead() {
 		return dead;
 	}
 
+	@Override
 	public void setDead(boolean dead) {
 		this.dead = dead;
 	}

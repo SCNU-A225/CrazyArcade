@@ -19,14 +19,12 @@ public class BeginJPanel extends JPanel{
 	private int w;
 	private int h;
 	
-	//无参构造函数，防止出错
-	public BeginJPanel(){}
-	
-	public BeginJPanel(String url){
-		List<String> str = ElementLoader.getElementLoader().getGameInfoMap().get("windowSize");
-		this.img = new ImageIcon(url);
-		this.w = new Integer(str.get(0)).intValue();
-		this.h = new Integer(str.get(1)).intValue();
+	//构造函数
+	public BeginJPanel(){
+		List<String> data = ElementLoader.getElementLoader().getGameInfoMap().get("windowSize");
+		this.img = ElementLoader.getElementLoader().getImageMap().get("beginBackground");
+		this.w = new Integer(data.get(0)).intValue();
+		this.h = new Integer(data.get(1)).intValue();
 		init();
 	}
 
@@ -39,7 +37,7 @@ public class BeginJPanel extends JPanel{
 		jLabel.setBounds(0, 0, w, h);
 		
 		JButton onePlayerButton = new JButton();
-		onePlayerButton.setIcon(new ImageIcon("img/bg/rect1.png"));
+		onePlayerButton.setIcon(ElementLoader.getElementLoader().getImageMap().get("rect1"));
 		onePlayerButton.setBounds(w/6, h-h/2, 180, 60);
 		onePlayerButton.setBorderPainted(false);
 		onePlayerButton.setFocusPainted(false);
@@ -49,12 +47,12 @@ public class BeginJPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				GameController.setTwoPlayer(false);
-				GameStart.changeJPanel(true);
+				GameStart.startNewGame();
 			}
 		});
 		
 		JButton twoPlayerButton = new JButton();
-		twoPlayerButton.setIcon(new ImageIcon("img/bg/rect2.png"));
+		twoPlayerButton.setIcon(ElementLoader.getElementLoader().getImageMap().get("rect2"));
 		twoPlayerButton.setBounds(w/6, h-h/4, 180, 60);
 		twoPlayerButton.setBorderPainted(false);
 		twoPlayerButton.setFocusPainted(false);
@@ -64,7 +62,7 @@ public class BeginJPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				GameController.setTwoPlayer(true);
-				GameStart.changeJPanel(true);
+				GameStart.startNewGame();
 			}
 		});
 		

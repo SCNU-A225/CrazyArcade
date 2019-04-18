@@ -111,7 +111,7 @@ public class ElementManager {
 	}
 	
 	public void loadMap(){
-		gameMap.createMap("testMap");
+		gameMap.createMap("stage1Map");
 	}
 
 	public void overGame(Boolean over) {
