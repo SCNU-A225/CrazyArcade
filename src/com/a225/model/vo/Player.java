@@ -210,17 +210,24 @@ public class Player extends SuperElement{
 	
 //	改变一段时间的移动速度,传入速度需要提升的倍数和持续的时间（秒）
 	public void changeSpeed(double times,int lastTime) {
-		speed = (int)(getSPEED()*times);
-		Timer timer = new Timer(true);
-		TimerTask task = new TimerTask() {
-			@Override
-			public void run() {
-				setSPEED(INIT_SPEED);
-				System.out.println(getSPEED());
+		{
+			
+			Timer timer = new Timer(true);
+			TimerTask task = new TimerTask() {
+				@Override
+				public void run() {
+					setSPEED(INIT_SPEED);
+					System.out.println(getSPEED());
+				}
+			};
+		
+			if(getSPEED() == INIT_SPEED*times) speed = (int)(getSPEED()*times);//设置速度
+			
+			timer.schedule(task,lastTime*1000);
+			
+
+		}
 			}
-		};
-		timer.schedule(task,lastTime*1000);
-	}
 
 	@Override
 	public void destroy() {

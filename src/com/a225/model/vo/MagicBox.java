@@ -1,5 +1,6 @@
 package com.a225.model.vo;
 
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,6 +45,12 @@ public class MagicBox extends MapSquare{
 	}
 	
 //	重写crash方法，缩小碰撞体积
+	@Override
+	public boolean crash(SuperElement se) {
+		Rectangle r1 = new Rectangle(getX()+getW()/4, getY()+getH()/4, getW()/2, getH()/2);
+		Rectangle r2 = new Rectangle(se.getX(), se.getY(), se.getW(), se.getH());
+		return r1.intersects(r2);//有交集范围true
+	}
 	
 	@Override
 	public void update() {
@@ -75,9 +82,13 @@ public class MagicBox extends MapSquare{
 			List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
 			Player player = (Player) playerList.get(this.getPlayer());
 			switch (type) {
+			case "31": //使移动反向
+				player.changeDirection(2);//传入方向改变的持续时间（秒）
+				System.out.println(player.getSPEED());
+				break;
 			
 			case "34": //增加移动速度
-				player.changeSpeed(2,5);//传入移速增加倍数和持续时间（秒）
+				player.changeSpeed(2,10);//传入移速增加倍数和持续时间（秒）
 				System.out.println(player.getSPEED());
 				break;
 			
@@ -89,6 +100,7 @@ public class MagicBox extends MapSquare{
 
 			default:
 				System.out.println("1");	
+
 				break;
 			}
 			
