@@ -75,7 +75,7 @@ public class Player extends Character{
 				null);
 		
 		//œ‘ æ∑÷ ˝
-		String string = "Player" + Integer.toString(playerNum)+": " + Integer.toString(score);
+		String string = "Player" + Integer.toString(playerNum+1)+": " + Integer.toString(score);
 		g.setColor(new Color(255, 153, 0));
 		g.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		g.drawString(string, 0,(playerNum+1)*MapSquare.PIXEL_Y);

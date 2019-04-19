@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.vo.SuperElement;
+import com.a225.util.Utils;
 
 /**
  * ÔªËØ¹ÜÀíÆ÷
@@ -112,7 +113,9 @@ public class ElementManager {
 	}
 	
 	public void loadMap(){
-		gameMap.createMap("testMap");
+		int mapNum = Integer.parseInt(ElementLoader.getElementLoader().getGameInfoMap().get("mapNum").get(0));
+		//gameMap.createMap("stage"+(Utils.random.nextInt(mapNum)+1)+"Map");
+		gameMap.createMap("stage2Map");
 	}
 
 	public void overGame(Boolean over) {

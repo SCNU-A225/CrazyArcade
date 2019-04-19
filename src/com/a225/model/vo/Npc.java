@@ -22,10 +22,10 @@ import com.a225.model.manager.GameMap;
 import com.a225.model.manager.MoveTypeEnum;
 import com.a225.util.Point;
 import com.a225.util.Utils;
-import com.a225.model.manager.GameMap.SquareType;
 
 public class Npc extends Character{
 	final String DANGER_MARKER = "-1";
+	private static final int ATTACK_RANGE = 64;
 	
 	private Random random;
 	private List<ImageIcon> imgList;
@@ -85,9 +85,11 @@ public class Npc extends Character{
 	}
 	
 	private void autoAttack() {
+		Rectangle npcRect = new Rectangle(getX(), getY(), getW(), getH());
 		List<SuperElement> seList = ElementManager.getManager().getElementList("player");
 		for(SuperElement se:seList) {
-			if (crash(se)&&getBubbleLargest()-getBubbleNum()>0) {
+			Rectangle playerRect = new Rectangle(se.getX()-ATTACK_RANGE, se.getY()-ATTACK_RANGE, se.getW()+2*ATTACK_RANGE, se.getH()+2*ATTACK_RANGE);
+			if (playerRect.intersects(npcRect)&&getBubbleLargest()-getBubbleNum()>0) {
 				addBubble();
 			}
 		}
@@ -210,7 +212,7 @@ public class Npc extends Character{
 			Point fPoint = queue.poll();
 			book[fPoint.i][fPoint.j] = true;
 			if (!dangerZone[fPoint.i][fPoint.j].equals(DANGER_MARKER)
-					&& gameMap.getBlockSquareType(fPoint.i, fPoint.j)!=GameMap.SquareType.BUBBLE) {//此处判定有误
+					&& gameMap.getBlockSquareType(fPoint.i, fPoint.j)!=GameMap.SquareType.BUBBLE) {
 				path.clear();
 				path.addAll(fPoint.path);
 				return true;
@@ -239,13 +241,13 @@ public class Npc extends Character{
 		List<Integer> ijList = GameMap.getIJ(getX(), getY());
 		//暂时判断前面是地板即可前进，TODO判断前面是Bubble
 		switch(m) {
-		case LEFT: if(gameMap.getBlockSquareType(ijList.get(0), ijList.get(1)-1)==SquareType.FLOOR) go = true;
+		case LEFT: if(gameMap.blockIsWalkable(ijList.get(0), ijList.get(1)-1)) go = true;
 			break;  
-		case RIGHT: if(gameMap.getBlockSquareType(ijList.get(0), ijList.get(1)+1)==SquareType.FLOOR) go = true;
+		case RIGHT: if(gameMap.blockIsWalkable(ijList.get(0), ijList.get(1)+1)) go = true;
 			break;
-		case TOP: if(gameMap.getBlockSquareType(ijList.get(0)-1, ijList.get(1))==SquareType.FLOOR) go = true;
+		case TOP: if(gameMap.blockIsWalkable(ijList.get(0)-1, ijList.get(1))) go = true;
 			break;  
-		case DOWN: if(gameMap.getBlockSquareType(ijList.get(0)+1, ijList.get(1))==SquareType.FLOOR) go = true;
+		case DOWN: if(gameMap.blockIsWalkable(ijList.get(0)+1, ijList.get(1))) go = true;
 			break;
 		case STOP: go=true;
 			break;
@@ -398,11 +400,11 @@ public class Npc extends Character{
 		List<Integer> maplist = GameMap.getIJ(loc.get(0), loc.get(1));
 		if( bubbleNum<bubbleLargest &&  //当前的炸弹数小于上限值，当前位置没有炸弹
 				gameMap.getBlockSquareType(maplist.get(0), maplist.get(1))!=GameMap.SquareType.BUBBLE) {
-
+			bubbleNum++;
 			List<SuperElement> list = 
 					ElementManager.getManager().getElementList("bubble");
 			list.add(Bubble.createBubble(loc.get(0), loc.get(1), ElementLoader.getElementLoader().getGameInfoMap().get("bubble"),npcNum+2,getBubblePower()));
-			bubbleNum++;
+			
 		}
 	}
 

@@ -102,9 +102,11 @@ public class GameMap {
 		Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
 		Map<String, List<SuperElement>>elmenteMap = ElementManager.getManager().getMap();
 		Map<String, List<String>> gameInfoMap = ElementLoader.getElementLoader().getGameInfoMap();
+		int npcNum = 0;
 		for (int i = 0; i < mapRows; i++) {
 			for (int j = 0; j < mapCols; j++) {
 				String type = mapList.get(i).get(j);
+				if(i==10) System.out.println(type);
 				switch (type.charAt(0)) {
 				case '0':
 					if(type.equals("00")) break;//¿ÕÆøÇ½
@@ -122,9 +124,23 @@ public class GameMap {
 				case '7':
 					if(GameController.isTwoPlayer())
 						initPlayer(i, j, 1);
+					else {
+						switch (type.charAt(1)) {
+						case '1':elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcA"), i, j, npcNum++));break;
+						case '2':elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcB"), i, j, npcNum++));break;
+						case '3':elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcC"), i, j, npcNum++));break;
+						default:break;
+						}
+					}
 					break;
 				case '8':
-					elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcA"), i, j, 0));
+					switch (type.charAt(1)) {
+					case '1':elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcA"), i, j, npcNum++));break;
+					case '2':elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcB"), i, j, npcNum++));break;
+					case '3':elmenteMap.get("npc").add(Npc.createNpc(gameInfoMap.get("npcC"), i, j, npcNum++));break;
+					default:break;
+					}
+					
 					break;
 				
 				default:
@@ -132,6 +148,7 @@ public class GameMap {
 				}
 			}
 		}
+		GameController.setNpcNum(npcNum);
 	}
 	
 	public void createMap(String pro){

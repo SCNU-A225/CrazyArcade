@@ -12,8 +12,10 @@ charatersPath=com/a225/pro/Characters.pro
 bubblePath=com/a225/pro/Bubble.pro
 
 #地图配置文件
+mapNum=3
 stage1Map=com/a225/pro/stage1/Map.pro
-testMap=com/a225/pro/test/Map.pro
+stage2Map=com/a225/pro/stage2/Map.pro
+stage3Map=com/a225/pro/stage3/Map.pro
 
 #方块类型配置文件
 squareProPath=com/a225/pro/Square.pro

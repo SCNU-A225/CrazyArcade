@@ -137,8 +137,6 @@ public class GameThread extends Thread{
 			OverJPanel.getResult().setText("player "+(winner+1)+" win");
 		}
 		
-		System.out.println("s"+surviveP);
-		System.out.println("alldead"+allDead);
 		//时间到，两个玩家都活着
 		if(allTime<=0&&surviveP==2&&allDead) {
 			running = false;
@@ -187,7 +185,8 @@ public class GameThread extends Thread{
 					npc.setX(-100);
 					npc.setY(-100);
 					BubbleExplode e = (BubbleExplode)explodeList.get(j);
-					((Player)playerList.get(e.getPlayerNum())).setScore(((Player)playerList.get(e.getPlayerNum())).getScore()+50);
+					if(e.getPlayerNum()<2)//目前只有玩家计分
+						((Player)playerList.get(e.getPlayerNum())).setScore(((Player)playerList.get(e.getPlayerNum())).getScore()+50);
 				}
 			}
 		}
@@ -204,7 +203,8 @@ public class GameThread extends Thread{
 					MapFragility mapFragility = (MapFragility)fragility.get(i);
 					mapFragility.setDestoried(true);
 					BubbleExplode e = (BubbleExplode)explodes.get(j);
-					((Player)playerList.get(e.getPlayerNum())).setScore(((Player)playerList.get(e.getPlayerNum())).getScore()+10);
+					if(e.getPlayerNum()<2)//目前只有玩家计分
+						((Player)playerList.get(e.getPlayerNum())).setScore(((Player)playerList.get(e.getPlayerNum())).getScore()+10);
 				}
 			}
 		}
