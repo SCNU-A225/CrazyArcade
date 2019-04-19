@@ -42,7 +42,7 @@ public class GameStart {
 		if(panelName == "game") {
 			GameController.setGameRunning(true);
 			gameFrame.addListener();
-		} else if(panelName == "begin"){
+		} else {
 			GameController.setGameRunning(false);
 			gameFrame.removeListener();
 		}

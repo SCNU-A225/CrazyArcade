@@ -90,6 +90,7 @@ public class GameMap {
 				String type = mapList.get(i).get(j);
 				switch (type.charAt(0)) {
 				case '0':
+					if(type.equals("00")) break;//空气墙
 					elmenteMap.get("obstacle").add(MapObstacle.createMapObstacle(typeMap.get(type), i, j));
 					break;
 				case '2': 
@@ -229,12 +230,30 @@ public class GameMap {
 	public boolean blockIsWalkable(List<Integer> list) {
 		String type = mapList.get(list.get(0)).get(list.get(1));
 		if(type.charAt(0) == SquareType.OBSTACLE.value
-				||type.charAt(0) == SquareType.FRAGILITY.value) {
+				||type.charAt(0) == SquareType.FRAGILITY.value
+				||type.charAt(0) == SquareType.ITEM.value) {
 			return false;
 		} else {
 			return true;
 		}
 	}
+	
+	/**
+	 * 获取ij位置是否可通过
+	 * @param list
+	 * @return 可通过
+	 */
+	public boolean blockIsWalkable(int i,int j) {
+		String type = mapList.get(i).get(j);
+		if(type.charAt(0) == SquareType.OBSTACLE.value
+				||type.charAt(0) == SquareType.FRAGILITY.value
+				||type.charAt(0) == SquareType.ITEM.value) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * 判断是否超出边界
 	 * @param list ij列表
