@@ -3,7 +3,6 @@ package com.a225.main;
 import java.io.IOException;
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;
-import com.a225.frame.GameJPanel;
 import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameKeyListener;
 
@@ -16,8 +15,6 @@ import com.a225.thread.GameKeyListener;
  */
 public class GameStart {
 	private static GameFrame gameFrame;
-	private static BeginJPanel beginJPanel;
-	private static GameKeyListener keyListener;
 
 	//游戏启动入口
 	public static void main(String[] args) {
@@ -31,36 +28,35 @@ public class GameStart {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// 窗体加载（自动化……）
+		//初始化
 		gameFrame = new GameFrame();
-		keyListener = new GameKeyListener();
-		beginJPanel = new BeginJPanel("img/bg/title.png");
-		gameFrame.setjPanel(beginJPanel);
-		gameFrame.addJPanel();
-		// 监听加载
-		
 		// 界面显示
 		gameFrame.setVisible(true);
 	}
 	
-	public static void changeJPanel(boolean gamePanel){
-		if(GameController.isGameRunning()==gamePanel) return;
-		gameFrame.setVisible(false);
-		if(gamePanel){
+	/**
+	 * 界面切换
+	 * @param panelName 界面名称
+	 */
+	public static void changeJPanel(String panelName){
+		if(panelName == "game") {
 			GameController.setGameRunning(true);
-			gameFrame.setjPanel(new GameJPanel());
-			gameFrame.setKeyListener(keyListener);
 			gameFrame.addListener();
-			gameFrame.addJPanel();
-			gameFrame.start();
-		} else {
+		} else if(panelName == "begin"){
 			GameController.setGameRunning(false);
-			gameFrame.setjPanel(beginJPanel);
 			gameFrame.removeListener();
-			gameFrame.addJPanel();
 		}
+		gameFrame.changePanel(panelName);
+	
+		//强制刷新，否则监听无效
 		gameFrame.setVisible(false);
 		gameFrame.setVisible(true);
+	}
+	
+	public static void startNewGame() {
+		GameController.setGameRunning(true);
+		gameFrame.startGame();
+		changeJPanel("game");
 	}
 
 }
