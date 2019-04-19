@@ -1,10 +1,12 @@
 package com.a225.main;
 
 import java.io.IOException;
+
 import com.a225.frame.BeginJPanel;
 import com.a225.frame.GameFrame;
 import com.a225.model.loader.ElementLoader;
 import com.a225.thread.GameKeyListener;
+import com.a225.thread.GameMusicPlayer;
 
 /**
  * 游戏启动入口
@@ -32,6 +34,8 @@ public class GameStart {
 		gameFrame = new GameFrame();
 		// 界面显示
 		gameFrame.setVisible(true);
+		GameMusicPlayer musicPlayer = new GameMusicPlayer();
+		musicPlayer.start();
 	}
 	
 	/**

@@ -28,6 +28,7 @@ public class Character extends SuperElement{
 	protected int bubblePower;//炮弹威力
 	protected int bubbleNum;//记录玩家已经放了多少个炸弹
 	protected int bubbleLargest;//玩家最多可以放多少个炸弹，初始值为3
+	public int score;
 	protected int heathPoint;//玩家生命值
 	protected boolean isUnstoppable;//玩家是否获得无敌
 	protected int unstoppableCount;//无敌卡数量
@@ -47,6 +48,8 @@ public class Character extends SuperElement{
 		unstoppableCount = 0;
 		isShowing = true;
 		speed = INIT_SPEED;
+		score = 0;
+		dead = false;
 	}
 	
 	public void setHealthPoint(int change) {
@@ -256,6 +259,16 @@ public class Character extends SuperElement{
 	public void setBubbleLargest(int bubbleLargest) {
 		this.bubbleLargest = bubbleLargest;
 	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	
 
 	public int getChangeDirectionCount() {
 		return changeDirectionCount;

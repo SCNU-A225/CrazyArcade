@@ -72,12 +72,29 @@ public class GameMap {
 	
 	//创建地板
 	private void createFloor() {
+		Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
 		List<SuperElement> floorList = ElementManager.getManager().getElementList("floor");
+		String type = null;
+		//从地图配置文件中得到是哪一种地板
 		for(int i=0;i<mapRows;i++) {
 			for(int j=0;j<mapCols;j++) {
-				floorList.add(MapFloor.createMapFloor(i, j));
+				if(mapList.get(i).get(j).equals("11")){
+					type = "11";
+					break;
+				}
+				if(mapList.get(i).get(j).equals("12")){
+					type = "12";
+					break;
+				}
 			}
 		}
+		//因此在地板构造函数增加了一个参数
+		for(int i=0;i<mapRows;i++) {
+			for(int j=0;j<mapCols;j++) {
+				floorList.add(MapFloor.createMapFloor(typeMap.get(type),i, j));	
+			}
+		}
+		
 	}
 	
 	//创建地图元素

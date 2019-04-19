@@ -7,6 +7,7 @@ gameOver=img/bg/gameover.png
 rect1=img/bg/rect1.png
 rect2=img/bg/rect2.png
 rect3=img/bg/rect3.png
+rect4=img/bg/rect4.png
 #Íæ¼Ò
 PlayerA=img/player/player1.png
 PlayerB=img/player/player2.png
