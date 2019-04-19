@@ -67,10 +67,11 @@ public class Player extends Character{
 	//展示人物图片
 	@Override
 	public void showElement(Graphics g) {
+		if(isShowing==false) return;
 		g.drawImage(img.getImage(), 
 				getX(), getY(), 	//屏幕左上角坐标
 				getX()+getW(), getY()+getH(), 	//屏幕右下坐标
-				(moveX/6)*100+27, moveY*100+43, 				//图片左上坐标
+				(moveX/6)*100+27, moveY*100+43, 			//图片左上坐标
 				(moveX/6)*100+72, moveY*100+99, 			//图片右下坐标
 				null);
 		
@@ -247,7 +248,6 @@ public class Player extends Character{
 			bubbleNum++;
 		}
 	}
-	
 
 	@Override
 	public void destroy() {}

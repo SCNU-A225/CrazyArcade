@@ -67,6 +67,7 @@ public class Npc extends Character{
 
 	@Override
 	public void showElement(Graphics g) {
+		if(isShowing==false) return;
 		g.drawImage(imgList.get(moveX).getImage(),
 				getX(), getY(), 
 				getX()+getW(), getY()+getH(), 

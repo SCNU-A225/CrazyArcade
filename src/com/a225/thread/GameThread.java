@@ -85,6 +85,8 @@ public class GameThread extends Thread{
 			fragilityBoom();
 			//电脑与炸弹碰撞死亡
 			npcBoom();
+			//电脑与道具碰撞效果
+			npcMagicBox();
 			//玩家与道具碰撞效果
 			playerMagicBox();
 			//检测是否玩家全部死亡
@@ -164,9 +166,7 @@ public class GameThread extends Thread{
 			for(int j=0; j<explodeList.size(); j++) {
 				if(explodeList.get(j).crash(playerList.get(i))){
 					Player player = (Player) playerList.get(i);
-					player.setDead(true);
-					player.setX(-100);
-					player.setY(-100);
+					player.setHealthPoint(-1);//生命值-1
 				}
 			}
 		}
@@ -227,6 +227,22 @@ public class GameThread extends Thread{
 		}
 	}
 	
+	//玩家与道具碰撞判断
+		private void npcMagicBox() {
+			List<SuperElement> npcList = ElementManager.getManager().getElementList("npc");
+			List<SuperElement> magicBoxList = ElementManager.getManager().getElementList("magicBox");
+			for(int i=0; i<npcList.size(); i++) {
+				for(int j=magicBoxList.size()-1; j>=0; j--) {
+					if(magicBoxList.get(j).crash(npcList.get(i))){
+						MagicBox magicBox = (MagicBox) magicBoxList.get(j);
+						magicBox.setPlayer(i);//谁吃方块
+						magicBox.setEaten(true);//方块被吃
+					}
+					
+				}
+			}
+		}
+		
 	//runGame调用，加入拓展
 	public void linkGame() {}
 	

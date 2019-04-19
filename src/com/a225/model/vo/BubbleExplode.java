@@ -79,7 +79,7 @@ public class BubbleExplode extends SuperElement{
 	@Override
 	public void move() {}
 
-	//爆炸效果持续0.7秒
+	//爆炸效果持续0.5秒
 	@Override
 	public void destroy() {
 		Timer timer = new Timer(true);
@@ -89,7 +89,7 @@ public class BubbleExplode extends SuperElement{
 				setAlive(false);
 			}
 		};
-		timer.schedule(task, 700);
+		timer.schedule(task, 500);
 	}
 	
 	//判断爆炸与物体边缘冲突
