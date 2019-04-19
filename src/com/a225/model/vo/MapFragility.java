@@ -3,11 +3,10 @@ package com.a225.model.vo;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
-
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
+import com.a225.model.manager.GameMap;
 
 /**
  * 地图可破坏物体类

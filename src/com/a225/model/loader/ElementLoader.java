@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.ImageIcon;
 
@@ -24,7 +27,6 @@ public class ElementLoader {
 	private Map<String, List<String>> gameInfoMap;//游戏信息字典
 	private Map<String, ImageIcon> imageMap;//图片字典
 	private Map<String, List<String>> squareTypeMap;//方块类型字典
-	
 
 	//构造函数
 	private ElementLoader() {
@@ -77,6 +79,18 @@ public class ElementLoader {
 		}
 	}
 	
+	//获取npc图片列表
+	public List<ImageIcon> getNpcImageList(String s){ //s的值为npcA,npcB或npcC 对应相应的npc
+		List<ImageIcon> imageList = new ArrayList<>();
+		String npc = new String();
+		for(int i=0; i<4; i++) {//4张图片
+			npc = s + (char)(i+'0');
+			imageList.add(imageMap.get(npc));
+		}
+		return imageList;
+	}
+	
+	
 	//读取气泡炸弹和爆炸效果配置Bubble.pro
 	public void readBubblePro() throws IOException
 	{
@@ -110,7 +124,26 @@ public class ElementLoader {
 				ElementLoader.class.getClassLoader().getResourceAsStream(gameInfoMap.get(mapPro).get(0));
 		properties.clear();
 		properties.load(inputStream);
-		for(Object o:properties.keySet()) {
+		Set<Object> sortSet = new TreeSet<>(new Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				try {
+					int a = Integer.parseInt(o1.toString());
+					int b = Integer.parseInt(o2.toString());
+					if(a<b) {
+						return 1;
+					} else if (a>b) {
+						return -1;
+					} else {
+						return 0;					
+					}
+				} catch (Exception e) {
+					return -1;
+				}
+			}
+		});
+		sortSet.addAll(properties.keySet());
+		for(Object o:sortSet) {
 			String info = properties.getProperty(o.toString());
 			if(o.toString().equals("size")) {//地图大小
 				gameInfoMap.put("mapSize", infoStringToList(info,","));
@@ -122,6 +155,7 @@ public class ElementLoader {
 		return mapList;
 	}
 	
+
 	/**
 	 * 将配置项按照指定字符串切割后转为字符串List
 	 * @param info 配置项字符串

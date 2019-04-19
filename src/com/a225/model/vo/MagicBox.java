@@ -8,9 +8,10 @@ import javax.swing.ImageIcon;
 
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
+import com.a225.model.manager.GameMap;
 
 public class MagicBox extends MapSquare{
-
+	private static Random rd = new Random();
 	private boolean eaten;//被吃掉消失。
 	private int moveX;//图片变换
 	private String type;//道具类型
@@ -27,8 +28,6 @@ public class MagicBox extends MapSquare{
 	}
 	
 	public static MagicBox createMagicBox(int i,int j) {
-//		下生成随机数
-		Random rd = new Random();
 		int letter = rd.nextInt(8)+1;
 		String boxtype = "3" + letter;
 		List<String> data = typeMap.get(boxtype);
@@ -55,40 +54,35 @@ public class MagicBox extends MapSquare{
 //	切换图片
 	public void updateImage() {
 		if(eaten) return;
-		moveX = ++moveX%3;
-		int sx = moveX*32;
+		if(++moveX>=40)
+			moveX = 0;
+		int sx = (moveX/10)*32;
 		int sy = Integer.parseInt(typeMap.get(type).get(2));
-		int dx = (moveX+1)*32;
+		int dx = (moveX/10+1)*32;
 		int dy = Integer.parseInt(typeMap.get(type).get(4));
 		setPictureLoc(sx, sy, dx, dy);
 	}
 
 	@Override
 	public void destroy() {
-		// TODO 自动生成的方法存根
 		if(eaten){	
 //			将被摧毁方块设置为地板
 			GameMap gameMap = ElementManager.getManager().getGameMap();
-			List<Integer> list = gameMap.getIJ(getX(), getY());
+			List<Integer> list = GameMap.getIJ(getX(), getY());
 			gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);
 //			得到buff
 			List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
 			Player player = (Player) playerList.get(this.getPlayer());
 			switch (type) {
-			
 			case "34": //增加移动速度
 				player.changeSpeed(2,5);//传入移速增加倍数和持续时间（秒）
-				System.out.println(player.getSPEED());
+				System.out.println(player.getSpeed());
 				break;
-			
 			case "35": //气泡个数增加
 				player.setBubbleLargest(player.getBubbleLargest()+1);
 				System.out.println(player.getBubbleLargest());	
 				break;
-				
-
 			default:
-				System.out.println("1");	
 				break;
 			}
 			
