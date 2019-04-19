@@ -178,6 +178,13 @@ public class ElementLoader {
 		return squareTypeMap;
 	}
 	
-	
+	//·µ»Ø´°¿Úw,h,windowSize[0]=w
+	public List<Integer> getWindowSize(){
+		List<String> data = gameInfoMap.get("windowSize");
+		List<Integer> windowSize = new ArrayList<>();
+		for(int i=0; i<data.size(); i++)
+			windowSize.add(Integer.parseInt(data.get(i)));
+		return windowSize;
+	}
 	
 }

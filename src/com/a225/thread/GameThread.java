@@ -1,16 +1,26 @@
 package com.a225.thread;
 
+import java.awt.Graphics;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.a225.frame.OverJPanel;
 import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
+import com.a225.model.vo.Bubble;
+import com.a225.model.vo.BubbleExplode;
 import com.a225.model.vo.MagicBox;
 import com.a225.model.vo.MapFragility;
 import com.a225.model.vo.Npc;
 import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
+import com.sun.glass.ui.TouchInputSupport;
 
 /**
  * 游戏线程控制
@@ -18,8 +28,12 @@ import com.a225.model.vo.SuperElement;
  *
  */
 public class GameThread extends Thread{
-	private boolean running;//表示当前关卡是否在进行
-	private boolean over = false;//表示游戏是否结束，结束返回开始菜单
+	private boolean running; //表示当前关卡是否在进行
+	private boolean over = false; //表示游戏是否结束，结束返回开始菜单
+	private static int sleepTime = 20; //runGame刷新时间
+	//倒计时变量
+	private static int allTime = 600*1000; //10分钟
+
 	
 	@Override
 	public void run() {
@@ -51,6 +65,7 @@ public class GameThread extends Thread{
 	
 	//显示人物，游戏流程，自动化
 	private void runGame() {
+		allTime = 600*1000;
 		while(running) {
 			Map<String, List<SuperElement>> map = ElementManager.getManager().getMap();
 			Set<String> set = map.keySet();
@@ -77,6 +92,7 @@ public class GameThread extends Thread{
 			defeat();
 			
 			//控制runGame进程
+			allTime = allTime - sleepTime;
 			try {	
 				sleep(20);
 			} catch (InterruptedException e) {
@@ -88,15 +104,58 @@ public class GameThread extends Thread{
 	
 	private void defeat() {
 		boolean allDead = true;
+		int surviveP = 0;
+		int winner = 2;//0为玩家1，1为玩家2，2为电脑获胜
 		List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
+		List<SuperElement> npcList = ElementManager.getManager().getElementList("npc");
 		for(SuperElement se:playerList) {
 			if(!((Player)se).isDead()) {
+				surviveP++;
+			}
+		}
+		for(SuperElement npc:npcList) {
+			if(!((Npc)npc).isDead()) {
 				allDead = false;
 			}
 		}
-		if(allDead) {
+		
+		//玩家失败
+		if(surviveP==0||(allTime<=0 && !allDead)) {
 			running = false;
 			over = true;
+			OverJPanel.getResult().setText("defeated");
+		}
+		//玩家胜利
+		if(allDead&&surviveP==1) {
+			running = false;
+			over = true;
+			for(SuperElement se:playerList) {
+				if(!((Player)se).isDead()) {
+					surviveP++;
+					winner = ((Player)se).getPlayerNum();
+				}
+			}
+			OverJPanel.getResult().setText("player "+(winner+1)+" win");
+		}
+		
+		System.out.println("s"+surviveP);
+		System.out.println("alldead"+allDead);
+		//时间到，两个玩家都活着
+		if(allTime<=0&&surviveP==2&&allDead) {
+			running = false;
+			over = true;
+			int score1 = ((Player)playerList.get(0)).score;
+			int score2 = ((Player)playerList.get(0)).score;
+			if(score1==score2) {
+				OverJPanel.getResult().setText("defeated");
+			}
+			else if(score1>score2)
+			{
+				OverJPanel.getResult().setText("player 1 win");
+			}
+			else {
+				OverJPanel.getResult().setText("player 2 win");
+			}
 		}
 	}
 	
@@ -118,6 +177,7 @@ public class GameThread extends Thread{
 	}
 	//npc与炸弹碰撞判断
 	private void npcBoom() {
+		List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
 		List<SuperElement> npcList = ElementManager.getManager().getElementList("npc");
 		List<SuperElement> explodeList = ElementManager.getManager().getElementList("explode");
 		for(int i=0; i<npcList.size(); i++) {
@@ -127,6 +187,8 @@ public class GameThread extends Thread{
 					npc.setDead(true);
 					npc.setX(-100);
 					npc.setY(-100);
+					BubbleExplode e = (BubbleExplode)explodeList.get(j);
+					((Player)playerList.get(e.getPlayerNum())).setScore(((Player)playerList.get(e.getPlayerNum())).getScore()+50);
 				}
 			}
 		}
@@ -134,6 +196,7 @@ public class GameThread extends Thread{
 	
 	//障碍物与炸弹碰撞判断
 	private void fragilityBoom() {
+		List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
 		List<SuperElement> explodes = ElementManager.getManager().getElementList("explode");
 		List<SuperElement> fragility = ElementManager.getManager().getElementList("fragility");
 		for(int i=0; i<fragility.size(); i++) {
@@ -141,6 +204,8 @@ public class GameThread extends Thread{
 				if(explodes.get(j).crash(fragility.get(i))) {
 					MapFragility mapFragility = (MapFragility)fragility.get(i);
 					mapFragility.setDestoried(true);
+					BubbleExplode e = (BubbleExplode)explodes.get(j);
+					((Player)playerList.get(e.getPlayerNum())).setScore(((Player)playerList.get(e.getPlayerNum())).getScore()+10);
 				}
 			}
 		}
@@ -156,6 +221,7 @@ public class GameThread extends Thread{
 					MagicBox magicBox = (MagicBox) magicBoxList.get(j);
 					magicBox.setPlayer(i);//谁吃方块
 					magicBox.setEaten(true);//方块被吃
+					((Player)playerList.get(i)).setScore(((Player)playerList.get(i)).getScore()+30);
 				}
 				
 			}
@@ -165,6 +231,10 @@ public class GameThread extends Thread{
 	//runGame调用，加入拓展
 	public void linkGame() {}
 	
-	
+
+	public static int getAllTime() {
+		return allTime;
+	}
+
 
 }
