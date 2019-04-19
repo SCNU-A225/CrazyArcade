@@ -3,7 +3,6 @@ package com.a225.model.vo;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -11,11 +10,6 @@ import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.ListModel;
-import javax.xml.crypto.Data;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import com.a225.model.loader.ElementLoader;
 import com.a225.model.manager.ElementManager;
 import com.a225.model.manager.GameMap;

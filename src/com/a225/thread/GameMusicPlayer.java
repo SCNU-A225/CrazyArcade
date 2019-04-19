@@ -15,6 +15,7 @@ import javax.sound.sampled.SourceDataLine;
 public class GameMusicPlayer extends Thread{
 	private List<String> files;
 	
+	@Override
 	public void run(){
 		startMusic();
 	}

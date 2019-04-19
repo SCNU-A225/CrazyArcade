@@ -1,19 +1,11 @@
 package com.a225.thread;
 
-import java.awt.Graphics;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.a225.frame.OverJPanel;
 import com.a225.main.GameStart;
 import com.a225.model.manager.ElementManager;
-import com.a225.model.vo.Bubble;
 import com.a225.model.vo.BubbleExplode;
 import com.a225.model.vo.MagicBox;
 import com.a225.model.vo.MapFragility;

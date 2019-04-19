@@ -1,7 +1,6 @@
 package com.a225.model.vo;
 
 import java.awt.Graphics;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -111,7 +110,7 @@ public class Character extends SuperElement{
 		List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
 		for (int i = 0; i < playerList.size(); i++) {
 			Player player = (Player) playerList.get(i);
-			if((Character)player!=this)
+			if(player!=this)
 			{
 				player.setSpeed(0);
 				setSpeedToInital(lastTime,player);
@@ -120,7 +119,7 @@ public class Character extends SuperElement{
 		List<SuperElement> NPCList = ElementManager.getManager().getElementList("npc");
 		for (int i = 0; i < NPCList.size(); i++) {
 			Npc npc = (Npc) NPCList.get(i);
-			if((Character)npc!=this)
+			if(npc!=this)
 			{
 				npc.setSpeed(0);
 				setSpeedToInital(lastTime,npc);
@@ -169,7 +168,8 @@ public class Character extends SuperElement{
         final int times = lastTime*1000/100;//次数
         TimerTask task1 = new TimerTask() {// 图片消失
         	int count = 0;
-            public void run() {
+            @Override
+			public void run() {
                 isShowing = false; 
                 count++;
                 if(count == times/5) {
@@ -180,7 +180,8 @@ public class Character extends SuperElement{
         };
         TimerTask task2 =  new TimerTask() {//图片出现
         	int count = 0;
-            public void run() {
+            @Override
+			public void run() {
                 isShowing = true;
                 count++;
                 if(count == times) this.cancel();
