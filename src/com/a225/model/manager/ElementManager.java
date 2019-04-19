@@ -30,6 +30,7 @@ public class ElementManager {
 	//游戏地图
 	private GameMap gameMap;
 	
+	
 	//初始化函数
 	protected void init() {
 		Map<String, List<String>> gameInfoMap = ElementLoader.getElementLoader().getGameInfoMap();
@@ -123,6 +124,7 @@ public class ElementManager {
 			//恭喜动画
 		}
 	}
+
 
 }
 
