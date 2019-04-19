@@ -20,7 +20,6 @@ import com.a225.model.vo.MapFragility;
 import com.a225.model.vo.Npc;
 import com.a225.model.vo.Player;
 import com.a225.model.vo.SuperElement;
-import com.sun.glass.ui.TouchInputSupport;
 
 /**
  * 游戏线程控制
