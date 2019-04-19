@@ -28,9 +28,10 @@ public class BubbleExplode extends SuperElement{
 	private int right;
 	
 	private int power;
+	private int playerNum;
 
 
-	public BubbleExplode(int x,int y, int w, int h, int power) {
+	public BubbleExplode(int x,int y, int w, int h, int power, int playerNum) {
 		//参数表：坐标x，坐标y，宽w，高h，爆炸图片列表
 		super(x, y, w, h);
 		up = 0;
@@ -39,11 +40,12 @@ public class BubbleExplode extends SuperElement{
 		right = 0;
 		this.power = power;
 		setMoveStep();
+		this.playerNum = playerNum;
 	}
 	
 	//创建实例
-	public static BubbleExplode createExplode(int x, int y,int power) {
-		return new BubbleExplode(x, y, MapSquare.PIXEL_X, MapSquare.PIXEL_Y, power);
+	public static BubbleExplode createExplode(int x, int y,int power,int playerNum) {
+		return new BubbleExplode(x, y, MapSquare.PIXEL_X, MapSquare.PIXEL_Y, power,playerNum);
 	}
 
 	
@@ -177,6 +179,14 @@ public class BubbleExplode extends SuperElement{
 
 	public void setRight(int right) {
 		this.right = right;
+	}
+
+	public int getPlayerNum() {
+		return playerNum;
+	}
+
+	public void setPlayerNum(int playerNum) {
+		this.playerNum = playerNum;
 	}
 
 	

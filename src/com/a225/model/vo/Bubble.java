@@ -101,13 +101,13 @@ public class Bubble extends SuperElement{
 				List<SuperElement> list2 = ElementManager.getManager().getElementList("player");
 				Player player = (Player) list2.get(playerNum);
 				player.setBubbleNum(player.getBubbleNum()-1);
-				explodeList.add(BubbleExplode.createExplode(getX(), getY(), power));
+				explodeList.add(BubbleExplode.createExplode(getX(), getY(), power,playerNum));
 			}
 			else {
 				List<SuperElement> list2 = ElementManager.getManager().getElementList("npc");
 				Npc npc = (Npc) list2.get(playerNum-2);
 				npc.setBubbleNum(npc.getBubbleNum()-1);
-				explodeList.add(BubbleExplode.createExplode(getX(), getY(), power));
+				explodeList.add(BubbleExplode.createExplode(getX(), getY(), power,playerNum));
 			}
 			
 			//将地图位置设为floor

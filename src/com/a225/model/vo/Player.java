@@ -1,5 +1,7 @@
 package com.a225.model.vo;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.List;
@@ -28,7 +30,6 @@ public class Player extends Character{
 	private boolean attack;//记录攻击状态，默认为false
 	private boolean keepAttack;//记录是否为一直按着攻击键，实现一次按键只放一个水泡
 	private int playerNum;//记录第几个玩家，0为玩家一，1为玩家二
-	
 	
 	//构造函数
 	public Player(int x, int y, int w, int h, ImageIcon img, int playerNum) {
@@ -72,6 +73,12 @@ public class Player extends Character{
 				(moveX/6)*100+27, moveY*100+43, 				//图片左上坐标
 				(moveX/6)*100+72, moveY*100+99, 			//图片右下坐标
 				null);
+		
+		//显示分数
+		String string = "Player" + Integer.toString(playerNum)+": " + Integer.toString(score);
+		g.setColor(new Color(255, 153, 0));
+		g.setFont(new Font("Times New Roman", Font.BOLD, 24));
+		g.drawString(string, 0,(playerNum+1)*MapSquare.PIXEL_Y);
 	}
 
 	//移动
@@ -300,5 +307,6 @@ public class Player extends Character{
 	public void setDead(boolean dead) {
 		this.dead = dead;
 	}
+
 
 }
