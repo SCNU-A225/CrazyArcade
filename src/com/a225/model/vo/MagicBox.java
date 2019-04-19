@@ -17,7 +17,7 @@ public class MagicBox extends MapSquare{
 	private boolean eaten;//被吃掉消失。
 	private int moveX;//图片变换
 	private String type;//道具类型
-	private int player;//哪个player获得道具
+	private int characterIndex;//哪个player获得道具0-1玩家2-4电脑
 	
 	static Map<String, List<String>> typeMap = ElementLoader.getElementLoader().getSquareTypeMap();
 	
@@ -66,7 +66,6 @@ public class MagicBox extends MapSquare{
     	String letter = "0";
     	letter = chanceSelect(keyChanceMap);
 		String boxtype = "3" + letter;
-		System.out.println(boxtype);
 		List<String> data = typeMap.get(boxtype);
 		int sx = Integer.parseInt(data.get(1));
 		int sy = Integer.parseInt(data.get(2));
@@ -116,28 +115,34 @@ public class MagicBox extends MapSquare{
 			gameMap.setBlockSquareType(list.get(0), list.get(1), GameMap.SquareType.FLOOR);
 //			得到buff
 			List<SuperElement> playerList = ElementManager.getManager().getElementList("player");
-			Player player = (Player) playerList.get(this.getPlayer());
+			List<SuperElement> npcList = ElementManager.getManager().getElementList("npc");
+			Character character;
+			if(characterIndex<2) {
+				character = (Character) playerList.get(characterIndex);
+			} else {
+				character = (Character) npcList.get(characterIndex-2);
+			}
 			switch (type) {
 			case "31": //使移动反向 10s
-				player.changeDirection(10);//传入方向改变的持续时间（秒）
+				character.changeDirection(10);//传入方向改变的持续时间（秒）
 				break;
 			case "33": //增加生命值
-				player.setHealthPoint(1);//传入增加的生命值个数
+				character.setHealthPoint(1);//传入增加的生命值个数
 				break;
 			case "34": //增加移动速度 10s
-				player.changeSpeed(2,10);//传入移速增加倍数和持续时间（秒）
+				character.changeSpeed(2,10);//传入移速增加倍数和持续时间（秒）
 				break;
 			case "35": //气泡个数增加
-				player.setBubbleLargest(player.getBubbleLargest()+1);
+				character.setBubbleLargest(character.getBubbleLargest()+1);
 				break;	
 			case "37": //其他玩家停止5s
-				player.setOtherStop(5);
+				character.setOtherStop(5);
 				break;	
 			case "38": //威力增加
-				player.bubbleAddPower();//传入方向改变的持续时间（秒）
+				character.bubbleAddPower();//传入方向改变的持续时间（秒）
 				break;	
 			case "39" ://无敌5s
-				player.setUnstoppable(5);//传入方向改变的持续时间（秒）
+				character.setUnstoppable(5);//传入方向改变的持续时间（秒）
 				break;	
 			default:
 
@@ -158,12 +163,12 @@ public class MagicBox extends MapSquare{
 		this.eaten = eaten;
 	}
 
-	public int getPlayer() {
-		return player;
+	public int getCharacterIndex() {
+		return characterIndex;
 	}
 
-	public void setPlayer(int player) {
-		this.player = player;
+	public void setCharacterIndex(int characterIndex) {
+		this.characterIndex = characterIndex;
 	}
 	
 	

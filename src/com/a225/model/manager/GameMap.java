@@ -106,7 +106,6 @@ public class GameMap {
 		for (int i = 0; i < mapRows; i++) {
 			for (int j = 0; j < mapCols; j++) {
 				String type = mapList.get(i).get(j);
-				if(i==10) System.out.println(type);
 				switch (type.charAt(0)) {
 				case '0':
 					if(type.equals("00")) break;//¿ÕÆøÇ½

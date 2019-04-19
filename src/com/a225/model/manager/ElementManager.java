@@ -114,8 +114,7 @@ public class ElementManager {
 	
 	public void loadMap(){
 		int mapNum = Integer.parseInt(ElementLoader.getElementLoader().getGameInfoMap().get("mapNum").get(0));
-		//gameMap.createMap("stage"+(Utils.random.nextInt(mapNum)+1)+"Map");
-		gameMap.createMap("stage2Map");
+		gameMap.createMap("stage"+(Utils.random.nextInt(mapNum)+1)+"Map");
 	}
 
 	public void overGame(Boolean over) {
