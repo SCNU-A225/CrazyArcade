@@ -46,14 +46,14 @@ public class GameMap {
 		
 		public static SquareType valueOf(char c) {    //手写的从int到enum的转换函数  
 	        switch (c) {  
-	        case '0':  return OBSTACLE;  
-	        case '1':  return FLOOR;  
-	        case '2':  return FRAGILITY;  
-	        case '3':  return ITEM;  
-	        case '6':  return PLAYER_1;  
-	        case '7':  return PLAYER_2;  
-	        case '8':  return NPC;
-	        case '9':  return BUBBLE;  
+	        case '0':  return OBSTACLE;	//障碍物
+	        case '1':  return FLOOR;	//地板
+	        case '2':  return FRAGILITY;//可破坏物  
+	        case '3':  return ITEM;  	//道具
+	        case '6':  return PLAYER_1;	//玩家1
+	        case '7':  return PLAYER_2;	//玩家2
+	        case '8':  return NPC;		//NPC
+	        case '9':  return BUBBLE;  	//炸弹
 	        default:  
 	            return null;  
 	        }  

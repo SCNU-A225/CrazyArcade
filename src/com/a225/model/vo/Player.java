@@ -108,6 +108,13 @@ public class Player extends Character{
 		}
 	}
 	
+	/**
+	 * ¼ì²âÓëÎ´±¬Õ¨Õ¨µ¯µÄÅö×²
+	 * @param tx ÁÙÊ±x
+	 * @param ty ÁÙÊ±y
+	 * @param list Õ¨µ¯list
+	 * @return Ã»ÓĞÅö×²
+	 */
 	private boolean bubbleCrashDetection(int tx, int ty, List<SuperElement> list) {
 		for(SuperElement se:list) {
 			switch(moveType) {

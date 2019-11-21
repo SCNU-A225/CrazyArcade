@@ -27,8 +27,8 @@ public class BubbleExplode extends SuperElement{
 	private int left;
 	private int right;
 	
-	private int power;
-	private int playerNum;
+	private int power;//±¬Õ¨ÍşÁ¦
+	private int playerNum;//±¬Õ¨Õ¨µ¯ÊôÓÚµÄÍæ¼Ò
 
 
 	public BubbleExplode(int x,int y, int w, int h, int power, int playerNum) {

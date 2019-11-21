@@ -10,11 +10,17 @@ import com.a225.model.manager.MoveTypeEnum;
 import com.a225.model.vo.Player;
 
 /**
- * 暂时实现键盘监听以验证Player类人物移动是否正确
+ * 键盘监听器
+ *实现键盘监听，以控制Player类人物移动
  * @author newcomer02
  */
 
 public class GameKeyListener implements KeyListener{
+	/**
+	 * 用栈来解决按键冲突
+	 * 每个栈用来存放不同用户的按键，通过判断按键的code来设置移动方向或者攻击
+	 * 
+	 */
 
 	private List<?> list;
 	private Stack<Integer> p1PressStack = new Stack<>();
@@ -27,15 +33,15 @@ public class GameKeyListener implements KeyListener{
 		
 		int code = e.getKeyCode();
 		switch (code) {
-		case 10:
-			if(player1.isKeepAttack())
+		case 10://炸弹键
+			if(player1.isKeepAttack())//不允许一直按着炸弹键，每次只能放一个炸弹
 				player1.setAttack(false);
 			else {
 				player1.setKeepAttack(true);
 				player1.setAttack(true);
 			}
 			break;
-		case 37:
+		case 37://左右上下
 		case 38:
 		case 39:
 		case 40:
@@ -44,7 +50,7 @@ public class GameKeyListener implements KeyListener{
 			}
 			player1.setMoveType(MoveTypeEnum.codeToMoveType(code));
 			break;
-		default:
+		default://其它按键无视
 			break;
 		}
 		if(GameController.isTwoPlayer()) {

@@ -17,6 +17,13 @@ import com.a225.model.manager.MoveTypeEnum;
 import com.a225.util.Point;
 import com.a225.util.Utils;
 
+/***
+ * NPC类
+ * @ClassName: Npc  
+ * @Description: 机器人，用于添加游戏乐趣。实现自动寻路、放炸弹、躲炸弹。
+ * @author: WeiXiao
+ * @CreateDate: 2019年11月20日 下午11:22:26
+ */
 public class Npc extends Character{
 	final String DANGER_MARKER = "-1";
 	private static final int ATTACK_RANGE = 64;
@@ -28,8 +35,8 @@ public class Npc extends Character{
 	private int imgH;//图片高
 	private int npcNum;//记录第几个npc，2为npcA，3为npcB,4为npcC
 	private int step; //控制npc步伐节奏
-	private String[][] dangerZone;
-	private boolean[][] book;
+	private String[][] dangerZone;//不可走区域
+	private boolean[][] book;//bfs数组
 	
 	private Vector<MoveTypeEnum> path;
 
@@ -52,7 +59,7 @@ public class Npc extends Character{
 				new ArrayList<>(ElementLoader.getElementLoader().getNpcImageList(data.get(0)));
 		int x = j*MapSquare.PIXEL_X+GameMap.getBiasX();
 		int y = i*MapSquare.PIXEL_Y+GameMap.getBiasY();
-		int w = MapSquare.PIXEL_X;
+		int w = MapSquare.PIXEL_X;//控制npc显示与一个方格大小一致
 		int h = MapSquare.PIXEL_Y;
 		int imgW = Integer.parseInt(data.get(3));
 		int imgH = Integer.parseInt(data.get(4));
@@ -79,6 +86,7 @@ public class Npc extends Character{
 		}
 	}
 	
+//	如果玩家在附近释放炸弹攻击玩家
 	private void autoAttack() {
 		Rectangle npcRect = new Rectangle(getX(), getY(), getW(), getH());
 		List<SuperElement> seList = ElementManager.getManager().getElementList("player");
@@ -88,7 +96,6 @@ public class Npc extends Character{
 				addBubble();
 			}
 		}
-			
 	}
 	
 	private void autoAddBubble() {
@@ -112,7 +119,10 @@ public class Npc extends Character{
 		String[][] dangerZone = new String[GameMap.getMapRows()][GameMap.getMapCols()];
 		List<List<String>> mapList = GameMap.getMapList();
 		for(int i=0;i<mapList.size();i++) {
-			dangerZone[i] = (String[]) mapList.get(i).toArray();
+			Object[] tarr = mapList.get(i).toArray();
+			for(int j=0;j<GameMap.getMapCols();j++) {
+				dangerZone[i][j] = tarr[j].toString();
+			}
 		}
 		List<SuperElement> bubbleList = ElementManager.getManager().getElementList("bubble");
 		for(SuperElement se:bubbleList) {
@@ -194,6 +204,7 @@ public class Npc extends Character{
 		BFS(di,dj);
 	}
 	
+//	
 	private boolean findSafePath() {
 		book = new boolean[GameMap.getMapRows()][GameMap.getMapCols()];
 		dangerZone = getDangerZone();
@@ -252,6 +263,7 @@ public class Npc extends Character{
 	
 	private boolean judgeStop(List<Integer> loc) {
 		GameMap gameMap = ElementManager.getManager().getGameMap();
+		dangerZone = getDangerZone();
 		int i = loc.get(0);
 		int j = loc.get(1);
 		if((dangerZone[i+1][j].equals(DANGER_MARKER)||!gameMap.blockIsWalkable(i+1, j))

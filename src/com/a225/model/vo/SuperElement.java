@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 /**
- * 
+ * 元素父类
  * @author Jenson
  * 所有游戏元素的父类
  */

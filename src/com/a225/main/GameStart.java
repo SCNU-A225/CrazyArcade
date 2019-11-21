@@ -26,13 +26,14 @@ public class GameStart {
 			ElementLoader.getElementLoader().readBubblePro();
 			ElementLoader.getElementLoader().readSquarePro();
 		} catch (IOException e) {
-			System.out.println("ff");
+			System.out.println("资源加载失败");
 			e.printStackTrace();
 		}
 		//初始化
 		gameFrame = new GameFrame();
-		// 界面显示
+		//界面显示
 		gameFrame.setVisible(true);
+		//音乐播放
 		GameMusicPlayer musicPlayer = new GameMusicPlayer();
 		musicPlayer.start();
 	}
