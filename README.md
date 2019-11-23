@@ -34,7 +34,7 @@
 - [x] 使用配置文件扩展游戏
 - [x] 道具
 - [x] 单/双人模式
-- [] 显示玩家和机器人状态（道具等）
+- [ ] 显示玩家和机器人状态（道具等）
 
 ---
 # 使用
@@ -54,7 +54,7 @@
 
 ## 改善该项目
 1. 提出[Issues](https://github.com/SCNU-A225/CrazyArcade/issues)，告知我们
-2. 创建Pull requests
+2. 创建[Pull requests](https://github.com/SCNU-A225/CrazyArcade/pulls)
 
 ---
 # 更新
